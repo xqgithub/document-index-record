@@ -1,0 +1,1270 @@
+工作记事本
+
+http://exmail.qq.com/login
+肖奇企业邮箱账号：xiaoqi@isec-tech.com
+密码：Xq198671
+企业邮箱及门禁已开通。。麻烦两位新员工自行修改企业邮箱初始密码。
+xiaoqi@isec-tech.com
+日报：每天下午4:30前提交到yangjie@isec-tech.com邮箱，5:00~5:30项目组开会
+周报：每周五下午3:30前提交yangjie@isec-tech.com邮箱
+
+
+svn://192.168.88.88/svpn-client
+svn://192.168.88.88/svpn-docs
+192.168.123.227
+xqi
+OP10An7l
+
+公司git仓库：
+xiaoqi@isec-tech.com
+198671kid
+http://192.168.121.100/users/sign_in
+http://192.168.121.100/zhubin/svpn_client_android.git
+http://192.168.121.100/zhubin/svpn_document.git （SVPN文档存放处）
+
+
+
+
+Trello:
+https://trello.com/b/kE3xuOgQ/limao
+xiaoqi@isec-tech.com,198671kid
+
+
+以后想方便访问bug系统，git系统，ftp服务器的。可以将自己的电脑IP设置里面的dns修改为192.168.120.1
+然后访问
+bug.zzb.com  (bug系统) 192.168.126.103
+git.zzb.com （git）  192.168.126.100
+ftp://ftp.zzb.com   （ftp用户密码都是ftp，可以在里面下载常用软件。） 192.168.126.102
+如果不修改 就还是使用IP访问
+
+
+-----------------------------------------------------------------------------------------------------万能的分割线请注意了，哈哈---------------------------------------------------------------------------------------------------------------------------------
+极光加速器APP秘钥：
+accelerator.jks
+accelerator123456
+
+43fa97a7d124b81b2bd42de38eeffda3
+f1e657059b545661b54f94d5fcf295cc    (测试版本MD5)
+007b447d3d778225b9bf23f49d1299ad（ 正式）
+
+S加速器APP秘钥：
+saccelerator.jks，saccelerator123456
+2a3a1509dda2dbacdf2df65e1fc6357b（正式）
+-----------------------------------------------------------------------------------------------------万能的分割线请注意了，哈哈---------------------------------------------------------------------------------------------------------------------------------
+狸猫加速器---极光推送正式：
+推送appkey:2a3cb6ca8a298d9e10ac5d9c
+推送secret:ef57dd4c986aecc450953660
+
+狸猫加速器---QQ分享正式：
+qq的APP ID：1106166206
+APP KEY：ROiSsk9DAQz0XeBP
+
+狸猫加速器---新浪分享正式：
+appkey:2827677156
+app secret:ff8b7b7353618e9591a2dba41b4d87ba
+
+狸猫加速器---友盟正式：
+appkey：591bc20b4544cb6496001782
+
+狸猫加速器---mob(shareSDK)
+appkey:1decd2d816a62
+appsecret:c8cf535bf8977d63824319641fd0d3c3
+
+狸猫加速器---高德SDK
+appkey:af5ca8f63df9444bbb365f907fa5e027
+
+狸猫加速器---微信分享
+appkey:wx7c52c4528149f5da
+app secret:745d2e72e962e23487b5a190996aeeb2
+
+-----------------------------------------------------------------------------------------------------万能的分割线请注意了，哈哈---------------------------------------------------------------------------------------------------------------------------------
+微博开发者平台：http://open.weibo.com/
+账号：hr@isec-tech.com
+密码：isec123456
+
+微信开发者平台：https://open.weixin.qq.com/
+账号：hr@isec-tech.com
+密码：isec123456
+
+极光推送：https://www.jiguang.cn/push#jzl_kwd=52582726999&jzl_ctv=11900525385&jzl_mtt=1&jzl_adt=clg1
+用户名：whisec
+邮箱：hr@isec-tech.com
+密码：isec123456
+
+友盟：https://www.umeng.com/
+账号：hr@isec-tech.com
+密码：isec123456
+584f67ed8f4a9d657f001921
+
+
+bugtags：https://www.bugtags.com/
+账号  hr@isec-tech.com
+密码 isec123456
+
+
+QQ开发者平台：http://open.qq.com/reg
+账号：1337135253
+密码：isec123456
+
+加固：
+http://www.ijiami.cn/apply/encryptLogs
+362310873@qq.com
+isec123456
+
+
+-----------------------------------------------------------------------------------------------------万能的分割线请注意了，哈哈---------------------------------------------------------------------------------------------------------------------------------
+微博开发者平台账号：http://open.weibo.com/
+创建应用
+1.获取   App Key，App Secret  存入ShareSDK.xml
+2.将Android包名 Android签名写平台中
+3.授权回调网页 填写
+
+微信开发者平台：https://open.weixin.qq.com/
+创建应用
+1.获取  AppID，AppSecret  存入 ShareSDK.xml
+2.应用签名，包名写入平台
+
+QQ开发者平台：http://open.qq.com/reg
+创建应用
+1.获取  AppID，AppSecret  存入 ShareSDK.xml
+2.在AndroidManifest.xml 回调位置 把APPID写入（例tencent1105888206）
+
+极光推送：https://www.jiguang.cn/push#jzl_kwd=52582726999&jzl_ctv=11900525385&jzl_mtt=1&jzl_adt=clg1
+创建应用
+1.获取 AppKey，Master Secret  存入 AndroidManifest.xml
+2.包名填入平台
+
+友盟：https://www.umeng.com/
+创建应用
+在管理里面获取 APPkey
+
+mob：http://www.mob.com/developer/login
+创建应用
+1.获取APPkey 存入ShareSDK.xml
+
+GPS高德地图：http://lbs.amap.com/
+创建应用
+1.通过包名和机器码SHA1 生存APPKEY 存入到AndroidManifest.xml
+
+加速器APP秘钥：
+accelerator.jks
+accelerator123456
+
+-----------------------------------------------------------------------------------------------------万能的分割线请注意了，哈哈---------------------------------------------------------------------------------------------------------------------------------
+
+
+http://download.strongswan.org/strongswan-x.x.x.tar.bz2
+
+https://www.bugtags.com/
+
+-----------------------------------------------------------------------------------------------------万能的分割线请注意了，哈哈---------------------------------------------------------------------------------------------------------------------------------
+BUG系统
+http://192.168.126.103/
+http://192.168.126.100:88/mantisbt/login_page.php
+http://bug.5ydoc.com/login_page.php
+-----------------------------------------------------------------------------------------------------万能的分割线请注意了，哈哈---------------------------------------------------------------------------------------------------------------------------------
+BeeCloud
+http://www.beecloud.cn/download/
+beecloud 企业认证邮箱
+用户名：yangjie0119@126.com
+密码 20050407
+
+
+极光加速器S参考：
+https://github.com/shadowsocks/shadowsocks-android
+https://github.com/shadowsocks/shadowsocks-iOS
+https://github.com/shadowsocks/ShadowsocksX-NG
+https://github.com/clowwindy/ShadowVPNAndroid
+服务器：139.162.88.165
+端口：18989
+密码：Asdf1234
+
+
+电商：
+这个是github上面开源的https://github.com/EleTeam/Shop-PHP-Yii2
+
+-----------------------------------------------------------------------------------------------------万能的分割线请注意了，哈哈---------------------------------------------------------------------------------------------------------------------------------
+极光加速器账号管理：
+友盟		                          1983558332@qq.com	3edcvfr4                                             OK
+mob		                          1983558332@qq.com	5tgbnhy6                                            OK
+极光推送		              jiguangjsq	9ijnbhu8                                                          OK
+高德地图		             17198473023	7ygvcft6			                    OK
+安卓客户端加固软件		1983558332@qq.com	4eszaq1                                              OK
+QQ	1983558332	1qazxsw2
+新浪微博	15680920332	mju7ygv
+微信开发者账号	1983558332@qq.com	nhy6tfcx
+360加固助手   jiguangjsq  4rfvgy7
+
+-----------------------------------------------------------------------------------------------------万能的分割线请注意了，哈哈---------------------------------------------------------------------------------------------------------------------------------
+资源文件混淆：
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore 签名文件名 -storepass 签名密码 待签名的APK文件名 签名的别名
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore D:\xiaoqi\work\accelerator.jks -storepass accelerator123456 D:\moren_jg_100_jiagu_sign.apk wuhan
+apktool d XXXX.apk
+d2j-dex2jar classes.dex
+
+-----------------------------------------------------------------------------------------------------万能的分割线请注意了，哈哈---------------------------------------------------------------------------------------------------------------------------------
+支付账号：
+
+支付宝：https://b.alipay.com/newIndex.htm，hr@isec-tech.com，whmf001001
+账户           hr@isec-tech.com
+PID            2088421216807708
+MD5 秘钥  48v0w67779qeiyvjpjl1mg0jw8qf1q3j
+
+
+微信公众平台：https://open.weixin.qq.com/，wzg@aimfu.com，Bb123456！
+微信开发平台：
+-----------------------------------------------------------------------------------------------------万能的分割线请注意了，哈哈---------------------------------------------------------------------------------------------------------------------------------
+S+ 接口地址
+http://xiaoguoqi.com/docs/index
+isec/welcome123
+
+文档地址：https://staging.xiaoguoqi.com/docs/index#1-4
+
+
+警用加速器测试地址：https://staging-police.xiaoguoqi.com     文档地址：https://staging-police.xiaoguoqi.com/docs/police
+-----------------------------------------------------------------------------------------------------万能的分割线请注意了，哈哈---------------------------------------------------------------------------------------------------------------------------------
+有用的工具：
+sublime_text
+Typora
+
+http://localhost:8080/
+-----------------------------------------------------------------------------------------------------万能的分割线请注意了，哈哈---------------------------------------------------------------------------------------------------------------------------------
+狸猫加速器后台地址（测试）
+https://zeus.staging.xiaoguoqi.com/#/config/config
+hemin 123456
+-----------------------------------------------------------------------------------------------------万能的分割线请注意了，哈哈---------------------------------------------------------------------------------------------------------------------------------
+googleplay商店
+https://play.google.com/apps/publish/?account=6641251451508888285
+zengyihuan234@gmail.com
+tRVSbxt7aeu6XvvDjsPr
+-----------------------------------------------------------------------------------------------------万能的分割线请注意了，哈哈---------------------------------------------------------------------------------------------------------------------------------
+
+公司ftp地址
+\\192.168.121.227
+http://192.168.121.227:5000/
+用户名: vpn
+密码: limao888
+
+-----------------------------------------------------------------------------------------------------万能的分割线请注意了，哈哈---------------------------------------------------------------------------------------------------------------------------------
+极光项目git地址
+https://github.com/hulunxi/jg_client_android.git
+狸猫项目文档地址：
+https://github.com/hulunxi/svpn_document.git
+狸猫项目代码地址:
+https://github.com/hulunxi/svpn_client_android.git
+
+http://192.168.121.100/zhubin/pay_client_android
+http://192.168.121.100/zhubin/pay_client_android/project_members
+
+
+https://xqgithub:xqgithub198671@github.com/hulunxi/svpn_client_android.git
+https://github.com/hulunxi/svpn_client_android.git
+-----------------------------------------------------------------------------------------------------万能的分割线请注意了，哈哈---------------------------------------------------------------------------------------------------------------------------------
+极光后台文档
+http://apidoc.5ydoc.com/index.php?s=/2&page_id=138
+
+PHP 的项目文件
+http://118.190.113.141:82/zhangjian/vpnFramework.git
+
+eolinker示例  极光加速器
+http://api.jiguangjsq.com:90/#/home/project/api/
+-----------------------------------------------------------------------------------------------------万能的分割线请注意了，哈哈---------------------------------------------------------------------------------------------------------------------------------
+RN项目git地址：
+https://github.com/hulunxi/svpn_rn
+-----------------------------------------------------------------------------------------------------万能的分割线请注意了，哈哈---------------------------------------------------------------------------------------------------------------------------------
+chrome测试地址：
+chrome://inspect/#devices
+-----------------------------------------------------------------------------------------------------万能的分割线请注意了，哈哈---------------------------------------------------------------------------------------------------------------------------------
+Testin企业版：https://www.testin.cn/
+17326721552
+testlm123qaz
+-----------------------------------------------------------------------------------------------------万能的分割线请注意了，哈哈---------------------------------------------------------------------------------------------------------------------------------
+github账号：xqgithub/xqgithub198671
+-----------------------------------------------------------------------------------------------------万能的分割线请注意了，哈哈---------------------------------------------------------------------------------------------------------------------------------
+V2Ray:https://www.v2ray.com/ui_client/android.html
+-----------------------------------------------------------------------------------------------------万能的分割线请注意了，哈哈---------------------------------------------------------------------------------------------------------------------------------
+Confluence地址：（工作项目使用）
+http://wiki.5ydoc.com/pages/viewpage.action?pageId=10191322
+-----------------------------------------------------------------------------------------------------万能的分割线请注意了，哈哈---------------------------------------------------------------------------------------------------------------------------------
+google 广告
+AdMob 帐号： xiaoqikillua@sina.com 198671killua
+-----------------------------------------------------------------------------------------------------万能的分割线请注意了，哈哈---------------------------------------------------------------------------------------------------------------------------------
+facebook   开发者账号
+账号：18971376421
+密码：wangcaiface123
+
+-----------------------------------------------------------------------------------------------------万能的分割线请注意了，哈哈---------------------------------------------------------------------------------------------------------------------------------
+远程虚拟机：mstsc
+192.168.121.111
+用户名xiaoqi
+密码123456
+
+共享文件夹：
+\\192.168.121.111\share
+-----------------------------------------------------------------------------------------------------万能的分割线请注意了，哈哈---------------------------------------------------------------------------------------------------------------------------------
+xiaoqihaha0701@gmail.com
+198671killua
+
+狸猫谷歌开发
+账号：zengyihuan234@gmail.com
+密码：2dj7mBTw5MNpXHLY
+
+google 受理邮箱： googleplay-developer-support@google.com
+google邮箱： https://mail.google.com
+google 控制台：https://play.google.com/apps/publish/
+
+-----------------------------------------------------------------------------------------------------万能的分割线请注意了，哈哈------------------------------------------------------------------------
+简朴在
+工作机appstore的密码：123456Killua
+
+
+
+gitlab:
+http://192.168.1.254:30000 laoa@mail.com 198671kid
+http://192.168.1.104（更换的新地址）
+
+群晖
+http://192.168.1.254:30000
+
+工具共享磁盘
+smb://192.168.1.254/vpn 用户是abc,密码aa11bb
+afp://192.168.1.254/tm    时间机器备份目录
+常用软件在 afp://192.168.1.254/public  下面，用户名 public  密码123456
+
+
+*.github.com
+*.googleapis.com
+*.google.com
+*android-studio.org
+*developer.android.com
+
+192.168.1.20
+
+
+mkdir ~/.ssh
+ssh-keygen -t rsa -C "代号"
+cat ~/.ssh/id_rsa.pub
+把输出复制
+然后在gitlab上点击右上自己的头像，选择setting，在ssh key里面，把复制的公钥放进去
+然后在project里面，选择复制地址的之前，把http换成ssh，再复制地址
+在本机： git clone ssh@.......
+
+将当前新文件加到提交中
+git add .
+提交
+git commit
+会让你输入日志，输入完成后，按esc,再按 :wq回车
+或者直接
+git commit -C "日志"
+
+推送
+git push
+拉
+git pull
+
+
+103.47.242.126
+项目:vpn项目组
+用户名:administrator
+密码：4xd>c+8qTYTmZukG
+用户名：laoa
+密码：!QAZ2wsx
+
+103.47.242.127
+项目:vpn项目组
+用户名:administrator
+密码:uCDha6RWZ^crXj2[
+
+内网部署了一个仓库管理器，可以看线上仓库的信息
+http://192.168.1.102:8080
+
+坚果加速器
+后台api地址:(正式地址)
+https://dfrzrujw.com/
+https://fhhnrerg.com/
+https://nurndtaa.com/
+https://ufxdzlrc.com/
+https://iieangyg.com/
+后台api地址:(测试地址)
+https://api.llzggzjy.com/
+接口文档地址
+https://api.llzggzjy.com/docs/index   用户名/密码  isec/welcome123
+
+后台测试服务器地址：
+https://zeus.llzggzjy.com/#/login
+admin1 123456
+
+
+36个字段提交后台地址
+cache.xevorxwk.com:7789
+
+简历招聘系统:
+https://www.2777pay.com/login
+Stormtrooper  123456
+简历账号：项目专用二
+密码：123456
+谷歌验证码：CD6AOLS5VKOLWWW4
+patota面试账号：3549032126 code: 89085  面试全部用这个号
+每天下午3点左右更新
+姓名：XXX POTATO: XXX  岗位：XXX , 约好了时间：XXX (或者没有回复)
+订阅步骤:
+1.点击 @jianli_bot 进入机器人聊天窗口
+2.输入/start 回车[订阅机器人]
+3.输入/status 回车[查询订阅状态]
+
+BUG系统
+账号：laoa 密码是空
+http://192.168.1.80/mantis/login_page.php
+
+
+谷歌开发者平台
+账号：ouyangf64@gmail.com
+密码：qqwwee123.
+
+
+测试QQ号：
+2148735687，201810xxm
+测试微博号：
++855 87356724，201810Xxm
+
+oppo测试机密码：201810Xxm
+
+
+后台服务器测试地址：
+https://zeus.llzggzjy.com/#/login
+admin1，123456
+
+
+
+正式地(狸猫加速器)
+public static String usebath = "https://linlaoban8.com/";
+public static String bath = "https://linlaoban8.com/";
+public static String bath1 = "https://asdfqw.com/";
+public static String bath2 = "https://bfsw1.com/";
+public static String bath3 = "https://dpsdingzhu.com/";
+public static String bath4 = "https://fffddd1.com/";
+public static String bath5 = "https://wwwailmvpn1.com/";
+public static String bath6 = "https://ailmvpn2.com/";
+public static String bath7 = "https://lovelimao1.com/";
+public static String bath8 = "https://lovelimao2.com/";
+public static String bath9 = "https://ailimaovpn1.com/";
+public static String bath10 = "https://ailimaovpn2.com/";
+public static String bath11 = "https://vpnlimao1.com/";
+public static String bath12 = "https://vpnlimao2.com/";
+public static String bath13 = "https://limaovpn3.com/";
+public static String bath14 = "https://limaovpn4.com/";
+救援拉取地址(狸猫加速器)
+public static String pullrescuepath = "https://msquickly.xyz/rescueip.txt";
+public static String pullrescuepath1 = "https://zslongt.xyz/rescueip.txt";
+public static String pullrescuepath2 = "https://sendbang.xyz/rescueip.txt";
+public static String pullrescuepath3 = "https://hoonlin.xyz/rescueip.txt";
+public static String pullrescuepath4 = "https://vivivivian.com/rescueip.txt";
+public static String pullrescuepath5 = "http://owko4a048.bkt.clouddn.com/rescueip.txt";
+public static String pullrescuepath6 = "http://lmother.oss-cn-beijing.aliyuncs.com/rescueip.txt";
+
+
+
+
+---------------------------------------------------------------------------------------------------------------------
+艾赛克：
+
+跳板机
+使用方法：
+1.下载
+https://sm.myapp.com/original/net_app/Proxifier.exe
+代理：
+183.60.204.94  7231（103.51.15.66:8036）
+代理账号密码  la:3vcAhfQq9
+
+
+
+2.用工具将mstsc.exe进行代理
+远程连接  8.1.0.2:8701（调试代码）
+账号和密码   laadmin:hea@@57LTH77%@
+
+
+使用方法：
+下载
+1.https://sm.myapp.com/original/net_app/Proxifier.exe
+代理：
+103.51.15.155 6428
+代理账号密码   hrad : w5acqk.cn
+
+2.用工具将mstsc.exe进行代理
+远程连接  8.2.0.10:8824（面试用的）
+ 账号和密码 hradmin:NRMj7Gua4qUdPA
+
+海豚浏览器的安卓代码：
+svn://dqsvn.kuaile-u.com/dolphinq/trunk/mobile/android/app/2019
+Username: jiangwh
+Password: jwh#@!
+
+
+代理git
+http://8.1.0.2:8780
+搜索下git http方式使用socks5代理
+gitlab:
+8.1.0.2 8780
+8.1.0.2 8722
+git的ssh端口是8722哈
+laoa，laoagitlab@gmail.com，laoa198671
+
+Git Mirror转移项目
+git remote remove origin
+git remote add origin git@192.168.121.100:laoa/svpn_client_android.git
+git push —mirror
+好，搞完后，退到这个目录外面去，然后 git clone git@192.168.121.100:laoa/svpn_client_android.git
+
+windows上面git配置代理
+Host 8.1.0.2
+    HostName 8.1.0.2
+    User git
+    Port 8722
+    IdentityFile "C:/Users/Administrator/.ssh/id_rsa"
+    #TCPKeepAlive yes
+    #IdentitiesOnly yes
+    ProxyCommand connect -S la@183.60.204.94:7231 %h %p
+
+linux上面git配置代理
+Host git地址
+    HostName git地址
+    User git
+    Port 8722
+    IdentityFile ~/.ssh/id_rsa
+    ProxyCommand ncat --proxy  代理地址:端口 --proxy-type socks5 --proxy-auth 代理用户名:密码 %h %p
+
+
+警用项目
+禅道
+地址：http://192.168.121.48
+用户名：xiaoqi
+密码：198671Killua
+
+git地址:   git@192.168.121.48:/home/git/repositories/[相应仓库名].git    http://192.168.88.69/
+route_android  route_document  route_ios  route_pc  route_ruby test
+
+seafile网盘的账号密码，作为文档管理工具试用：192.168.88.72
+xiaoqi@xr.com
+初始密码 87654321
+
+http://47.106.186.91:8090/whx/triumph/
+
+
+
+接口文档：  http://120.79.96.245:8003/docs/index    账号：zhouxiaodong     密码：zxd123456
+客户端接口文档：http://120.79.96.245:8003/docs/index
+后台接口文档：http://120.79.96.245:8003/docs/manage
+账号：admin,   密码：123456
+
+
+
+文档查看：http://192.168.121.47:8090/pages/viewpage.action?pageId=1638471
+xiaoqi  123456
+
+测试账号：android01    android02
+正式账号：android001  android002
+ssh root@192.168.88.71
+root 123456
+xrlogin
+xrlogin  [id]
+8688端口一级代理日志查看命令：docker logs -f sg1
+8378端口一级代理日志查看命令：docker logs -f sg3
+8101端口一级代理日志查看命令：docker logs -f xroute-1
+8103端口一级代理日志查看命令：docker logs -f xroute-3
+ruby后台日志查看: root@120.79.96.245      密码：   isec..123..    查看日志：  tail -f /var/www/route_ruby/xroute/log/production.log
+
+
+
+清理日志请在跳板机执行 sglogclean 命令    xrlogclean
+
+ssh root@192.168.121.45  password: isec@@123
+
+https://lb2.xr110.net:21000/download
+
+sdxiix01 sdxiix02  sdxixi03      sdhaha01 sdhaha02  sdhaha03
+
+
+蜜蜂组git地址：
+http://47.106.186.91:8090/huangrui/beyondproxy.git
+http://47.106.186.91:8090/huangrui/sparkvpnproject.git
+xiaoqi   xiaoqi123
+
+
+wiki平台地址： http://192.168.88.75
+账号注册地址：http://192.168.88.75:80/signup.action?token=597d37964d94a35a
+
+
+
+
+
+
+xroute项目：
+1.master分支：警用加速器1.0.0版本
+2.xroute101分支：警用加速器和闪电加速器可以配置版本 1.0.0版本
+3.xroute102分支：提取到目前为止所有接口方法，做成公共方法
+4.xroute102_module分支：将vpn和基础类做成module
+5.xroute103_module分支：闪电加速器1.0.3版本，警用加速器2.0.0版本，做代码优化 ，添加线上两个新域名   versionCode      : 4
+6.xroute104_module分支（和龚海龙一起调试sslocal.so文件）：
+修改部分遗留bug，
+添加社会版本module，
+添加新版的libss-local.so文件修改ShadowsocksService类，
+versionCode      : 5
+7.xroute104_module_2分支( 最新代码，以后代码调试暂时接着这个分支开发): versionCode      : 6 ，闪电加速器2.0.1；警用加速器1.0.4
+(1).修改登录界面和修改密码界面密码长度限制
+(2).添加独占线路功能
+(3).添加一个网络错误页面
+(4).被挤掉线或者登出应用后，重新进入app的时候重走登录界面
+(5).账号匹配，账号密码联动删除（账号修改，密码栏清空）
+(6).删除当前已登录账号信息，直接退出登录页并清空当前登录记录
+
+8.xroute105_module：
+(1).1.15 按指定服务器类型连接(认证) 接口修改
+(2).新增4.1 推送用户信息接口
+(3).新增4.2 完成指令接口
+(4)当值指令为 需要用户去安装证书
+
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1.自己说3年半的安卓开经历
+2.Activity的生命周期知道，但是对如果Activity发生异常的时候，不太清楚该如何处理
+3.Activity启动模式知道有四种，但是不知道具体使用方式和场景
+4.Service的启动模式知道有2种，对生命周期了解，对两种模式的场景运用比较熟悉
+5.Broadcast注册方式知道有两种，但是使用的比较少
+6.ContentProvider实现原理比较模糊
+7.ui布局使用比较多的是线性布局和相对布局，不清楚约束布局；ui布局优化这块知道使用<include>和<merge>标签，但是对于原理不太清楚，也没有做过过多的优化
+8.屏幕适配方案只知道在配置文件中使用各种手机的屏幕比例px值，适配方案知道过于少
+9.线程方面知道有线程池，线程池的使用用过。
+10.对于handler的使用和需要注意的事项中，对有可能造成内存泄漏知道处理方案和原理
+11.WebView与js交互这块，了解一些，没有说的太清楚
+12.数据存储这块知道用sp和sqlite，但是具体的sqlite写法和用法
+
+总结：该人员3年半的开发经历，对安卓知识大体知道，但是比较深层次的知识点知道比较少，不过对内存泄漏处理知道的比较清楚，对安卓四大组件的使用比较熟悉，
+     该人员独立开发过两款app应用，个人觉得提升的空间还可以，可以试用下
+
+
+
+
+
+
+
+
+
+-------------------------------------万能的分割线请注意了，哈哈------------------------------
+北京拓课云有限公司
+
+个人邮箱：
+邮箱地址：https://qiye.163.com/login/
+邮箱：xiaoqi@talk-cloud.com
+密码：198671Kid
+
+gitlab:
+登录地址：gitlab.talk-cloud.com
+账号：xiaoqi@talk-cloud.com
+密码：198671kid
+
+蓝湖系统帐号：
+登陆网址：https://lanhuapp.com/
+账号：xiaoqi@talk-cloud.com
+密码：198671kid
+
+Jira系统帐号：
+登陆地址：http://jira.talk-cloud.com
+账号：xiaoqi
+密码：mQH4J87Rta（198671kid）
+
+
+YAPI接口地址：http://yapi.talk-cloud.com/login
+账号：xiaoqi@talk-cloud.com
+密码：198671kid
+
+
+
+showdoc文档：https://showdoc.talk-cloud.com/web/#/user/login?redirect=%2Fitem%2Findex
+账号：tk-mobile
+密码：123456
+
+
+talkplus项目代码地址：
+https://gitlab.talk-cloud.com/tk_android/android.git
+
+测试管理系统地址：
+https://testing.talk-cloud.net/User/login.html
+test
+admin
+talkcloud
+
+anfuwei afw talkcloud~1
+
+
+
+demo 环境
+https://demo.talk-cloud.net
+yh  yh   n3tacc355#
+
+
+
+错误日志地址：
+http://doc.talk-cloud.net/update/reports/?C=M;O=D
+
+
+TalkCloud UISDK 4.0.0 (Android)集成文档
+https://showdoc.talk-cloud.com/web/#/90?page_id=1163
+标准版集成流程文档：
+安卓 https://showdoc.talk-cloud.com/web/#/116
+iOS  https://showdoc.talk-cloud.com/web/#/115
+
+
+
+git config --global user.name "xiaoqi"
+git config --global user.email "xiaoqi@talk-cloud.com"
+ssh-keygen -t rsa -C "xiaoqi@talk-cloud.com"
+SHA256:FeuRd4TZcPOaqhZqBVXuJjw7+TvRuer1/5qxSgNEBKg xiaoqi@talk-cloud.com
+ssh-agent bash
+ssh-add C:/Users/xiaoqi/.ssh/id_rsa
+
+
+【带货直播】：
+1.腾讯直播SDK 文档：https://cloud.tencent.com/document/product/454/34766
+
+
+【微录客】：
+UI地址：https://app.mockplus.cn/s/Q0B6dX7daA﻿
+账号：xiaoqikillua@sina.com
+密码：198671kid
+
+
+【网校项目】后台地址：
+demo: https://console-demo.talk-cloud.net/
+test:    https://console-test.talk-cloud.net/
+online（公网）: https://console.talk-cloud.net/
+
+UI地址：https://app.mockplus.cn/app/2-Kn3s5hHvL/design?hmsr=share1
+
+产品文档和原型：https://gitlab.talk-cloud.com/tk_product/school-prototype.git
+
+github地址：https://gitlab.talk-cloud.com/tk_android/tk_networkschool.git
+
+系统后台：https://console.talk-cloud.net/#/
+
+极光推送：
+AppKey：b859237de554b67e71fdf5ac
+liheyi@talk-cloud.com
+TKMobile2021
+
+
+demo师生端：class-demo.51menke.com
+demo企业端：console-demo.51menke.com
+testing师生端：class-test.51menke.com
+testing企业端：console-test.51menke.com
+正式师生端：class.51menke.com
+正式企业端：console.51menke.com
+
+15695623594
+888888
+
+17702757053
+1234578
+
+18162327085
+00000000
+
+
+
+17762327085  验证码：888888
+老师的手机号：13511111112   密码：00000000
+
+
+线上环境测试账号：
+17371062671
+00000000
+
+
+账号登录 demo 环境
+haole84
+00000000
+
+
+
+【蒲公英】Apk上传：
+https://www.pgyer.com/
+用户名：xqkillua
+密码:198671kid
+还缺少实名认证
+
+
+【talkplus标准版】项目日志文件地址：
+http://doc.talk-cloud.net/update/reports/TalkTest/
+
+
+门课 微信分享
+
+AppID: wx3ecf6c6dc7eaaa17
+AppSecret: 34e683e148a166595f0df751a620be50
+
+
+极光推送平台账号：
+测试：
+Talkcloud_Android@talk-cloud.com
+TKandroid1
+正式：
+liheyi@talk-cloud.com
+TKMobile2021
+
+小米开放平台：
+https://dev.mi.com/console/
+账号：support@talk-cloud.com
+密码：hw.vf=U5*HMym
+
+
+
+微思视讯项目：
+原型图：https://ftcjzp.axshare.com/#g=1&id=7jxsih&p=%E9%A6%96%E9%A1%B5   密码：12345678
+
+Talkcloud_Android@talk-cloud.com
+TKandroid1
+
+安卓
+gitlab@gitlab.talk-cloud.com:tk_android/wssx.git
+https://gitlab.talk-cloud.com/tk_android/wssx.git
+
+iOS
+gitlab@gitlab.talk-cloud.com:tk_ios/wssx.git
+https://gitlab.talk-cloud.com/tk_ios/wssx.git
+
+
+微信支付商户号：1509311051
+微信支付apikey：uuLILusQrzUr4T53ryLDyHaDahgy0ZEH
+微信APPid：2021002171605843
+
+支付宝企业账号PID：2088621840658044
+
+应用包名：com.talkcloud.weisivideo
+应用签名：9d052c2567d5266422cfbd86fff9566d
+
+测试环境账号
+17600294236  123456qw 房间号：385627787
+16602756341
+16602756342  00000000
+
+bugly
+APPID:250b785e43
+APPKEY:15414b7b-226a-4fd8-8c99-f605e08ff8d0
+
+
+
+
+友盟信息：
+应用信息
+应用名称：门课_Android
+平台：android
+AppKey：60e57a5d2a1a2a58e7cb4b16复制
+
+
+应用信息
+应用名称：门课_iOS_iPad
+平台：ipad
+AppKey：60e57ac12a1a2a58e7cb4b40复制
+
+应用信息
+应用名称：门课_iOS_iPhone
+平台：iphone
+AppKey：60e57aea2a1a2a58e7cb4b4c复制
+
+
+工单登录：https://gdxt.talk-cloud.com/login.jsp?permissionViolation=true&os_destination=%2Fbrowse%2FYKC-84&page_caps=&user_role=
+肖奇   xiaoqi     Ab123.com!
+
+
+小米开放平台
+https://dev.mi.com/console/
+账号：support@talk-cloud.com
+密码：hw.vf=U5*HMym
+
+-------------------------------------万能的分割线请注意了，哈哈------------------------------
+【钐秾】
+git地址：
+https://gitea.thisthe3rd.xyz
+https://gitea.aifun.com/
+比如 git remote set-url origin ssh://git@gitea.aifun.com:3222/gowinder/aifun_statistic.git
+用户名：xqkillua
+邮箱：524971307@qq.com
+密码：198671kid
+
+程序持续集成：
+drone ci：https://docs.drone.io
+
+配置github
+Client ID
+3b2a2ea403adfcc687b3
+Client secret
+de81a0ab6de08282ba2fc0d5d7b78a100fca0b13
+
+Drone CI：搭建自己CI/CD（一）：https://blog.csdn.net/github_37410569/article/details/106140294
+
+docker账号：
+xqkilluadocker
+524971307@qq.com
+198671kid
+
+
+代码和缺陷管理放在云效：
+https://account.aliyun.com/login/login.htm?oauth_callback=https%3A%2F%2Faccount-devops.aliyun.com%2Flogin%3Fnext_url%3Dhttps%253A%252F%252Faccount-devops.aliyun.com%252Finvite_from_link%252F45408dd773098f04e0b3c115622a0fce%253Fsign%253D3c2289d6ef6bad54404a5c1a33091488%2526next_url%253Dhttps%253A%252F%252Fdevops.aliyun.com%252Forganization%252F606539f86cc98419b95d5234
+xqkillua
+198671killuakid
+198671killuakid
+
+AIFUN2.0 云效
+https://devops.aliyun.com/project/61272f2e04558e003fc813ae/bug/section/619214461fbbaa0012ecb742
+
+
+
+aifun UI 地址：https://www.figma.com/file/CNPuqMrflbNe9y10iykRV3/AIFUN-1.0?node-id=2089%3A46
+
+aifun api 接口地址：
+https://apicpre.aifun.com/doc.html#/default/%E5%8F%91%E7%8E%B0%E9%A1%B5(v2)/getBannerListUsingPOST
+https://apic.aifun.com/doc.html#/default/%E7%BB%84%E5%B1%80(v2)/getStoreListUsingPOST
+http://159.75.99.192:30175/doc.html
+
+
+openinstall：https://sspai.com/post/59034
+2647037103@qq.com
+taczaz-jerja1-kyhNad
+AppKey：t4dh5d
+
+剧本杀大赛的运营后台开始转测，测试环境地址：https://dsadminpre.aifun.com/
+
+
+各位亲爱的钐秾小伙伴：
+AI FUN的商户平台现已可以正式使用，欢迎各位同事和好友提优化意见。
+商家平台内容，请各位自助注册、入驻进行使用。
+商家平台链接：https://e.aifun.com/shop/marketAdmin/coupon
+
+主要更新业务包含：
+1. 简化了商家入驻流程
+2. 优化组局功能模块
+3. 订单业务的正常下单和退款
+4. 财务系统的结算和提现。
+
+
+运营平台：目前仅现运营内部使用。有需要者可以联系我，提供账号进行测试使用。
+运营平台链接:http://81.71.71.51:39228/#/game/manage/Examine
+
+
+
+
+秘钥：sugram_cert.jks
+别名: sugram
+创建日期: 2016-12-27
+条目类型: PrivateKeyEntry
+证书链长度: 1
+证书[1]:
+所有者: CN=Sugram, OU=Sugram, O=Sugram, L=Macau, ST=Macau, C=853
+发布者: CN=Sugram, OU=Sugram, O=Sugram, L=Macau, ST=Macau, C=853
+序列号: 7828758b
+有效期开始日期: Tue Dec 27 12:03:14 CST 2016, 截止日期: Sat Dec 21 12:03:14 CST 2041
+证书指纹:
+         MD5: 93:B0:DF:B3:10:C6:76:23:F5:21:A8:11:F0:FB:01:65
+         SHA1: 88:7B:FC:CB:85:77:34:77:68:37:EC:61:41:64:29:B2:46:C6:6B:6B
+         SHA256: 00:EF:25:4B:9E:B1:8B:47:7D:FA:E0:96:BC:83:32:C8:84:65:11:BF:0B:41:0E:42:B8:FD:81:8F:22:4E:B8:C0
+         签名算法名称: SHA256withRSA
+         版本: 3
+
+pre环境测试账号
+15342270508，123456
+18588537243，1234567
+13554298369，1234567
+
+测试机密码
+zb123456
+cz123456
+
+
+投票系统
+api系统：http://192.168.2.42:5001/api/admin/1/doc/
+
+
+深圳那边一期需求的已经放到preview上了哈
+http://159.75.108.212:35809/#/game/manage/Examine
+用户名：lele，zouyi
+密码：admin
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------万能的分割线请注意了，哈哈------------------------------
+
+vpn翻墙搭建服务器
+
+http://raksmart.com/home/article/details?a_id=182
+账号：fay.michael@gmail.com
+密码：y%VDd%aOk}2>[h2RH:
+107.148.14.4
+VUD964fs
+
+购买域名：
+qinqinmybaby.xyz
+
+匿名邮箱：
+https://protonmail.com/
+账号：qinqinmybaby@protonmail.com
+密码：198671$Kid
+
+godaddy：
+https://account.godaddy.com/profile
+账号：qinqinmybaby
+邮箱：qinqinmybaby@protonmail.com
+
+
+模拟人物信息网站：
+https://www.prepostseo.com/tool/fake-address-generator
+https://www.fakeaddressgenerator.com/
+
+cloud：
+https://cloudflare.com/
+账号：qinqinmybaby@protonmail.com
+密码：198671$Kid
+
+
+免费注册域名：
+https://www.freenom.com/zh/index.html?lang=zh
+
+https://www.vultr.com/
+账号：524971307@qq.com
+密码：198671$Kid
+
+
+vless://020e424a-621a-4758-85c7-bd30abd1f374@qinqinmybaby.xyz:443?type=ws&security=tls&path=%2Fedc9f%2F&host=qinqinmybaby.xyz&sni=qinqinmybaby.xyz&alpn=#WS_TLS_wulabing-qinqinmybaby.xyz
+
+ vless://68d4bbe1-8d39-4460-827b-4e6062ddfb1c@104.16.55.201:443?type=ws&security=tls&path=%2F4e40430425%2F&host=lucian.gimy.cf&sni=lucian.gimy.cf&alpn=#WS_TLS_wulabing-qinqinmybaby.xyz
+
+
+Personal Details:
+Country USA Name    Louvenia Stokes
+Address 386 Corkery Parkways Suite 071  City    West Skylarside
+State   Bilzen  Zip Code    51500-5270
+Gender  Male    Date Of Birth   2-11-1987
+Phone   1-530-914-4886 x8509    E-Mail  fay.michael@gmail.com
+Age (Years) 34  Zodiac Sign Taurus
+Height  5ft 9inch   Weight  78 kg
+Hair Color  Auburn  Eye Color   Brown
+
+Financial Details:
+Bank Name   Providus Bank Plc Of USA    Bank Code   101
+IBAN    79250279    Account Number  401567204
+Credit Card Type    Louvenia Stokes Credit Card Number  4539 4513 5975 6365
+Credit Card Expiry  02/24   Credit Card CVV2    845
+
+Internet:
+User Name   wunsch.melisa   Password    y%VDd%aOk}2>[h2RH:
+Safe Email  rodrick.rice@example.org    Mac Address 6c60:10f3:fa6:a1de:16d3:3894:34bd:811d
+IPV4 Address    234.18.43.246   IPV6 Address    b792:7cd0:be49:a468:ad19:af99:23cd:a1dc
+User Agent  Mozilla/5.0 (iPhone; CPU iPhone OS 8_0_2 like Mac OS X; sl-SI) AppleWebKit/534.28.6 (KHTML, like Gecko) Version/4.0.5 Mobile/8B113 Safari/6534.28.6
+
+Employment Details:
+Company Name    Ebert LLC   Salary  $8405 /month
+Company Address 386 Corkery Parkways Suite 071  Job Title   Occupational Therapist Aide
+Company Phone   1-530-914-4886 x8509    Company Email   rlindgren@bashirian.biz
+
+
+
+
+V2Ray客户端:https://tlanyan.pp.ua/v2ray-clients-download/
+V2rayN 4.12配置教程:https://v2xtls.org/v2rayn-4-12%e9%85%8d%e7%bd%ae%e6%95%99%e7%a8%8b/
+ip地址查询：https://ip.skk.moe/?__cf_chl_tk=SHZ7Qqu7zLAxpOkRudLtm_R3Atcf8loVwUeuQzper_c-1641365764-0-gaNycGzNCKU
+v2rayN路由高级功能、全局模式、PAC模式设置方法：https://ivpsr.com/281.html
+
+
+
+
+-------------------------------------万能的分割线请注意了，哈哈------------------------------
+
+twitter 账号(关联苹果账号):
+524971307@qq.com(手机号联动)
+198671Killua
+用户名:@weixiaodejiuwo
+
+@PkLu5XXcRJ8WPwN
+
+
+
+-------------------------------------万能的分割线请注意了，哈哈------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+前端、后端程序员薪资范围参考如下：
+助理：助理（2k ≤ X < 8k)，助理+（8k ≤ X < 12k)
+初级：初级（12k ≤ X < 18k)，初级+（18k ≤ X < 24k)
+中级：中级（24k ≤ X < 36k)，中级+（36k ≤ X < 45k)
+高级：高级（45k ≤ X < 60k)，高级+（60k ≤ X < 70k)
+资深：资深（70k ≤ X < 100k)，资深+（100k ≤ X < 120k)

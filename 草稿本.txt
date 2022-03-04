@@ -1,0 +1,3882 @@
+compileSdkVersion 25
+targetSdkVersion 25
+buildToolsVersion "25.0.3"
+
+
+手机屏幕宽度(像素)----->1080|手机屏幕高度(像素)----->1668
+Thread: main, onCreate(StartPageActivity.java:70)
+手机屏幕密度----->2.625|手机屏幕densityDpi----->420.0
+Thread: main, onCreate(StartPageActivity.java:72)
+手机屏幕宽度(dp)----->411|手机屏幕高度(dp)----->635
+
+手机屏幕宽度(像素)----->1080|手机屏幕高度(像素)----->1632
+Thread: main, onCreate(StartPageActivity.java:70)
+手机屏幕密度----->3.0|手机屏幕densityDpi----->480.0
+Thread: main, onCreate(StartPageActivity.java:72)
+手机屏幕宽度(dp)----->360|手机屏幕高度(dp)----->544
+
+
+
+Error:(2, 0) Unable to find method 'org.gradle.api.internal.file.DefaultSourceDirectorySet.<init>(Ljava/lang/String;Lorg/gradle/api/internal/file/FileResolver;)V'.
+Possible causes for this unexpected error include:<ul><li>Gradle's dependency cache may be corrupt (this sometimes occurs after a network connection timeout.)
+<a href="syncProject">Re-download dependencies and sync project (requires network)</a></li><li>The state of a Gradle build process (daemon) may be corrupt. Stopping all Gradle daemons may solve this problem.
+<a href="stopGradleDaemons">Stop Gradle build processes (requires restart)</a></li><li>Your project may be using a third-party plugin which is not compatible with the other plugins in the project or the version of Gradle requested by the project.</li></ul>In the case of corrupt Gradle processes, you can also try closing the IDE and then killing all Java processes.
+
+
+
+Error:Execution failed for task ':app:compileDebugKotlin'.
+> Could not initialize class com.intellij.ide.highlighter.JavaFileType
+
+
+09-17 17:25:07.255 13781-13781/? E/AndroidRuntime: FATAL EXCEPTION: main
+                                                   Process: example.com.testkotlin, PID: 13781
+                                                   java.lang.RuntimeException: Unable to instantiate application example.com.testkotlin.haha.app.MyApp: java.lang.ClassNotFoundException: Didn't find class "example.com.testkotlin.haha.app.MyApp" on path: DexPathList[[zip file "/data/app/example.com.testkotlin-1/base.apk"],nativeLibraryDirectories=[/data/app/example.com.testkotlin-1/lib/arm64, /system/lib64, /vendor/lib64]]
+                                                       at android.app.LoadedApk.makeApplication(LoadedApk.java:853)
+                                                       at android.app.ActivityThread.handleBindApplication(ActivityThread.java:5681)
+                                                       at android.app.ActivityThread.-wrap2(ActivityThread.java)
+                                                       at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1685)
+                                                       at android.os.Handler.dispatchMessage(Handler.java:102)
+                                                       at android.os.Looper.loop(Looper.java:185)
+                                                       at android.app.ActivityThread.main(ActivityThread.java:6493)
+                                                       at java.lang.reflect.Method.invoke(Native Method)
+                                                       at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:916)
+                                                       at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:806)
+                                                    Caused by: java.lang.ClassNotFoundException: Didn't find class "example.com.testkotlin.haha.app.MyApp" on path: DexPathList[[zip file "/data/app/example.com.testkotlin-1/base.apk"],nativeLibraryDirectories=[/data/app/example.com.testkotlin-1/lib/arm64, /system/lib64, /vendor/lib64]]
+                                                       at dalvik.system.BaseDexClassLoader.findClass(BaseDexClassLoader.java:56)
+                                                       at java.lang.ClassLoader.loadClass(ClassLoader.java:380)
+                                                       at java.lang.ClassLoader.loadClass(ClassLoader.java:312)
+                                                       at android.app.Instrumentation.newApplication(Instrumentation.java:993)
+                                                       at android.app.LoadedApk.makeApplication(LoadedApk.java:847)
+                                                       at android.app.ActivityThread.handleBindApplication(ActivityThread.java:5681) 
+                                                       at android.app.ActivityThread.-wrap2(ActivityThread.java) 
+                                                       at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1685) 
+                                                       at android.os.Handler.dispatchMessage(Handler.java:102) 
+                                                       at android.os.Looper.loop(Looper.java:185) 
+                                                       at android.app.ActivityThread.main(ActivityThread.java:6493) 
+                                                       at java.lang.reflect.Method.invoke(Native Method) 
+                                                       at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:916) 
+                                                       at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:806) 
+
+
+
+
+
+ java.lang.RuntimeException: Unable to instantiate application example.com.testkotlin.haha.app.MyApp: kotlin.UninitializedPropertyAccessException: lateinit property context has not been initialized
+                        at android.app.LoadedApk.makeApplication(LoadedApk.java:853)
+                        at android.app.ActivityThread.handleBindApplication(ActivityThread.java:5681)
+                        at android.app.ActivityThread.-wrap2(ActivityThread.java)
+                        at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1685)
+                        at android.os.Handler.dispatchMessage(Handler.java:102)
+                        at android.os.Looper.loop(Looper.java:185)
+                        at android.app.ActivityThread.main(ActivityThread.java:6493)
+                        at java.lang.reflect.Method.invoke(Native Method)
+                        at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:916)
+                        at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:806)
+                     Caused by: kotlin.UninitializedPropertyAccessException: lateinit property context has not been initialized
+                        at example.com.testkotlin.haha.app.MyApp$Companion.getContext(MyApp.kt:19)
+                        at example.com.testkotlin.haha.app.MyApp.attachBaseContext(MyApp.kt:25)
+                        at android.app.Application.attach(Application.java:198)
+                        at android.app.Instrumentation.newApplication(Instrumentation.java:1009)
+                        at android.app.Instrumentation.newApplication(Instrumentation.java:993)
+                        at android.app.LoadedApk.makeApplication(LoadedApk.java:847)
+                        at android.app.ActivityThread.handleBindApplication(ActivityThread.java:5681) 
+                        at android.app.ActivityThread.-wrap2(ActivityThread.java) 
+                        at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1685) 
+                        at android.os.Handler.dispatchMessage(Handler.java:102) 
+                        at android.os.Looper.loop(Looper.java:185) 
+                        at android.app.ActivityThread.main(ActivityThread.java:6493) 
+                        at java.lang.reflect.Method.invoke(Native Method) 
+                        at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:916) 
+                                                                            at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:806) 
+
+
+
+
+
+
+
+import QtQuick 2.6
+import QtQuick.Window 2.2
+
+Window {
+    visible: true
+    width: 640
+    height: 480
+    title: qsTr("Hello World")
+
+    MouseArea {
+        id: mouseArea
+        x: 65
+        y: 192
+        width: 200
+        height: 200
+        clicked: {
+            alert("aaa");
+        }
+    }
+
+    Rectangle {
+        id: rectangle
+        x: 65
+        y: 192
+        width: 200
+        height: 200
+        color: "#ffffff"
+    }
+}
+
+1.BaseActivity 基类编写
+2.ToastUtils 扩展工具的编写
+3.ExpandActivity 扩展方法的使用
+
+
+chrome://inspect/
+
+
+git checkout --orphan latest_branch
+git add -A
+git commit -am "commit message"
+git branch -D sacceleratorenglish\(110_英文版融合\)20180507
+git branch -m sacceleratorenglish\(110_英文版融合\)20180507
+git push -f origin sacceleratorenglish\(110_英文版融合\)20180507
+
+
+解析救援文件拉取地址里面的内容
+修改购买套餐布局文件
+
+
+
+客户端api 地址
+https://dfrzrujw.com/
+https://fhhnrerg.com/
+https://nurndtaa.com/
+https://ufxdzlrc.com/
+https://iieangyg.com/
+
+
+
+RequestCallback ResponseWrapper
+
+saccelerator(114_多语言切换修改_googlepay_新皮肤)20180817
+
+com.first.saccelerator
+accelerator.nuts.dimple
+Accelerate
+
+
+
+x x, [03.10.18 15:14]
+安卓客户端标：moren_nuts_2.0.0
+IOS客户端标：appStore_nuts_2.0.0
+PC客户端标：pc_nuts_2.0.0
+MAC客户端标：mac_nuts_2.0.0
+
+x x, [03.10.18 15:15]
+安卓包名  nuts.apk
+PC安装包名  nuts_setup.exe
+PC绿色版包名  nuts.zip
+MAC版包名  nuts_setup.dmg
+
+
+
+com.first.sacceleratornuts
+
+Created by ZhengSheng on 2017/3/21.
+
+Error:与元素类型 "item" 相关联的 "name" 属性值不能包含 '<' 字符。
+
+
+
+
+
+
+
+http://192.168.1.20:8080/kaiping.jpg
+http://192.168.1.20:8080/tanchu.
+http://172.20.10.14
+
+https://download.w202w.com/resource/test/nuts101.apk
+
+
+
+
+https://potato.im/joinchat/ae23ae451b52bd452e0492f523038f05
+
+https://potato.im/VPN_01
+
+
+
+SpecifiesLine
+
+
+
+
+VPN： web，mac端工程师，QT工程师，Ruby工程师，Openwrt/lede 路由器固件开发（共五套）
+一律采用word格式：
+1-15题选择题；16-30判断题；合计30题。
+选择题：1-5题（初级），每题2分；6-10题（中级），每题3分；11-15题（高级），每题5分；合计50分。
+填空题：1-5题（初级），每题2分；6-10题（中级），每题3分；11-15题（高级），每题5分；合计50分。
+请于10月27日内交予人事july处，谢谢配合。
+
+
+坚果vpn 后期不要的，需要清理的资源
+login_phone_bg，login_btn_commit_bg,login_point,help_center_bg
+login_newpassword_bg,changepassword_code_bg,appinfopassvpn_navigationselected,
+sharepromotion_btn_bg，checkin_queding_bg,ic_checkedin_today,ic_checkedin_today,
+feedback_choice_line,checkin_dividingline,myfeedback_type_press_bg,feedbackrecord_problems,
+checkin_queding_bg,include_errormessage_bg,buydiamond_slider,buy_btn_bg，
+appinfopassvpn_modeselection_bg,appinfopassvpn_functiondescription,announcementdailog_commit_bg，
+checkin_queding_bg,main_center_bg，openscreenad_tv_bg，user_bg,serveractivity_wifi
+
+
+android图片处理:让图片一直匀速旋转：https://blog.csdn.net/dl10210950/article/details/52175873
+
+overridePendingTransition(R.anim.activity_right_in, 0);
+overridePendingTransition(0, R.anim.activity_right_out);
+
+
+LogUtils.i(String.format("ChinaIpMask %s/%s\n", CommonMethods.ipIntToString(ip), CommonMethods.ipIntToString(mask)));
+
+
+https://blog.csdn.net/chzphoenix/article/details/77968756
+
+手机屏幕宽度(像素)----->1080|手机屏幕高度(像素)----->2118
+手机屏幕密度----->2.75|手机屏幕densityDpi----->440.0
+手机屏幕宽度(dp)----->392|手机屏幕高度(dp)----->770
+
+
+手机屏幕宽度(像素)----->1080|手机屏幕高度(像素)----->1776
+手机屏幕密度----->3.0|手机屏幕densityDpi----->480.0
+手机屏幕宽度(dp)----->360|手机屏幕高度(dp)----->592
+
+手机屏幕宽度(像素)----->1440|手机屏幕高度(像素)----->2224
+手机屏幕密度----->3.5|手机屏幕densityDpi----->560.0
+手机屏幕宽度(dp)----->411|手机屏幕高度(dp)----->635
+
+
+android:theme="@style/dialog_activity_style"
+
+
+https://dfrzrujw.com/api/client/v3/commons/routes?platform=android
+
+https://hbstdl1.com/api/client/v2/commons/routes?platform=android
+
+https://hbstdl1.com/routes/android_d2o
+https://hbstdl1.com/routes/android_o2d
+
+
+    /**
+     * 创建静态内部类,防止handler持有外部引用，导致内存泄漏
+     */
+    private static class MyHandler extends Handler {
+        //持有弱引用HandlerActivity,GC回收时会被回收掉.
+        private final WeakReference<MainWisdomActivity> activityWeakReference;
+
+        public MyHandler(MainWisdomActivity activity) {
+            activityWeakReference = new WeakReference<>(activity);
+        }
+        @Override
+        public void handleMessage(Message msg) {
+            MainWisdomActivity activity = activityWeakReference.get();
+            super.handleMessage(msg);
+        }
+    }
+
+    android:background="#61656e"
+
+
+android:hardwareAccelerated="false"
+android:largeHeap="true"
+
+*.golang.org
+*.github.com
+*.githubusercontent.com
+*.docker.com
+*.googleapis.com
+*.gstatic.com
+*.google.com
+*.apple.com
+*.android-studio.org
+*.developer.android.com
+*.csdn.net
+*.jianshu.com
+*.stackoverflow.com
+
+
+
+
+
+                <ImageView
+                    android:id="@+id/iv_buydiamond_slider1"
+                    android:layout_width="@dimen/deimen_60x"
+                    android:layout_height="@dimen/deimen_5x"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/buy_splitline_bg"/>
+
+
+
+
+          航程：金边-武汉
+1   MU760     2月3日 金边上海  00:15  05:20
+2   MU9347    2月3日  上海武汉   09:35  11:40
+
+航程：武汉-金边
+1   MU5876  2月12日 武汉昆明  11:20  13:40
+2   MU2599  2月12日 昆明金边  15:20  16:55
+
+金额：4983
+
+
+{"rescueip":["https://txsrnssy.com/","https://kjogdjap.com/","https://wzsawnao.com/","https://dgapcapr.com/","https://hgyqmlwo.com/","https://hfilqocm.com/","https://sboneynm.com/","https://wscgbohc.com/","https://nzzcjtke.com/","https://wretpwmp.com/"]}
+
+
+adb shell monkey -p com.nuts.extremspeedup -s 500 —ignore-crashes —ignore-timeouts —monitor-native-crashes -v -v -v 50000 2>/Users/beijixiong/Desktop/error.txt 1>/Users/beijixiong/Desktop/info.txt
+
+
+设置应用内结算时出现问题: IabResult: Billing service unavailable on device. (response: 3:Billing Unavailable)
+无法查询库存: IabResult: Error refreshing inventory (querying owned items). (response: -1003:Purchase signature verification failed)
+
+
+
+ sudo curl --output /usr/local/bin/gitlab-runner https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-darwin-amd64
+ sudo chmod +x /usr/local/bin/gitlab-runner
+  cd ~
+ gitlab-runner install
+ gitlab-runner start
+
+
+
+ $gitlab-runner start
+
+
+ 7f145e0b HEAD@{6}: commit: 去掉各个类中的CustomProgressDialog，将订阅基类替换成BaseSubscriber2
+d0397602 HEAD@{7}: commit: 编写订阅基类BaseSubscriber2
+61c72f08 HEAD@{8}: commit: 修改服务器列表显示方法com.ryan.rv_gallery.GalleryRecyclerView 高度改成match_parent
+，方式显示不出来
+f7ac5518 HEAD@{9}: commit: 坚果VPN api 从25 升级到 26
+a1c124d4 HEAD@{10}: commit: 坚果VPN103
+
+
+安卓要做4个渠道包：
+应用名：坚果VPN
+渠道_版本_版本号：bd1_nuts_1.0.2
+apk名称：bd01.apk
+
+渠道_版本_版本号：sg1_nuts_1.0.2
+apk名称：sg01.apk
+
+渠道_版本_版本号：sm1_nuts_1.0.2
+apk名称：sm01.apk
+
+渠道_版本_版本号：sem3601_nuts_1.0.2
+apk名称：36001.apk
+
+
+
+SAcceleratorRN
+
+com.nuts.extremspeeduprn
+
+
+android 分享新功能制作
+1.新功能ui制作调试【2天】
+2.接口编写，对接，调试【1天】
+3.合成图片ui调试，安卓手机自适应【1天】
+4.自测优化代码【1天】
+
+
+测试服 更新了 1.76获取分享模版列表接口， 1.9提交分享日志接口更新为v2， 见v2/1.9
+测速环境更新了 1.63 获得测速节点ip列表(认证) 1.64 提交节点ping测速日志(认证) 1.68 提交节点下载测速日志(认证) 接口
+
+
+https://segmentfault.com/q/1010000006634279/a-1020000007276629
+https://github.com/shadowsocks/shadowsocks-android/issues/142
+
+http://d.5857.com/cy_170929/003.jpg
+
+
+https://api.llzggzjy.com/docs/index#1-67 获取分享模版列表(认证)更新了 https://api.llzggzjy.com/docs/client_v2#1-9 1.9 提交用户分享日志(认证) 更新了
+
+
+
+
+                            //本地保存背景图片的更新时间
+                            long background_image_update_time = sp_config.getLong(SPConstants.CONFIG.BACKGROUND_IMAGE_UPDATE_TIME, 0);
+                            if (background_image_update_time != data.getBackground_image_update_time() &&
+                                    !StringUtils.isBlank(data.getBackground_image_url())) {
+                                //清理该目录下面的所有文件
+                                FileUtils.deleteFilesInDir(PicassoUtils.sharedir);
+                                //下载网络图片
+                                PicassoUtils.loadSharePicFromUrl(
+                                        data.getBackground_image_url(),
+                                        sp_config,
+                                        data.getBackground_image_update_time());
+                            }
+https://download.w202w.com/share/1024.png
+https://download.w202w.com/share/index.html
+
+
+，如果没有1080px X 1920px 转化成dp后是360dp X 640dp）
+
+http://img.zcool.cn/community/01a80b5618b9a46ac7255b14473dd6.jpg
+https://gss0.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/960a304e251f95cae4bede34c3177f3e660952ec.jpg
+
+
+15697111
+
+
+安卓要做1个渠道包：
+应用名：坚果VPN
+渠道_版本_版本号：fensitong1_nuts_1.0.2
+apk名称：coop03.apk
+
+
+
+sp_config.put(SPConstants.CONFIG.WEIXIN_ENABLED, data.isWeixin_enabled());
+sp_config.put(SPConstants.CONFIG.FRIEND_CIRCLE_ENABLED, data.isFriend_circle_enabled());
+sp_config.put(SPConstants.CONFIG.QQ_ENABLED, data.isQq_enabled());
+sp_config.put(SPConstants.CONFIG.WEIBO_ENABLED, data.isWeibo_enabled());
+
+
+客户端写入下载救援文件地址：
+https://qiliu.8uyiu.cn/rescueip.txt
+https://w5acqk.cn/rescueip.txt
+https://bestinled.com/rescueip.txt
+https://www.okslosdl.com/rescueip.txt
+https://www.bsswqfl.com/rescueip.txt
+
+32.2
+23
+
+
+https://qiliu.8uyiu.cn/rescueip.txt
+https://w5acqk.cn/rescueip.txt
+https://bestinled.com/rescueip.txt
+https://www.okslosdl.com/rescueip.txt
+https://www.bsswqfl.com/rescueip.txt
+
+
+华为平板：
+手机屏幕宽度(像素): 1600
+手机屏幕高度(像素): 2454
+手机屏幕密度: 3.0
+手机屏幕densityDpi: 480.0
+手机屏幕宽度(dp): 533
+手机屏幕高度(dp): 818
+
+
+
+oppo测试机：
+手机屏幕宽度(像素): 1080
+手机屏幕高度(像素): 1866
+手机屏幕密度: 3.0
+手机屏幕densityDpi: 480.0
+手机屏幕宽度(dp): 360
+手机屏幕高度(dp): 622
+
+
+你以为的timeout,不一定是用户的timeout：https://zhuanlan.zhihu.com/p/31640388
+
+我在Tumblr\n 和老司机一起飙车\n 邀请你用「坚果加速器」\n 共享精彩时刻
+
+
+
+{
+    "rescueip":[
+        "https://txsrnssy.com/",
+        "https://kjogdjap.com/",
+        "https://wzsawnao.com/",
+        "https://dgapcapr.com/",
+        "https://hgyqmlwo.com/",
+        "https://hfilqocm.com/",
+        "https://sboneynm.com/",
+        "https://wscgbohc.com/",
+        "https://nzzcjtke.com/",
+        "https://wretpwmp.com/"
+    ]
+}
+
+
+
+npm install react-native@0.57.2
+
+
+修改密码：发送验证码，确认提交
+找回密码：发送验证码，确认提交
+切换账号：登录
+修改账号：确认提交，发送验证码
+注册：发送验证码，注册按钮
+
+
+英文版应用名称：NutsVPN
+IOS：
+渠道_版本_版本号：appStore_english_1.0.1
+
+android：
+渠道_版本_版本号：google_nuts_1.0.2
+apk名称：google.apk
+
+
+https://out.llzggzjy.com:8080/test/az/nodes.json  英文版 生产的配置
+1.31 获得当前用户最新信息(认证)  https://api.llzggzjy.com/docs/index#1-30
+
+
+https://www.gamersky.com/handbooksy/201809/1101763_4.shtml
+
+
+
+google_licatjsq_1.0.3
+
+huihui20101017
+
+
+ Mac自带的NTFS读写功能【无需安装软件】 | Open the Mac comes with NTFS read and write functions:https://www.youtube.com/watch?v=eH03FOLxpvU
+
+
+ react-native bundle --entry-file index.android.js --bundle-output ./bundle/index.android.bundle --platform android --assets-dest ./bundle --dev false
+
+ "axios": "^0.18.0",
+    "crypto-js": "^3.1.9-1",
+    "prop-types": "^15.6.2",
+    "ramda": "^0.25.0",
+    "react": "16.5.0",
+    "react-native": "0.57.2",
+    "react-native-async-image-animated": "^4.3.0",
+    "react-native-cached-image": "git+https://github.com/fungilation/react-native-cached-image.git",
+    "react-native-calendars": "^1.18.2",
+    "react-native-code-push": "^5.4.2",
+    "react-native-collapsible": "^0.10.0",
+    "react-native-custom-qr-codes": "^2.0.0",
+    "react-native-drawer-menu": "^0.2.5",
+    "react-native-extended-stylesheet": "^0.8.1",
+    "react-native-gesture-handler": "^1.0.8",
+    "react-native-img-cache2": "^0.0.3",
+    "react-native-keyboard-aware-scroll-view": "^0.7.4",
+    "react-native-largelist-v2": "^2.1.1",
+    "react-native-linear-gradient": "^2.4.2",
+    "react-native-modal": "^6.0.0",
+    "react-native-modal-popover": "^0.0.10",
+    "react-native-modalbox": "^1.4.2",
+    "react-native-progress": "^3.4.0",
+    "react-native-qrcode": "^0.2.7",
+    "react-native-root-tips": "git+https://github.com/jamessawyer/react-native-root-tips.git",
+    "react-native-scrollable-tab-view": "^0.10.0",
+    "react-native-size-matters": "^0.1.4",
+    "react-native-snap-carousel": "^3.7.5",
+    "react-native-spring-scrollview": "^0.0.24",
+    "react-native-storage": "^0.2.2",
+    "react-native-svg": "^9.0.0",
+    "react-native-tab-view": "^0.0.77",
+    "react-native-transition": "^1.1.8",
+    "react-native-view-shot": "^2.5.0",
+    "react-navigation": "^1.5.11",
+    "react-navigation-redux-helpers": "^1.0.4",
+    "react-redux": "^5.0.7",
+    "redux": "^3.7.2",
+    "redux-logger": "^3.0.6",
+    "redux-persist": "^5.9.1",
+    "redux-saga": "^0.16.0",
+    "reselect": "^4.0.0",
+    "rn-fetch-blob": "^0.10.13",
+    "xdate": "^0.8.2"
+
+
+
+
+1.（优先级:1）跟RN程序一起调试ip轮询中出现的问题
+2.（优先级:2）坚果VPN应用企业包上架流程
+3.（优先级:4）【客户端收集用户线路信息功能】制作和调试，这个功能在需求文档里面有，如果有什么问题可以问老A或者路西安
+4.（优先级:5）【分享推广功能修改】制作和调试，这个功能在需求文档里面有，如果有什么问题可以问老A或者路西安
+5.（优先级:4）调试下，很多客户端第一次进入app后，点击连击vpn，但是都无法翻墙，初步估计有可能是白名单没有下载下来导致的
+
+
+
+xiongxiao80@gmail.com
+201810Xxm
+
+https://www.bilibili.com/video/av40399741?p=3
+
+sup12070157
+123456
+
+增加1.70-1.73 四个接口，原1.44获得网站导航列表(认证) 升级v2， 原1.63 获得客户端测速全局配置(认证)接口废弃， 本次一共增加五个接口
+
+
+https://5upqm.com/rescueip.txt  七牛
+https://k47h80.com/rescueip.txt  七牛
+https://lh627k.com/rescueip.txt  阿里云
+@dashu1 @lucian @laoa_fuckyou @cctinc 救援文件下载地址在下个版本中替换掉
+
+
+
+https://download.91qjw.com/navigation/2/banner1.png
+https://download.91qjw.com/navigation/2/banner2.png
+https://out.llzggzjy.com:8080/test/update/android/lunbo1.jpg
+https://out.llzggzjy.com:8080/test/update/android/lunbo2.jpg
+https://out.llzggzjy.com:8080/test/update/android/lunbo3.jpg
+
+https://download.91qjw.com/navigation/1/bilibili.png
+
+nutsvpn_zn_v1.0.4_testpackage_20190227
+nutsvpn_zn_v1.0.4_testpackage_20190303
+
+
+"navigation_config_update_at": 1551790609,
+update_at=1551789145
+
+
+
+    productFlavors {
+//        morenceshi {
+//            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "morenceshi"]
+//        }
+//        google_lm {//google 已经发布到14了
+//            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "google"]
+//        }
+        moren_lm {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "moren"]
+        }
+//        bd01 {
+//            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "bd1"]
+//        }
+//        bd02 {
+//            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "bd2"]
+//        }
+//        sem3601 {//（真是名称：36001  友盟中渠道包的名称不能以数字开头）
+//            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "sem3601"]
+//        }
+//        speed {
+//            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "jg"]
+//        }
+//        coop {
+//            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "fyflow"]
+//        }
+//        coop02 {
+//            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "jzjad"]
+//        }
+//        coop03 {
+//            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "fensitong1"]
+//        }
+//        sg01 {
+//            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "sg1"]
+//        }
+//        sm01 {
+//            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "sm1"]
+//        }
+//----------------------------------------------------------------------------------------------------
+    }
+
+
+
+
+    安卓要做3个渠道包：
+应用名：坚果VPN
+渠道_版本_版本号：bdsem1_nuts_1.0.4
+apk名称：age01.apk
+
+渠道_版本_版本号：bdsem2_nuts_1.0.4
+apk名称：age02.apk
+
+渠道_版本_版本号：bdsem3_nuts_1.0.4
+apk名称：age03.apk
+
+
+
+rO0ABXNyAChjb20uemVyb3R1cm5hcm91bmQubGljZW5zaW5nLlVzZXJMaWNlbnNlAAAAAAAAAAECAANMAAdkYXRhTWFwdAAPTGphdmEvdXRpbC9NYXA7WwAHbGljZW5zZXQAAltCWwAJc2lnbmF0dXJlcQB+AAJ4cHB1cgACW0Ks8xf4BghU4AIAAHhwAAACYaztAAVzcgARamF2YS51dGlsLkhhc2hNYXAFB9rBwxZg0QMAAkYACmxvYWRGYWN0b3JJAAl0aHJlc2hvbGR4cD9AAAAAAAAYdwgAAAAgAAAAFHQACGxhc3ROYW1ldAACUWl0AAtHZW5lcmF0ZWRCeXQABEFVVE90AAVFbWFpbHQAFXhpYW9xaWtpbGx1YUBzaW5hLmNvbXQADE9yZ2FuaXphdGlvbnQABG5vbmV0AAplbnRlcnByaXNldAAEdHJ1ZXQAB1Byb2R1Y3R0AAZKUmViZWx0AAtHZW5lcmF0ZWRPbnNyAA5qYXZhLnV0aWwuRGF0ZWhqgQFLWXQZAwAAeHB3CAAAAWl6XetxeHQACXZhbGlkRnJvbXEAfgAQdAAHT3JkZXJJZHQAAHQAC2xpbWl0ZWRGcm9tcQB+ABB0AAd2ZXJzaW9udAAEMS4yN3QABE5hbWV0AAdYaWFvIFFpdAAFU2VhdHN0AAExdAADdWlkdAAoMWU2YmRiYWU3ZWMxNGUwMzcyNjRmYTdkOGMzMzFmNDAzNmNmN2Y2MHQACWZpcnN0TmFtZXQABFhpYW90AARUeXBldAAKZXZhbHVhdGlvbnQACnZhbGlkVW50aWxzcQB+AA93CAAAAXDSDxdxeHQACG92ZXJyaWRldAAFZmFsc2V0AAxsaW1pdGVkVW50aWxxAH4AInQACXZhbGlkRGF5c3NyABFqYXZhLmxhbmcuSW50ZWdlchLioKT3gYc4AgABSQAFdmFsdWV4cgAQamF2YS5sYW5nLk51bWJlcoaslR0LlOCLAgAAeHAAAAAKeHVxAH4ABAAAAQBuD9nzy8e/ADZhXf+dlbUlTsfLMvqvs6ndNmC3lb3wCz3SnMP8kTX7um29AXIDyxRvEYYM/+o2BjJikeq2eyaneaSXj/yHQabgCOlSAwbMEIcAIEXM+hpJoCBK9KaDaXnw5/R2pomIsQITQNZJA4t/PPfkah9liBYsoFLu4Jn+p8GLS8VdteIlRjvuD7Zecv2KOtiLrXKXBPsjI2nBibkAA2PlMAGrfgsYtPbPfNittgvaQ52BmJqO3ooXNAtnhd5CqIHOv9K9RDKSrOSoPhr1KrT4SFEvz581JyDc5SMAfl7p2UoELXE9jS7YyMyFxr/qWIQnF0/NZVvfaU6dVBtI
+
+
+
+1.3 获取手机短信验证码
+/api/client/v2/send_verification_code
+
+1.4 用户登录
+/api/client/v4/signin
+
+1.5 注册用户修改用户名为手机号(认证)
+/api/client/v2/users/update_username
+
+1.6 注册用户修改密码(认证)
+/api/client/v1/users/update_password
+
+1.7 用户找回密码
+/api/client/v1/reset_password
+
+1.9 提交用户分享日志(认证)
+/api/client/v2/users/share
+
+1.10 用户签到(认证)
+/api/client/v1/users/checkin
+
+1.11 提交操作日志
+/api/client/v1/users/operation_log
+
+1.12 获得所有服务器线路数据(认证)
+/api/client/v3/nodes
+
+1.13 提交服务器连接日志(认证)
+/api/client/v1/nodes/connection_log
+
+1.14 获取动态服务器信息
+/api/client/v1/dynamic_servers
+
+1.15 按指定服务器类型连接(认证)
+/api/client/v2/nodes/connect
+
+1.16 获得套餐数据(认证)
+/api/client/v2/plans
+
+1.19 创建Comsunny支付订单(H5页面)(认证)
+/api/client/v4/plans/comsunny_order
+
+1.20 根据订单号获取订单状态(认证)
+/api/client/v1/plans/transaction_status
+
+1.21 获得公告数据
+/api/client/v2/notices
+
+1.22 获取反馈列表V2(认证)
+/api/client/v2/feedbacks
+
+1.23 提交反馈(认证)
+/api/client/v1/feedbacks
+
+1.25 提交连接失败信息
+/api/client/v1/failed_logs/connection_failed
+
+1.26 提交登录失败信息
+/api/client/v1/failed_logs/signin_failed
+
+1.27 提交未操作信息
+/api/client/v1/failed_logs/no_operation
+
+1.29 设置用户离线
+/api/client/v1/users/offline
+
+1.31 获得当前用户最新信息(认证)
+/api/client/v1/users/profile
+
+1.33 判断客户端是否是在国内
+/api/client/v1/commons/location
+
+1.34 获得客户端路由配置表
+/api/client/v3/commons/routes
+
+1.35 提交动态服务器连接失败信息
+/api/client/v1/failed_logs/dynamic_server_failed
+
+1.37 自动为用户服务续期(认证)
+/api/client/v1/users/renew
+
+1.38 获得帮助手册列表(认证)
+/api/client/v1/help_manuals
+
+1.40 代理服务器连接失败信息提交
+/api/client/v1/failed_logs/proxy_connection_failed
+
+1.41 客户端去向日志提交
+/api/client/v1/logs/client_connection_logs
+
+1.42 用户注册
+/api/client/v3/signup
+
+1.43 绑定推广码(认证)
+/api/client/v1/users/bind_promo_code
+
+1.44 获得网站导航列表(认证)
+/api/client/v2/websites
+
+1.45 发送回复到指定的反馈(认证)
+/api/client/v1/feedbacks/reply
+
+1.46 获得指定反馈的回复列表(认证)
+/api/client/v1/feedbacks/replies
+
+1.48 获取当前用户的订单记录(认证)
+/api/client/v1/plans/transaction_logs
+
+1.49 获取当前用户的消费记录(认证)
+/api/client/v1/plans/consumption_logs
+
+1.54 获得客户端日志提交相关信息(认证)
+/api/client/v1/commons/client_log
+
+1.55 获得开屏广告信息
+/api/client/v1/ads/splash_screen
+
+1.56 提交开屏广告展示成功日志
+/api/client/v1/ads/splash_screen_log
+
+1.57 获得弹出广告信息
+/api/client/v1/ads/popup
+
+1.58 提交弹出广告展示成功日志
+/api/client/v1/ads/popup_log
+
+1.59 提交开屏广告点击日志
+/api/client/v1/ads/splash_screen_click_log
+
+1.60 提交弹出广告点击日志
+/api/client/v1/ads/popup_click_log
+
+1.62 Google支付二次验证(认证)
+api/client/v1/plans/verify_google_pay
+
+1.61 获得客服账号(potato)(认证)
+/api/client/v1/customer_services
+
+1.64提交节点http请求测速日志(认证)
+这个url是后台获取的
+
+1.65 获得线路列表(认证)
+/api/client/v1/nodes/customize_lines
+1.65 获得线路列表(认证),英文版
+https://out.llzggzjy.com:8080/test/az/nodes.json//测试地址
+https://download.peccmj.com/nodes/nodes.json//正式地址
+
+1.66 定制专线按指定服务器地域连接(认证)
+/api/client/v1/nodes/customize_connect
+
+1.67 获取分享模版列表(认证)
+/api/client/v1/shares/templates
+
+1.68 提交节点下载测速日志(认证)
+这个url是后台获取的
+
+1.69 获得测速节点ip列表(认证)
+/api/client/v1/nodes/test_speed_ip_list
+
+1.70 获得系统全局配置(认证)
+/api/client/v1/globals
+
+1.71 获得导航广告信息(认证)
+/api/client/v1/ads/navigation
+
+1.72 提交网址导航点击日志(认证)
+/api/client/v1/websites/website_navigation_click_log
+
+1.73 提交导航广告点击日志(认证)
+/api/client/v1/ads/navigation_click_log
+
+
+下载vpn翻墙文件根据url去下载文件，不是跟后台交互的
+http测试用户网络，不跟后台交互的
+download测试用户网络，不跟后台交互的
+
+
+
+修改账号                    1
+修改密码                    2
+注册                       3
+分享推广                    4
+客服中心                    5
+登录界面                    6
+关于我们                    7
+充值—普通套餐                8-1
+充值—高级套餐                8-2
+充值—坚果套餐                8-3
+
+
+1.40 代理服务器连接失败信息提交
+/api/client/v1/failed_logs/proxy_connection_failed
+
+1.41 客户端去向日志提交
+/api/client/v1/logs/client_connection_logs
+
+1.64 提交节点http请求测速日志(认证)
+/api/client/v1/nodes/node_test_request_speed_logs
+
+1.68 提交节点下载测速日志(认证)
+/api/client/v1/nodes/node_test_download_speed_logs
+
+1.25 提交连接失败信息
+/api/client/v1/failed_logs/connection_failed
+
+1.26 提交登录失败信息
+/api/client/v1/failed_logs/signin_failed
+
+1.27 提交未操作信息
+/api/client/v1/failed_logs/no_operation
+
+1.35 提交动态服务器连接失败信息
+/api/client/v1/failed_logs/dynamic_server_failed
+
+
+data = PublicPracticalMethod.getInstance().toURLDecoded(data);
+
+
+data信息说明,data说明
+
+
+情况是这样的，我在2019年4月13号跟贪狼提的离职，现在快要到公司规定的一个月了，在此期间我按照要求把坚果vpn106版本功能做完了、交接文档也写完了，我想跟你问下，下面该怎么搞啊？
+
+
+µçÄÔÐÍºÅ  VMware Virtual Platform ÆäËû  (É¨ÃèÊ±¼ä£º2019Äê06ÔÂ14ÈÕ)
+²Ù×÷ÏµÍ³  Windows Server 2016 Datacenter 64Î» ( DirectX 12 )
+
+´¦ÀíÆ÷  Ó¢ÌØ¶û Xeon(ÖÁÇ¿) E5-2697 v4 @ 2.30GHz (X4)
+Ö÷°å  Ó¢ÌØ¶û 440BX Desktop Reference Platform ( Ó¢ÌØ¶û 82443BX/ZX 440BX/ZX (AGP Implemented) )
+ÄÚ´æ  8 GB ( DRAM )
+Ö÷Ó²ÅÌ  VMware Virtual disk SCSI Disk Device ( 64 GB )
+ÏÔ¿¨  VMWare VMware SVGA 3D ( VMWare )
+¹âÇý  NECVMWar VMware IDE CDR10 DVD¹âÇý
+Íø¿¨  VMWare VMXNET3 Ethernet Controller
+
+
+虚拟机配置需求
+1.内存8G以上
+2.硬盘空间250G以上
+因为会在跳板机上面调试代码
+
+
+git clone https://github.com/xqgithub/TemplateProgram.git "E:\work\ceshi\TemplateProgram"
+
+
+
+android:process=":DQAcceleratorRemote"
+
+
+
+所有客户端写死后台域名：（5个）
+
+https://dfadsgkbsf.com/
+https://dfadskbsf.com/
+https://dfadskbsfsf.com/
+https://dfagdsgkbsf.com/
+https://dfaomkbsf.com/
+
+——————————————————————————————————————
+所有客户端写死下载救援文件域名：（6个）
+
+https://dfasfahgr3h.com/rescueip.txt
+https://dfasfdasdasf.com/rescueip.txt
+https://fadskbsfsf.com/rescueip.txt
+https://fadsksffasf.com/rescueip.txt
+https://fadsksfsf.com/rescueip.txt
+https://hjdnhhsdgf.com/rescueip.txt
+
+———————————————————————————————————————
+
+    105原始域名
+    //正式服务器地址(坚果VPN)
+    public static String usebath = "https://dfrzrujw.com/";
+    public static String bath = "https://dfrzrujw.com/";
+    public static String bath1 = "https://fhhnrerg.com/";
+    public static String bath2 = "https://nurndtaa.com/";
+    public static String bath3 = "https://ufxdzlrc.com/";
+    public static String bath4 = "https://iieangyg.com/";
+    //正式服务器救援拉取地址（坚果VPN）
+    public static String pullrescuepath = "https://5upqm.com/rescueip.txt";//七牛
+    public static String pullrescuepath1 = "https://k47h80.com/rescueip.txt";//七牛
+    public static String pullrescuepath2 = "https://lh627k.com/rescueip.txt";//阿里云
+    public static String pullrescuepath3 = "https://www.okslosdl.com/rescueip.txt";
+    public static String pullrescuepath4 = "https://www.bsswqfl.com/rescueip.txt";
+
+
+
+
+https://dinos80152.wordpress.com/2015/09/21/%E4%BD%BF%E7%94%A8-git-mirror-%E7%84%A1%E7%97%9B%E8%BD%89%E7%A7%BB-git-server/  参考
+https://blog.csdn.net/Hello_World_QWP/article/details/80857341
+
+
+
+git config --global user.name "laoa"
+git config --global user.email "laoagitlab@gmail.com"
+ssh-keygen -t rsa -C "laoagitlab@gmail.com"
+SHA256:FeuRd4TZcPOaqhZqBVXuJjw7+TvRuer1/5qxSgNEBKg laoagitlab@gmail.com
+ssh-agent bash
+ssh-add C:/Users/Administrator/.ssh/id_rsa
+
+
+git remote remove origin
+git remote add origin git@192.168.121.100:laoa/svpn_client_android.git
+git push —mirror
+好，搞完后，退到这个目录外面去，然后 git clone git@192.168.121.100:laoa/svpn_client_android.git
+
+
+
+1  坚果VPN  moren  nuts  1.0.6  nuts.apk
+2  坚果VPN  bd1  nuts  1.0.6  bd01.apk
+3  坚果VPN  bd2  nuts  1.0.6  bd02.apk
+4  坚果VPN  sg1  nuts  1.0.6  sg01.apk
+5  坚果VPN  sm1  nuts  1.0.6  sm01.apk
+6  坚果VPN  sem3601  nuts  1.0.6  36001.apk
+7  坚果VPN  jg  nuts  1.0.6  speed.apk
+8  坚果VPN  fyflow  nuts  1.0.6  coop.apk
+9  坚果VPN  jzjad  nuts  1.0.6  coop02.apk
+10  坚果VPN  fensitong1  nuts  1.0.6  coop03.apk
+11  坚果VPN  bdsem1  nuts  1.0.6  age01.apk
+12  坚果VPN  bdsem2  nuts  1.0.6  age02.apk
+13  坚果VPN  bdsem3  nuts  1.0.6  age03.apk
+
+
+
+所有客户端写死后台域名：（5个）
+
+https://dfadsgkbsf.com/
+https://dfadskbsf.com/
+https://dfadskbsfsf.com/
+https://dfagdsgkbsf.com/
+https://dfaomkbsf.com/
+
+——————————————————————————————————————
+所有客户端写死下载救援文件域名：（5个）
+
+https://raw.githubusercontent.com/jasmine1024/re54gy/master/rescueip.txt
+https://gitlab.com/quan1024/97kj/raw/master/rescueip.txt
+https://bitbucket.org/nyhtg/huyh/raw/master/rescueip.txt
+https://dfasfahgr3h.com/rescueip.txt
+https://dfasfdasdasf.com/rescueip.txt
+
+———————————————————————————————————————
+
+
+
+git branch nuts_105_106_zh_20190625 nutsvpn_zn_v1.0.5_release_20190410
+
+
+6217995200255674209
+
+
+
+https://www.cnblogs.com/grub007/p/9922349.html
+https://blog.systemctl.top/2017/2017-09-28_set-proxy-for-git-and-ssh-with-socks5/
+https://blog.csdn.net/ujsDui/article/details/84105303
+在公司的局域网使用git或github 设置代理:https://www.chenyudong.com/archives/use-git-or-github-in-company-local-net.html
+
+
+
+git config --global user.name "laoa"
+git config --global user.email "laoagitlab@gmail.com"
+ssh-keygen -t rsa -C "laoagitlab@gmail.com"
+ssh-add C:/Users/Administrator/.ssh/id_rsa
+ssh -T git@gitlab.com
+
+
+Host git地址
+    HostName git地址
+    User git
+    Port 8722
+    IdentityFile ~/.ssh/id_rsa
+    ProxyCommand ncat --proxy  代理地址:端口 --proxy-type socks5 --proxy-auth 代理用户名:密码 %h %p
+
+
+git config --global user.name "laoa"
+git config --global user.email "laoagitlab@gmail.com"
+ssh-keygen -t rsa -C "laoagitlab@gmail.com"
+ssh-add C:/Users/Administrator/.ssh/id_rsa
+ssh -T git@gitlab.com
+
+git config --global http.proxy socks5://183.60.204.94:7231
+git config --global https.proxy socks5://183.60.204.94:7231
+git config --global http.proxy http://8.1.0.2:8780
+git config --global https.proxy https://8.1.0.2:8780
+
+git config --global --unset http.proxy
+git config --global --unset https.proxy
+
+git config --global user.name "laoa"
+git config --global user.email "laoagitlab@gmail.com"
+git init
+git remote add origin git@github.com:laoa/mushroom.git
+git add .
+git commit -m "Initial commit"
+git push -u origin master
+
+3vcAhfQq9
+
+
+cd E:/work/jumpaccelerator
+cd E:/work/SAccelerator
+
+
+Host 8.1.0.2
+    HostName 8.1.0.2
+    User git
+    Port 8722
+    IdentityFile "C:/Users/Administrator/.ssh/id_rsa"
+    TCPKeepAlive yes
+    IdentitiesOnly yes
+    ProxyCommand connect -S la@183.60.204.94:7231 %h %p
+
+ssh -T git@localhost:laoa/mushroom.git
+
+
+
+cd existing_repo
+git remote rename origin old-origin
+git remote add origin git@8.1.0.2:laoa/mushroom.git
+git push -u origin --all
+git push -u origin --tags
+
+
+git clone git@8.1.0.2:laoa/mushroom.git
+
+
+cd existing_folder
+git init
+git remote add origin git@8.1.0.2:laoa/mushroomwhite.git
+git add .
+git commit -m "Initial commit"
+git push -u origin master
+
+git clone git@8.1.0.2:laoa/mushroomwhite.git
+
+
+cd E:/work/svpn_client_android
+
+
+
+     华为荣耀9
+    ║ args[0] = 手机屏幕宽度(像素): 1080
+    ║ args[1] = 手机屏幕高度(像素): 1920
+    ║ args[2] = 手机屏幕密度: 3.0
+    ║ args[3] = 手机屏幕densityDpi: 480.0
+    ║ args[4] = 手机屏幕宽度(dp): 360
+    ║ args[5] = 手机屏幕高度(dp): 640
+
+     小米8
+    ║ args[0] = 手机屏幕宽度(像素): 1080
+    ║ args[1] = 手机屏幕高度(像素): 2118
+    ║ args[2] = 手机屏幕密度: 2.75
+    ║ args[3] = 手机屏幕densityDpi: 440.0
+    ║ args[4] = 手机屏幕宽度(dp): 392
+    ║ args[5] = 手机屏幕高度(dp): 770
+
+
+     模拟器
+    ║ args[0] = 手机屏幕宽度(像素): 768
+    ║ args[1] = 手机屏幕高度(像素): 1280
+    ║ args[2] = 手机屏幕密度: 2.0
+    ║ args[3] = 手机屏幕densityDpi: 320.0
+    ║ args[4] = 手机屏幕宽度(dp): 384
+    ║ args[5] = 手机屏幕高度(dp): 640
+
+
+
+com.nuts.extremspeedup
+com.mushroom.whitespeedup
+
+
+https://github.com/Liberuman/ShadowDrawable/blob/master/app/src/main/java/com/sxu/shadowdrawabledemo/MainActivity.java
+
+
+
+DIMM_A1 威刚 DDR4 2400MHz 8GB
+制造日期  2017 年 36 周
+型号  7F7F7F7FCB
+序列号 93340000
+
+
+
+overridePendingTransition(R.anim.activity_right_in, 0);
+overridePendingTransition(0, R.anim.activity_right_out);
+
+            PublicPracticalMethod.getInstance().switchActivity(
+                    SmartLineActivity.this, null, R.anim.activity_down_out, false);
+
+
+    @BindView(R.id.tv_modeselection_selected_bg)
+    ImageView tvModeselectionSelectedBg;//智能模式背景
+    @BindView(R.id.iv_intelligenticon)
+    ImageView ivIntelligenticon;//智能模式图标
+    @BindView(R.id.tv_intelligentmode)
+    TextView tvIntelligentmode;//智能模式文字
+    @BindView(R.id.tv_modeselection_selected_bg2)
+    ImageView tvModeselectionSelectedBg2;//全局模式背景
+    @BindView(R.id.iv_globalmode)
+    ImageView ivGlobalmode;//全局模式图标
+    @BindView(R.id.tv_globalmode)
+    TextView tvGlobalmode;//全局模式文字
+
+
+    SharePromotion_popupwindow_bg
+
+
+
+    buydiamond_tv_buyprice
+
+    buydiamond_package_unselected
+    buydiamond_package_selected_putong
+    buydiamond_package_selected_gaoji
+     buydiamond_item_bg
+
+https://blog.csdn.net/qq_37423198/article/details/80220522
+
+
+
+
+rsync: command not found
+
+cordova create OutlineAndroid org.outline
+
+
+
+
+
+
+git clone https://github.com/dawei101/shadowsocks-android-java.git
+
+
+
+192.168.121.45   8488   加密方式： aes-256-cfb   密码： hhxxttxs2
+ss://aes-256-cfb:hhxxttxs2@192.168.121.45:8488
+可以远程查看日志：（  ssh root@192.168.121.45  password: isec@@123） tail -f log.txt
+
+git clone https://github.com/LvWind/shadowsocks-android-java.git
+
+
+
+shadowsocks-android-java源码分析:https://www.twblogs.net/a/5b7f18372b717767c6adb9c6/zh-cn
+
+你也能写个 Shadowsocks：https://segmentfault.com/a/1190000011862912
+
+一篇文章看明白 TCP/IP，TCP，UDP，IP，Socket 之间的关系：https://blog.csdn.net/freekiteyu/article/details/72236734
+
+通俗编程——白话NIO之Selector：https://blog.csdn.net/dd864140130/article/details/50299687
+Java NIO系列教程（六） Selector：http://ifeve.com/selectors/
+
+Android Socket编程（udp）初探：https://www.jianshu.com/p/ccbc727fd8f4
+Android UDP Socket 网络通讯：https://www.twle.cn/l/yufei/android/android-basic-socket-udp.html
+Android之Socket的基于UDP传输：https://blog.csdn.net/tianxuhong/article/details/45337103
+在 Android 上，一个完整的 UDP 通信模块应该是怎样的？：https://www.jianshu.com/p/8a16122a85f3
+
+
+
+
+ssh root@47.75.230.221  isec..123..
+
+tail -f /var/log/shadowsocks/server.log
+
+
+   "server": "47.75.230.221",
+      "server_port": 8398,
+      "password": "1qaz@WSX",
+      "method": "aes-256-cfb",
+
+
+
+      /*******配置Multidex*******/
+
+
+Android中的ABI：https://www.jianshu.com/p/170f65439844
+
+
+本周详细工作安排：
+周一：各端确定自己的接口连接实现方案
+周二：测试登录接口，进行调通
+周三：调通更换密码接口
+周四：调通启动请求连接接口
+周五：启动连通服务器
+周六：调通切换线路接口，以及整体接口集成
+根据每日的任务各端把握好进度，根据自身情况更新禅道，有问题时及时提出进行讨论
+
+
+(^|\.)youtube\.
+
+
+
+git config --global user.name "laoa"
+git config --global user.email "laoagitlab@gmail.com"
+git init
+git remote add origin git@192.168.121.48:/home/git/repositories/route_android.git
+git add .
+git commit -m "RouteAndroid项目创建"
+git push -u origin master
+
+
+
+http://120.79.96.245:8002/api/client/v4/signin?app_version_number=1.0&device_model=MI8UD&app_version=jichu&device_uuid=f8f824ee-4ba1-3db8-8bdb-0e13a83ddc94&platform=android&operator=%E6%9C%AA%E7%9F%A5&app_channel=moren&device_name=MI8UD&password=888888&system_version=8.1.0&sdid=c1a8561543eae36747f2036afe952c69&net_env=wifi&apiid=27&username=zys01021 (159ms)
+
+sdid:c1a8561543eae36747f2036afe952c69
+apiid:27
+
+
+
+https://github.com/search?l=Java&p=3&q=jni-helper&type=Code
+https://blog.terrychan.me/2017/thoughts-on-shadowsocks-dns
+https://github.com/1170762202/ShadowsocksDemo
+
+
+https://raw.githubusercontent.com/hq450/fancyss/master/rules/gfwlist.conf
+
+
+
+
+╔═══════════════════════════════════════════════════════════════════════════════════════════════════
+2019-09-05 09:14:23.110 15562-15605/com.xroute.android I/RetrofitServiceManager: ║ Thread: RxIoScheduler-5, logConversionPrint(RetrofitServiceManager.java:196)
+    ║ {
+    ║     "success": true,
+    ║     "message": null,
+    ║     "data": {
+    ║         "updated_at": 1567617840,
+    ║         "is_domestic": true,
+    ║         "china_ip_update_at": 1567589062,
+    ║         "china_ip_list": "routes\/china_ip_list.txt",
+    ║         "android_all": "routes\/android_all.acl",
+    ║         "android_gfwlist": "routes\/android_gfwlist.acl",
+    ║         "pc_add_route": "routes\/add_route.txt",
+    ║         "pc_del_route": "routes\/del_route.txt"
+    ║     }
+    ║ }
+2019-09-05 09:14:23.110 15562-15605/com.xroute.android I/RetrofitServiceManager: ╚═══════════════════════════════════════════════════════════════════════════════════════════════════
+
+
+
+         http://120.79.96.245:8003/routes/android_all.acl
+         http://120.79.96.245:8003/routes/android_gfwlist.acl
+         http://120.79.96.245:8003/routes/china_ip_list.txt
+
+         https://lb1.xr110.net:21000/routes/android_all.acl
+         https://lb1.xr110.net:21000/routes/android_gfwlist.acl
+         https://lb1.xr110.net:21000/routes/china_ip_list.txt
+         https://lb1.xr110.net:21000/routes/node_routes.txt
+
+47.107.251.203/8
+47.112.119.85/8
+47.112.116.234/8
+47.107.253.25/8
+47.112.143.150/8
+
+47.112.127.18/24
+47.112.143.167/24
+47.107.251.203/24
+47.112.119.85/24
+47.112.116.234/24
+47.107.253.25/24
+47.112.143.150/24
+
+
+
+
+Process proc = Runtime.getRuntime().exec("su -s sh  -c /data/initcommand.sh");
+chmod 777
+
+
+
+chnroutes：
+https://github.com/fivesheep/chnroutes
+https://github.com/sabersalv/freedom-routes
+https://blog.csdn.net/sowhat_Ah/article/details/43228621
+https://www.cnblogs.com/cxchanpin/p/6783407.html
+
+
+
+https://blog.csdn.net/qq_26841579/article/details/70186685
+
+
+https://blog.csdn.net/qq_30878303/article/details/79536921
+
+                                                new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    SocketClient.getSingle().getTCPConnect(
+                                            "10.0.2.2", 5555, "这是我要发的数据haha", new SocketClient.CallBackSocketTCP() {
+                                                @Override
+                                                public void Receive(String info) {
+                                                    if (!StringUtils.isBlank(info)) {
+                                                        LogUtils.i("SocketClient:info =-=" + info);
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void isConnect(boolean state) {
+                                                    LogUtils.i("SocketClient:state =-=" + state);
+                                                }
+                                            });
+                                }
+                            }).start();
+
+
+
+
+1. chnroutes：https://github.com/fivesheep/chnroutes
+2. freedom-routes：https://github.com/sabersalv/freedom-routes
+3. Android程序中如何执行shell脚本：https://blog.csdn.net/sowhat_Ah/article/details/43228621
+
+
+2019-09-07 13:34:21.171 4410-4496/? I/overture: time="2019-09-07T05:34:21Z" level=warning msg="Dial DNS upstream with SOCKS5 proxy failed: dial tcp 127.0.0.1:1080: socket: too many open files"
+2019-09-07 13:34:21.171 4410-4496/? I/overture: time="2019-09-07T05:34:21Z" level=warning msg="Dial DNS upstream with SOCKS5 proxy failed: dial tcp 127.0.0.1:1080: socket: too many open files"
+2019-09-07 13:34:21.171 4410-4496/? I/overture: time="2019-09-07T05:34:21Z" level=warning msg="Dial DNS upstream failed: dial udp 119.29.29.29:53: socket: too many open files"
+2019-09-07 13:34:21.171 4410-4410/? I/overture: time="2019-09-07T05:34:21Z" level=warning msg="Dial DNS upstream failed: dial udp 114.114.114.114:53: socket: too many open files"
+
+
+
+https://juejin.im/post/5cc5a98fe51d456e3f2fb796
+
+
+librarybase
+libraryshadowsocks
+
+
+ https://sv.bipengcheng.com:21000/
+https://lb1.xr110.net:21000/
+
+
+intelligent，dedicatedline
+
+Global
+
+
+trao的学习
+
+
+https://nervjs.github.io/taro/docs/GETTING-STARTED.html
+
+
+trao的研究和学习
+
+预期计划：
+
+1.学习trao是做什么的
+
+2.研究搭建trao的编译环境
+
+3.编译一个简单的trao例子
+
+4.尝试通过trao代码实现调用原生Android代码
+
+
+
+在学习的过程，如果遇到问题，会将问题记录下来，最后给一个反馈结果
+
+
+
+
+https://cloud.tencent.com/developer/article/1368941
+
+
+
+Trao中文网：https://nervjs.github.io/taro/docs/README.html
+ReactNative中文网：https://reactnative.cn/docs/getting-started/
+
+react-native bundle --platform android --dev false --entry-file index.android.js --bundle-output app/src/main/assets/index.android.bundle --assets-dest app/src/main/res/
+       （1）--platform：平台
+
+       （2） --dev：开发模式
+
+       （3） --entry-file：条目文件
+
+       （4）--bundle-output：bundle文件生成的目录
+
+       （5）--assets-dest：资源文件生成的目录
+
+
+当前rn版本信息：npm info react-native
+rn的一些模块文件：npm install --save react react-native
+安装React Native指定版本，命令如：npm install --save react-native@0.55.4
+删除node_modules：rm -rf node_modules
+
+
+
+sd_102_20190929_A
+xr_200_20190929_A
+
+
+
+TestBottomLayoutOne
+TestBottomLayoutTwo
+TestBottomLayoutThree
+
+
+
+        Intent intent = new Intent(mActivity, BuyDiamondActivity2.class);
+        intent.putExtra("tab_id", tab_id);
+        intent.putExtra("isshowpromptdialog", 1);//这个isshowpromptdialog表示要弹出提示框
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+
+
+
+        The specified child already has a parent. You must call removeView() on the child's parent first.
+
+
+        ButterKnife使用及Library填坑记：https://www.jianshu.com/p/71205553e569
+        Android Studio 3.2+ Butterknife R2 爆红，但不影响编译运行：https://blog.csdn.net/qq_35070105/article/details/89517052
+
+
+
+        ChangePassword
+        Registered
+
+
+
+       apktool d -f E:\work\testdecompile\decompile\apktool\test.apk -o E:\work\testdecompile\decompile\apktool\test
+       dex2jar.bat   classes.dex
+
+       https://blog.csdn.net/yuzhiqiang_1993/article/details/80674808
+       https://blog.csdn.net/yuzhiqiang_1993/article/details/80676170
+       https://juejin.im/post/5cd3c41d51882540e8620264
+       https://toutiao.io/posts/rdnbwg/preview
+       https://blog.csdn.net/xiangyuan0211/article/details/79375198
+
+
+
+       LogUtils.i("onFailure", message, error_code, requestCode, options_map);
+
+
+
+       http://blog.itpub.net/31562043/viewspace-2284074/
+       https://blog.csdn.net/jiangwei0910410003/article/details/48415225
+       http://www.androidchina.net/8415.html
+       https://herbwen.com/index.php/archives/61/
+       https://juejin.im/post/5cf3ee295188256aa76bb1e1
+       https://github.com/yangkun19921001/DexEncryptionDecryption
+       https://www.jianshu.com/p/e836428d61b9
+
+
+       安卓签名工具SignApk.jar使用教程:http://www.top139.com/diy/25.html
+
+
+       git clone https://github.com/yangkun19921001/DexEncryptionDecryption.git
+
+       dx --dex --output out.dex in.jar
+
+
+
+       APK 加固之 Dex 加解密，反编译都看不到项目主要代码：https://juejin.im/post/5cf3ee295188256aa76bb1e1，https://github.com/yangkun19921001/DexEncryptionDecryption（demo好像有点问题），
+       https://github.com/cnlisn/DexEncryptionDecryption（这个demo是可以运行的），注意运行cmd命令的需要修改路径
+       Android apk加固实现原理：https://www.jianshu.com/p/e836428d61b9
+
+
+https://pre.xr110.net:21000
+
+
+       Flutter 完整开发实战详解系列：https://wizardforcel.gitbooks.io/gsyflutterbook/content/Flutter-1.html
+       Flutter简介和练习参考：https://book.flutterchina.club/chapter1/
+       Flutter-Example：https://github.com/zh8637688/Flutter-Example
+       Flutter中文网：https://flutterchina.club/get-started/install/
+       Flutter SDK API :https://api.flutter.dev
+       Dart SDK API: https://api.dartlang.org/stable/2.5.2/index.html
+       把异常报错信息通过服务上传：https://flutter.cn/docs/cookbook/maintenance/error-reporting，https://github.com/flutter/crashy/blob/master/lib/main.dart
+
+
+adb shell ps tencent
+
+
+
+--flavor=route_anroid_01
+route_anroid_01
+
+
+
+所有的log 全部存在文件中
+
+.setLogSwitch(AppUtils.isAppDebug(this))//设置log总开关，默认开
+
+
+
+WidgetManageStatus
+
+
+
+服务器日志保存地址： http://120.79.96.245:8008/
+
+
+
+iOS/Android公有：
+1.新增独占模块                                                                              $$$$$$$
+2.新增专线开启提示                                                                      还没有完成
+3.专线切换逻辑修改，返回首页自动断开重连                          $$$$$$$
+3.新增独占系统推送                                                                      $$$$$$$
+4.被挤掉线重走登录界面                                                              $$$$$$$
+5.账号匹配，账号密码联动删除（账号修改，密码栏清空）  $$$$$$$
+6.新增启动页无网或域名轮询失败进入的空白页                      $$$$$$$
+7.修改密码长度限制（6-16位）                                                  $$$$$$$
+8.无网状态，点击连接按钮时添加提示                                      $$$$$$$
+9.公用专线ui图标优化（予以颜色状态区分线路情况）            还没有完成
+10.删除当前已登录账号信息，直接退出登录页并清空            $$$$$$$
+
+Android：
+11.网络监听（断网自动断开连接、网络恢复重连）                 $$$$$$$
+
+
+
+
+        ApiService apiService = RetrofitServiceManager.getInstance().getApiService();
+        apiService.Commons(token)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber2<ApiResponse<CommonsResponse>>(activity,
+                        false, false) {
+                    @Override
+                    public void onSuccess(ApiResponse<CommonsResponse> commonsResponseApiResponse) {
+                        LogUtils.i("onSuccess =-=  Commons");
+                    }
+
+                    @Override
+                    public void onFailure(String message, int error_code) {
+                        LogUtils.i("onFailure =-= " + message + " | " + error_code);
+                    }
+                });
+
+
+-s <server_host>           Host name or IP address of your remote server.
+
+   -p <server_port>           Port number of your remote server.
+
+   -l <local_port>            Port number of your local server.
+
+   -k <password>              Password of your remote server.
+
+   [-t <timeout>]             Socket timeout in seconds.
+
+   [-u]                       Enable UDP relay.
+                              (TPROXY is required in redir mode)
+
+   [-d <addr>]                Name servers for internal DNS resolver.
+                              (only available in local and server mode)
+
+   [--acl <acl_file>]         Path to ACL (Access Control List).
+                              (only available in local and server mode)
+
+   [-v]                       Verbose mode.
+
+   [-X <...>]                 local mode used -X string to set the isec auth ID and token.
+                              server mode used -X set turn on isec auth mode.
+
+   [-G]                       Outside of the GWF mode.
+                              (only available in local mode)
+
+   [-g]                       in the GWF mode.
+                              (only available in local mode)
+
+
+
+
+
+
+                              //定义对客户端的命令字符串
+const (
+  CMD_AuthFailed      = "xroute_handshake_failed"          //当ss 与客户端 基于 token认证失败时 返回
+  CMD_HandshakeFail     = "xroute_tls_handshake_failed"      //当 https 请求，握手失败 指令
+  CMD_UserLevelMatchFail  = "xroute_level_not_match_server"    //当用户等级与 ss 服务器不匹配
+)
+xroute_level_not_match_server ：当客户端收到该指令，断开vpn ，重新从后台请求新的ss 服务器，重联即可 。
+
+ss 服务端新增一条指令 ：xroute_user_service_expired
+指 “服务到期，自动续费被关闭”
+客户端请对接一下，
+
+
+
+1.token认证失败：“账号异常，请重新登录”弹窗提示
+2.未安装证书：断开提示“连接中断，请重新连接”（重连时弹窗引导安装证书）
+3.用户级别变更：断开连接提示“连接中断，请重新连接”
+
+
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_guidepages"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+
+
+ 自带机油和机油滤芯：美孚5w-30 1QTx4=204.68  机油滤芯 19.90  保养安装费用50     总计：274.58
+
+
+
+ https://www.jianshu.com/p/cb96d62f5042    Flutter Platform channel详解
+ https://www.jianshu.com/p/551aac3eef8c     Flutter Native 方法调用
+
+
+
+ http://www.kudm.net/fuhuodeluluxiu/
+
+
+FileAndNetworkProcess
+
+json_model：https://github.com/flutterchina/json_model/blob/master/README-ZH.md#%E5%AE%89%E8%A3%85
+
+assets:     D41D8CD98F00B204E9800998ECF8427E
+CA文件：D41D8CD98F00B204E9800998ECF8427E
+
+
+
+
+
+
+
+ca_crt = "https://pre.xr110.net:20013/aclconf/server.crt"
+ca_crt_md5 = "4d2ddf99df5fd9f48f5e3c54bbb6097f"
+ca_der = "https://pre.xr110.net:20013/aclconf/servers.der"
+ca_der_md5 = "77ee08a35ebfdaa11dbab35f725a59b0"
+ca_pem = "https://pre.xr110.net:20013/aclconf/server.pem"
+ca_pem_md5 = "4ddc04bb4ab4832dd1cc7a2771cf49e0"
+
+
+
+D41D8CD98F00B204E9800998ECF8427E
+
+
+47.112.100.246
+
+flutter channel stable
+flutter upgrade
+
+Minimum supported Gradle version is 5.4.1. Current version is 4.10.2.
+
+
+https://github.com/xqgithub/TestKotlin.git
+
+
+                                                   com.xroute.android
+Android System WebView	com.google.android.webview
+youtube客户端                          com.google.android.youtube
+Chrome	                          com.android.chrome
+
+
+
+
+Flutter的生命周期(交互)：https://juejin.im/post/5c872a366fb9a049cd5508fa
+
+
+
+
+
+            sc.init(null, arrayOf<TrustManager>(object : X509TrustManager() {
+
+                val acceptedIssuers: Array<java.security.cert.X509Certificate>?
+                    get() = null
+
+                @Throws(java.security.cert.CertificateException::class)
+                fun checkClientTrusted(chain: Array<java.security.cert.X509Certificate>, authType: String) {
+
+                }
+
+                @Throws(java.security.cert.CertificateException::class)
+                fun checkServerTrusted(chain: Array<java.security.cert.X509Certificate>, authType: String) {
+
+                }
+            }), SecureRandom())
+
+
+
+
+https://demo.talk-cloud.net:443/ClientAPI/getupdateinfo
+
+
+
+
+0 = {HashMap$HashMapEntry@11135} "password" -> "1"
+1 = {HashMap$HashMapEntry@11136} "host" -> "demo.talk-cloud.net"
+2 = {HashMap$HashMapEntry@11137} "clientType" -> "2"
+3 = {HashMap$HashMapEntry@11138} "userrole" -> "0"
+4 = {HashMap$HashMapEntry@11139} "nickname" -> "老师测试"
+5 = {HashMap$HashMapEntry@11140} "port" -> "443"
+6 = {HashMap$HashMapEntry@11141} "serial" -> "415501100"
+
+
+
+
+    /** stetho 调试工具 **/
+    api 'com.facebook.stetho:stetho:1.4.1'
+    api 'com.facebook.stetho:stetho-okhttp3:1.4.1'
+
+
+            //初始化Stetho出正式包的时候，建议屏蔽掉
+        Stetho.initializeWithDefaults(this);
+
+
+
+0 = {HashMap$HashMapEntry@11782} "password" -> "3"
+1 = {HashMap$HashMapEntry@11783} "host" -> "testing.talk-cloud.net"
+2 = {HashMap$HashMapEntry@11784} "clientType" -> "2"
+3 = {HashMap$HashMapEntry@11785} "userrole" -> "4"
+4 = {HashMap$HashMapEntry@11786} "nickname" -> "巡课1"
+5 = {HashMap$HashMapEntry@11787} "port" -> "443"
+6 = {HashMap$HashMapEntry@11788} "serial" -> "860449473"
+
+
+printHeight=198.0
+printWidth=265.0
+nameLabelHeight=49.0
+
+
+fullscreen_video_param.width=265.0
+fullscreen_video_param.height=214.0
+fullscreen_video_param.rightMargin=24
+fullscreen_video_param.rightMargin=24
+
+
+
+
+
+
+
+申请设备：
+Android需要：
+手机：
+小米10青春版 5G(8G+128G 1部)
+荣耀Play4T Pro(8G+128G 1部)
+平板：
+华为平板M6 (6G+128G 1部)
+HUAWEI MatePad Pro 5G(8G+256G 1部)
+IOS需要
+手机：
+iphone x(64G 1部)
+平板：
+ipad air3(32G 1部)
+
+
+
+    <!-- module -->
+    <instantiate from="root/src/app_package/ProductFlavorsModule.${ktOrJavaExt}.ftl"
+                   to="${escapeXmlAttribute(srcOut)}/di/modules/${subordinate}Module.${ktOrJavaExt}" />
+    <!-- componet -->
+    <instantiate from="root/src/app_package/ProductFlavorsComponet.${ktOrJavaExt}.ftl"
+                   to="${escapeXmlAttribute(srcOut)}/di/componets/${subordinate}Componet.${ktOrJavaExt}" />
+                       <!-- Scope -->
+    <instantiate from="root/src/app_package/ProductFlavorsActivityScope.${ktOrJavaExt}.ftl"
+                   to="${escapeXmlAttribute(srcOut)}/di/scopes/${activityClass}Scope.${ktOrJavaExt}" />
+                       <!-- presenter -->
+    <instantiate from="root/src/app_package/ProductFlavorsPresenter.${ktOrJavaExt}.ftl"
+                   to="${escapeXmlAttribute(srcOut)}/mvp/presenters/${subordinate}Presenter.${ktOrJavaExt}" />
+                       <!-- view -->
+    <instantiate from="root/src/app_package/ProductFlavorsView.${ktOrJavaExt}.ftl"
+                   to="${escapeXmlAttribute(srcOut)}/mvp/views/${Presenter}View.${ktOrJavaExt}" />
+
+
+
+
+
+  TXLivePushConfig
+  setTouchFocus 设置是否开启手动对焦
+
+
+
+
+  牧绅一Ryan（灌篮高手）:
+17324477797
+
+牧绅一Ryan（灌篮高手）:
+yzy19871213
+
+牧绅一Ryan（灌篮高手）:
+Yzy19871213
+
+牧绅一Ryan（灌篮高手）:
+yzy871213
+
+牧绅一Ryan（灌篮高手）:
+Yzy871213
+
+
+
+1、上课后，学生默认没有可画权限，全体翻页和全体禁翻页去掉，所有翻页得配置项不生效。
+2、上课前，学生默认可画权限不同步，翻页权限不同步。
+*3、以老师身份创建15分钟虚拟教室
+4、白板画笔轨迹实时共享
+* 5、点击工具栏鼠标样式更改对应的icon
+* 6、动态PPT和H5课件关闭翻页配置项
+* 7、键盘翻页禁用
+
+*号的不用处理.
+
+
+onRemotePubMsg
+
+onRoomJoin,onUserJoined
+
+speak_rl_zhanwei
+
+onUserLeft
+
+didReceivedNotification
+
+
+do1vsnStudentVideoLayout
+
+RoomSession.isClassBegin
+
+
+initViewByRoomTypeAndTeacher
+
+
+
+onRemotePubMsg收到信令，pubMsg发送信令，delMsg删除信令
+
+getLayoutParams
+
+
+isAutoHasDraw 是否有画笔权限
+
+
+修改某个用户的一个属性(changeUserProperty)
+TKRoomManager.getInstance().changeUserProperty(TKRoomManager.getInstance().getMySelf().peerId,"__all", "candraw", true);
+那么这个方法就是告诉所有的人 画笔功能开启吗？
+
+
+
+    args[0] = 手机屏幕宽度(像素): 1920
+    args[1] = 手机屏幕高度(像素): 1080
+    args[2] = 手机屏幕密度: 3.0
+    args[3] = 手机屏幕densityDpi: 480.0
+    args[4] = 手机屏幕宽度(dp): 640
+    args[5] = 手机屏幕高度(dp): 360
+    args[6] = 手机cpu_abi: arm64-v8a
+
+CheckBkImageSize
+
+
+
+LogUtils.i(ConfigConstants.TAG_ALL,
+        "ptStart.x =-=" + ptStart.x, "ptStart.y =-=" + ptStart.y,
+        "ptstop.x =-= " + ptstop.x, "ptstop.y =-= " + ptstop.y);
+
+
+RoomControler.chairmanControl
+
+cb_file_person_media_list
+CourseDialog
+
+id == R.id.page_iv_right
+
+
+
+https://demo.talk-cloud.net:443/ClientAPI/getroomfile?serial=1897430887
+https://demo.talk-cloud.net:443/ClientAPI/getroomfile?serial=982052546
+
+
+
+https://hwdemocdn.talk-cloud.net/cospath/100361_20210201_155926_ouhtjmgz-3.jpg
+
+https://hwdemocdn.talk-cloud.net/cospath/100361_20210222_112839_drnmvssf-1.jpg
+
+
+
+https://testing.talk-cloud.net/ClientAPI/userId =1613983073966 roomId= 1262723967 userRole= 1
+
+
+ClientAPI/uploaddocument
+
+
+strserial=982052546
+peerid=0ee3105f-5baf-400d-94e0-fda8c109bb3d
+
+
+filetype=jpg&isconversiondone=0&userid=0ee3105f-5baf-400d-94e0-fda8c109bb3d&uploadthirduserid=0ee3105f-5baf-400d-94e0-fda8c109bb3d&fileoldname=magazine-unlock-05-2.3.3202-D8DF458317C0934BD3CAE1491B9C3084.jpg&filename=/storage/emulated/0/Android/data/com.talkcloud.plus/cache/magazine-unlock-05-2.3.3202-D8DF458317C0934BD3CAE1491B9C3084.jpg&filenewname=20210223_115003_h30x580x.JPG&serial=982052546&sender=老师&writedb=1&alluser=1&conversion=1&filedata=FILE
+
+
+https://hwdemocdn.talk-cloud.net/cospath/100361_20210201_155926_ouhtjmgz-3.jpg
+https://hwdemocdn.talk-cloud.net/cospath/100361_20210223_144025_rrkydtbj.jpg
+
+
+
+
+
+java.lang.RuntimeException: Canvas: trying to use a recycled bitmap android.graphics.Bitmap@903f2ad
+
+
+
+{"result":0,"downloadpath":"\/cospath\/100361_20210225_135332_ryvzvtbm.jpg","swfpath":"\/cospath\/100361_20210225_135332_ryvzvtbm.jpg","pagenum":1,"fileid":100168,"size":331368,"status":1,"filename":"20210225_135331_fc5e1zg0.jpg","dynamicppt":0,"fileprop":0,"isAsynchrony":0,"notshownow":0,"cospath":"https:\/\/hwdemocdn.talk-cloud.net","realUrl":"","isContentDocument":0,"tailor":"x-image-process=style\/style-920a"}
+
+
+tk_operate_back_default
+tk_operate_revoke_default
+tk_operate_clearscreen
+
+
+
+
+42["delMsg",{"name":"SharpsChange","id":"ab0d72ac-67e1-5c3d-ecbb-00f498da83b3###_SharpsChange_0_1","toID":"__allExceptAuditor","data":"{\"eventType\":\"undoEvent\",\"actionName\":\"AddShapeAction\",\"shapeId\":\"ab0d72ac-67e1-5c3d-ecbb-00f498da83b3\",\"whiteboardID\":\"default\"}"},null]
+
+
+catchTlPenList_Temp
+map_canvas_tl_padaction_temporary
+
+
+
+
+2021-03-02 18:22:00.250 17191-17191/com.example.myapplication W/art: Before Android 4.1, method android.graphics.PorterDuffColorFilter android.support.graphics.drawable.VectorDrawableCompat.updateTintFilter(android.graphics.PorterDuffColorFilter, android.content.res.ColorStateList, android.graphics.PorterDuff$Mode) would have incorrectly overridden the package-private method in android.graphics.drawable.Drawable
+2021-03-02 18:22:00.279 17191-17191/com.example.myapplication W/System.err: android.content.res.Resources$NotFoundException: File r/d/au.gif from drawable resource ID #0x7f06006d
+2021-03-02 18:22:00.279 17191-17191/com.example.myapplication W/System.err:     at android.content.res.ResourcesImpl.openRawResourceFd(ResourcesImpl.java:291)
+2021-03-02 18:22:00.279 17191-17191/com.example.myapplication W/System.err:     at android.content.res.Resources.openRawResourceFd(Resources.java:1267)
+2021-03-02 18:22:00.279 17191-17191/com.example.myapplication W/System.err:     at pl.droidsonroids.gif.GifDrawable.<init>(GifDrawable.java:93)
+2021-03-02 18:22:00.279 17191-17191/com.example.myapplication W/System.err:     at com.example.screenrecordlibrary.ui.activities.MainActivity.initMp3PlayerView(MainActivity.java:1992)
+2021-03-02 18:22:00.279 17191-17191/com.example.myapplication W/System.err:     at com.example.screenrecordlibrary.ui.activities.MainActivity.onCreate(MainActivity.java:240)
+2021-03-02 18:22:00.279 17191-17191/com.example.myapplication W/System.err:     at android.app.Activity.performCreate(Activity.java:6739)
+2021-03-02 18:22:00.279 17191-17191/com.example.myapplication W/System.err:     at android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1118)
+2021-03-02 18:22:00.279 17191-17191/com.example.myapplication W/System.err:     at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2619)
+2021-03-02 18:22:00.279 17191-17191/com.example.myapplication W/System.err:     at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2727)
+2021-03-02 18:22:00.279 17191-17191/com.example.myapplication W/System.err:     at android.app.ActivityThread.-wrap12(ActivityThread.java)
+2021-03-02 18:22:00.279 17191-17191/com.example.myapplication W/System.err:     at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1478)
+2021-03-02 18:22:00.279 17191-17191/com.example.myapplication W/System.err:     at android.os.Handler.dispatchMessage(Handler.java:102)
+2021-03-02 18:22:00.279 17191-17191/com.example.myapplication W/System.err:     at android.os.Looper.loop(Looper.java:154)
+2021-03-02 18:22:00.279 17191-17191/com.example.myapplication W/System.err:     at android.app.ActivityThread.main(ActivityThread.java:6121)
+2021-03-02 18:22:00.279 17191-17191/com.example.myapplication W/System.err:     at java.lang.reflect.Method.invoke(Native Method)
+2021-03-02 18:22:00.280 17191-17191/com.example.myapplication W/System.err:     at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:889)
+2021-03-02 18:22:00.280 17191-17191/com.example.myapplication W/System.err:     at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:779)
+2021-03-02 18:22:00.280 17191-17191/com.example.myapplication W/System.err: Caused by: java.io.FileNotFoundException: This file can not be opened as a file descriptor; it is probably compressed
+2021-03-02 18:22:00.280 17191-17191/com.example.myapplication W/System.err:     at android.content.res.AssetManager.openNonAssetFdNative(Native Method)
+2021-03-02 18:22:00.280 17191-17191/com.example.myapplication W/System.err:     at android.content.res.AssetManager.openNonAssetFd(AssetManager.java:460)
+2021-03-02 18:22:00.280 17191-17191/com.example.myapplication W/System.err:     at android.content.res.ResourcesImpl.openRawResourceFd(ResourcesImpl.java:289)
+2021-03-02 18:22:00.280 17191-17191/com.example.myapplication W/System.err:     ... 16 more
+
+
+
+    args[0] = 手机屏幕宽度(像素): 1920
+    args[1] = 手机屏幕高度(像素): 1080
+    args[2] = 手机屏幕密度: 2.25
+    args[3] = 手机屏幕densityDpi: 360.0
+    args[4] = 手机屏幕宽度(dp): 853
+    args[5] = 手机屏幕高度(dp): 480
+    args[6] = 手机cpu_abi: x86
+
+
+    args[0] = 手机屏幕宽度(像素): 1920
+    args[1] = 手机屏幕高度(像素): 1104
+    args[2] = 手机屏幕密度: 2.0
+    args[3] = 手机屏幕densityDpi: 320.0
+    args[4] = 手机屏幕宽度(dp): 960
+    args[5] = 手机屏幕高度(dp): 552
+    args[6] = 手机cpu_abi: arm64-v8a
+
+
+
+
+
+
+
+{"backup_doc_host":"demo.talk-cloud.net","backup_doc_protocol":"http","backup_doc_port":80,"doc_protocol":"http","doc_host":"hwdemocdn.talk-cloud.net","doc_port":80,"web_protocol":"http","web_host":"democn.talk-cloud.net","web_port":80,"backup_doc_host_list":[]}
+
+
+ShareDoc{isContentDocument=0, pdfpath='', filepath='', animation=0, status=1, downloadpath='/cospath/100361_20210303_165927_egjovaiq', pagenum=0, uploadusername='yh', uploadthirduserid='', newfilename='', uploaduserid=105904, swfpath='/cospath/100361_20210303_165927_egjovaiq', fileid=100263, isconvert=0, size=31535011, companyid=100361, fileserverid=0, uploadtime='', active=0, filename='动态PPT备注 3.pptx', filetype='pptx', currentPage=1, isMedia=false, currentTime=NaN, pptslide=1, pptstep=0, steptotal=0, fileprop=2, isGeneralFile=false, isDynamicPPT=true, isH5Docment=false, baseurl='null', filesetup=0, filecategory=1, cospdfpath='', preloadingzip='', isBlank=false, type=0}
+
+{"sourceInstanceId":"default", "isGeneralFile":false, "isMedia":false, "isDynamicPPT":true, "isH5Document":false, "action":"null", "mediaType":"null", "filedata":{"currpage":1, "pptslide":1, "pptstep":0, "steptotal":0, "fileid":"100263", "pagenum":0, "filename":"动态PPT备注 3.pptx", "filetype":"pptx", "isContentDocument":0, "swfpath":"/cospath/100361_20210303_165927_egjovaiq", "cospdfpath":""}}
+
+
+{"downloadpath":"\/cospath\/100361_20210303_165927_egjovaiq","isGeneralFile":false,"isMedia":false,"isDynamicPPT":true,"isH5Document":false,"action":"show","mediaType":"","filedata":{"fileid":100263,"currpage":1,"pagenum":0,"filecategory":1,"filetype":"pptx","filename":"动态PPT备注 3.pptx","swfpath":"\/cospath\/100361_20210303_165927_egjovaiq","pptslide":1,"pptstep":0,"isContentDocument":0,"steptotal":0}}
+
+
+{"data":"{\"downloadpath\":\"\\\/cospath\\\/100361_20210303_165927_egjovaiq\",\"isGeneralFile\":false,\"isMedia\":false,\"isDynamicPPT\":true,\"isH5Document\":false,\"action\":\"show\",\"mediaType\":\"\",\"filedata\":{\"fileid\":100263,\"currpage\":1,\"pagenum\":0,\"filecategory\":1,\"filetype\":\"pptx\",\"filename\":\"动态PPT备注 3.pptx\",\"swfpath\":\"\\\/cospath\\\/100361_20210303_165927_egjovaiq\",\"pptslide\":1,\"pptstep\":0,\"isContentDocument\":0,\"steptotal\":0}}","name":"ShowPage","id":"DocumentFilePage_ShowPage"}
+
+
+https://hwdemocdn.talk-cloud.net:443/ClientAPI/addcoursewareinfo
+
+
+serial=982052546&detail=eyJub3RpY2UiOiJsb2FkU3VjY2VzcyIsImRhdGEiOnsiZmlsZWlkIjoxMDAyNjMsImN1cnJwYWdl
+IjoxLCJwYWdlbnVtIjo0LCJmaWxldHlwZSI6InBwdHgiLCJmaWxlbmFtZSI6IuWKqOaAgVBQVOWk
+h+azqCAzLnBwdHgiLCJzd2ZwYXRoIjoiXC9jb3NwYXRoXC8xMDAzNjFfMjAyMTAzMDNfMTY1OTI3
+X2Vnam92YWlxIiwicHB0c2xpZGUiOjEsInBwdHN0ZXAiOjAsInN0ZXB0b3RhbCI6MSwiZmlsZWNh
+dGVnb3J5IjoxLCJpc0NvbnRlbnREb2N1bWVudCI6MCwic3VjY2VzcyI6dHJ1ZSwicmVsb2FkTnVt
+YmVyIjowfX0=
+&userid=9a983903-7361-4a26-8e32-e0c4658ee1b6&ts=1615170446
+
+
+serial=982052546&detail=eyJub3RpY2UiOiJsb2FkU3VjY2VzcyIsImRhdGEiOnsiZmlsZWlkIjoxMDAyNjMsImN1cnJwYWdl
+IjoxLCJwYWdlbnVtIjo0LCJmaWxldHlwZSI6InBwdHgiLCJmaWxlbmFtZSI6IuWKqOaAgVBQVOWk
+h+azqCAzLnBwdHgiLCJzd2ZwYXRoIjoiXC9jb3NwYXRoXC8xMDAzNjFfMjAyMTAzMDNfMTY1OTI3
+X2Vnam92YWlxIiwicHB0c2xpZGUiOjEsInBwdHN0ZXAiOjAsInN0ZXB0b3RhbCI6MSwiZmlsZWNh
+dGVnb3J5IjoxLCJpc0NvbnRlbnREb2N1bWVudCI6MCwic3VjY2VzcyI6dHJ1ZSwicmVsb2FkTnVt
+YmVyIjowfX0=
+&userid=498ad751-320d-4262-b659-df6d58957224&ts=1615172212
+
+
+
+localChangeDoc
+
+
+
+include ':app', ':screenrecordlibrary', ':weilukelibrary'
+
+
+
+白板切换背景图片信令
+0: "pubMsg"
+1: {name: "ChangeWbBg", id: "ChangeWbBg", toID: "__all", data: "{"type":"green"}",…}
+associatedMsgID: "ClassBegin"
+data: "{"type":"green"}"
+id: "ChangeWbBg"
+name: "ChangeWbBg"
+toID: "__all"
+2: null
+type: ['white', 'black', 'green', 'coordinate', 'english', 'matts']
+分别对应 [白板，黑板，绿板，田字格，英语本，坐标轴]
+
+
+
+微录课结束录制不生成录制件信令：
+0: "delMsg"
+1: {name: "ClassBegin", id: "ClassBegin", toID: "__all",…}
+data: "{"recordchat":true,"fromRole":0,"discardRtRecord":true}"
+id: "ClassBegin"
+name: "ClassBegin"
+toID: "__all"
+2: null
+data中多了 "discardRtRecord":true 字段
+
+
+微录课暂停信令：
+["pubMsg",…]
+0: "pubMsg"
+1: {name: "ClassPause", id: "ClassPause", toID: "__all", data: "{}", associatedMsgID: "ClassBegin"}
+associatedMsgID: "ClassBegin"
+data: "{}"
+id: "ClassPause"
+name: "ClassPause"
+toID: "__all"
+2: null
+微录课继续录制信令：
+0: "delMsg"
+1: {name: "ClassPause", id: "ClassPause", toID: "__all", data: "{}"}
+data: "{}"
+id: "ClassPause"
+name: "ClassPause"
+toID: "__all"
+2: null
+
+白板切换背景图片信令
+0: "pubMsg"
+1: {name: "ChangeWbBg", id: "ChangeWbBg", toID: "__all", data: "{"type":"green"}",…}
+associatedMsgID: "ClassBegin"
+data: "{"type":"green"}"
+id: "ChangeWbBg"
+name: "ChangeWbBg"
+toID: "__all"
+2: null
+type: ['white', 'black', 'green', 'coordinate', 'english', 'matts']
+分别对应 [白板，黑板，绿板，田字格，英语本，坐标轴]
+
+
+
+
+args[0] = 手机屏幕宽度(像素): 1920
+args[1] = 手机屏幕高度(像素): 1080
+args[2] = 手机屏幕密度: 2.25
+args[3] = 手机屏幕densityDpi: 360.0
+args[4] = 手机屏幕宽度(dp): 853
+args[5] = 手机屏幕高度(dp): 480
+args[6] = 手机cpu_abi: x86
+
+
+// 微录课请求sass后台host地址
+TkConstant.SASS_API_ADDRESS = {
+    demo: 'https://consoleapi-demo.talk-cloud.net/admin',
+    global: 'https://console-api.talk-cloud.net/admin'
+}
+
+
+
+https://hwdemocdn.talk-cloud.net:443/cospath/100361_20210226_161542_wkkwlykw-1.webm
+
+http://hwdemocdn.talk-cloud.net:80/cospath/100361_20210303_165927_egjovaiq/data/video1.mp4
+
+上课
+42["pubMsg",{"name":"ClassBegin","id":"ClassBegin","toID":"__all","data":"{\"recordchat\":true,\"fromRole\":0}"},null]
+
+
+TKRoomManager.getInstance().pubMsg("ClassPause", "ClassPause",
+        "__all", jsonObject.toString(), true, "ClassBegin", "ClassBegin");
+
+TKRoomManager.getInstance().delMsg("ClassPause", "ClassPause",
+"__all", new JSONObject());
+
+
+
+
+try {
+    JSONObject jsonObject = new JSONObject();
+    jsonObject.put("type", whiteboard_type_selected);
+    TKRoomManager.getInstance().pubMsg("ChangeWbBg", "ChangeWbBg",
+            "__all", jsonObject.toString(), true, "ClassBegin", "ClassBegin");
+} catch (Exception e) {
+    e.printStackTrace();
+}
+
+
+
+WhiteBoradConfig.getsInstance().getDocList()
+
+
+
+ShowPageBean showPageBean = Packager.getShowPageBean(WhiteBoradManager.getInstance().getCurrentFileDoc());
+
+
+SharePadMgr.getInstance().showCourseSelectPage(mShowPageBean);
+ShareDoc currentFileDoc = WhiteBoradManager.getInstance().getCurrentFileDoc();
+currentFileDoc.setCurrentPage(mShowPageBean.getFiledata().getCurrpage());
+WhiteBoradManager.getInstance().setCurrentFileDoc(currentFileDoc);
+
+
+            WhiteBoradManager.getInstance().setCurrentFileDoc(currentFile);
+            WhiteBoradManager.getInstance().refreshFileList(currentFile);
+
+
+
+
+List<ShareDoc> shareDocs = WhiteBoradConfig.getsInstance().getDocList();
+ShareDoc currentFileDoc = WhiteBoradManager.getInstance().getCurrentFileDoc();
+roomfiles = PublicPracticalMethodFromJAVA.getInstance().getRoomfileBeans(shareDocs);
+doccdn = WBSession.DocServerAddr;
+fileidused = (int) currentFileDoc.getFileid();
+CourseDialog.getInstance().updateRoomFileDatas(roomfiles, doccdn, fileidused, fileidused2, 1);
+
+
+        ShareDoc currentFileDoc = WhiteBoradManager.getInstance().getCurrentFileDoc();
+        roomfiles = PublicPracticalMethodFromJAVA.getInstance().getRoomfileBeans(WhiteBoradConfig.getsInstance().getDocList());
+        doccdn = WBSession.DocServerAddr;
+        fileidused = (int) currentFileDoc.getFileid();
+        downloadPicToBitmap(roomfiles.get(1), 1);
+
+
+
+
+onshareMediaState
+
+    args[0] = shareMediaPeerId =-= c0f9779f-cbba-4a70-8ba9-7bac558b47c7
+    args[1] = shareMediaState =-= 1
+    args[2] = shareMediaAttrs =-= {vcodec=0, filename=soldout.mp3, audio=true, video=false, height=0, width=0, toID=__all, pauseWhenOver=false, duration=212140, type=media, fileid=100609}
+
+
+
+撤销普通
+42["delMsg",{"name":"SharpsChange","id":"d23d9d80-135b-43e8-5983-5411daabfe5d###_SharpsChange_0_1","toID":"__allExceptAuditor","data":"{\"eventType\":\"undoEvent\",\"actionName\":\"AddShapeAction\",\"shapeId\":\"d23d9d80-135b-43e8-5983-5411daabfe5d\",\"whiteboardID\":\"default\"}"},null]
+撤销清屏
+42["delMsg",{"name":"SharpsChange","id":"clear_16160504918517906###_SharpsChange_0_1","toID":"__allExceptAuditor","data":"{\"eventType\":\"undoEvent\",\"actionName\":\"ClearAction\",\"clearActionId\":\"clear_16160504918517906\",\"whiteboardID\":\"default\"}"},null]
+
+
+恢复普通
+42["pubMsg",{"name":"SharpsChange","id":"69f53ccd-b4a7-3c44-ade5-e5654b5d4245###_SharpsChange_0_1","toID":"__allExceptAuditor","data":"{\"eventType\":\"redoEvent\",\"actionName\":\"AddShapeAction\",\"shapeId\":\"69f53ccd-b4a7-3c44-ade5-e5654b5d4245\",\"data\":{\"className\":\"LinePath\",\"data\":{\"order\":3,\"tailSize\":3,\"smooth\":true,\"pointCoordinatePairs\":[[767,361],[767,359],[769,356],[779,354],[790,354],[807,354],[827,356],[835,361],[837,364],[837,366],[842,376],[842,397],[842,422],[835,444],[817,467],[800,490],[790,505],[782,512],[772,527],[767,532],[762,540],[757,547],[752,552],[749,555],[752,555],[800,560],[827,560],[888,565],[930,565],[955,565],[960,565]],\"pointSize\":5,\"pointColor\":\"#FF0000\"},\"id\":\"69f53ccd-b4a7-3c44-ade5-e5654b5d4245\"},\"otherInfo\":{\"authorUserId\":\"c4814649-3ab1-e4a9-1136-9dbf26e3fa07\",\"seq\":57},\"whiteboardID\":\"default\",\"nickname\":\"老师1\"}"},null]
+
+
+
+恢复清屏
+42["pubMsg",{"name":"SharpsChange","id":"clear_16160480124191807###_SharpsChange_0_1","toID":"__allExceptAuditor","data":"{\"eventType\":\"redoEvent\",\"actionName\":\"ClearAction\",\"clearActionId\":\"clear_16160480124191807\",\"otherInfo\":{\"authorUserId\":\"c4814649-3ab1-e4a9-1136-9dbf26e3fa07\",\"seq\":25},\"whiteboardID\":\"default\",\"nickname\":\"老师1\"}"},null]
+
+
+ 清屏
+ 42["pubMsg",{"name":"SharpsChange","id":"clear_16160485153671091###_SharpsChange_0_1","toID":"__allExceptAuditor","data":"{\"eventType\":\"clearEvent\",\"actionName\":\"ClearAction\",\"clearActionId\":\"clear_16160485153671091\",\"whiteboardID\":\"default\",\"nickname\":\"老师1\"}"},null]
+
+
+
+
+ <SeekBar
+    android:id="@+id/seek_bar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="@dimen/dimen_4x"
+    android:paddingEnd="@dimen/dimen_4x"
+    android:layout_gravity="center_vertical"
+    android:maxHeight="@dimen/dimen_2x"
+    android:minHeight="@dimen/dimen_2x"
+    android:progress="50"
+    android:progressDrawable="@drawable/seek_bar_style"
+    android:splitTrack="false"
+    android:thumb="@mipmap/tk_seekbar_white_center"
+    android:thumbOffset="0dp" />
+
+
+
+
+    android.text.StaticLayout staticLayout =new android.text.StaticLayout(message, tp, canvas.getWidth(),
+                   Alignment.ALIGN_NORMAL, 1.0f, 2.0f, false);
+
+
+1.需要分行的字符串
+
+2.需要分行的字符串从第几的位置开始
+
+3.需要分行的字符串到哪里结束
+
+4.画笔对象
+
+5.layout的宽度，字符串超出宽度时自动换行。
+
+6.layout的对其方式，有ALIGN_CENTER， ALIGN_NORMAL， ALIGN_OPPOSITE 三种。
+
+7.相对行间距，相对字体大小，1.5f表示行间距为1.5倍的字体高度。
+
+8.在基础行距上添加多少
+
+实际行间距等于这两者的和。
+
+9.参数未知
+
+10.从什么位置开始省略
+
+11.超过多少开始省略
+
+需要指出的是这个layout是默认画在Canvas的(0,0)点的，如果需要调整位置只能在draw之前移Canvas的起始坐标
+canvas.translate(x,y);
+
+
+RectF(0.0, 0.0, 1744.0, 981.0)
+RectF(0.0, 0.0, 790.73047, 981.0)
+
+
+
+平板尺寸    匹配  宽*高/px  屏幕密度    对角线
+7英寸 xh  1920*1200   323 2264                     323dpi     2.0     600dp
+7英寸 xxh 2048*1536   366 2560                     366dpi     2.2     698dp
+7英寸 m   1024*600    170 1187                     170dpi     1.0     600dp
+7英寸 m   1024*768    183 1280                     183dpi     1.14    673dp
+7英寸 tv  1280*800    216 1509                     216dpi     1.35    592dp
+7英寸 h   1440*1080   257 1800                     257dpi     1.6     675dp
+7.9英寸   xh  2048*1536   324 2560                 324dpi     2.0     768dp
+7.9英寸   m   1024*768    162 1280                 162dpi     1.0     768dp
+7.9英寸   xxh 2560*1600   382 3019                 382dpi     2.39    669dp
+8英寸 xxh 2560*1600   377 3019                     377dpi     2.35    680dp
+8英寸 xh  1920*1200   283 2264                     283dpi     1.77    678dp
+8英寸 xh  2048*1536   320 2560                     320dpi     2       768dp
+8英寸 m   1280*800    189 1509                     189dpi     1.18    678dp
+9.7英寸   h   2048*1536   264 2560                 264dpi     1.65    930dp
+10.1英寸  h   1920*1200   224 2264                 224dpi     1.4     857dp
+10.1英寸  h   2224*1668（10.5） 265 2780           265dpi     1.66    1,005dp
+10.1英寸  xh  2560*1600   299 3019                 299dpi     1.87    855dp
+10.1英寸  h   1920*1280   229 2308                 229dpi     1.43    895dp
+10.1英寸  tv  1920*1080   218 2203                 218dpi     1.36    806dp
+11英寸    h   1920*1200   206 2264                 206dpi     1.29    930dp
+11英寸    h   1920*1080   200 2203                 200dpi     1.25    864dp
+11英寸    h   2160*1440   236 2596                 236dpi     1.48    973dp
+11英寸    xh  2560*1440   267 2937                 267dpi     1.67    862dp
+12.9英寸  h   2732*2048   265 3414                 265dpi     1.66    1,234dp
+
+
+
+
+https://school.talk-cloud.net/office/login.html#/
+name=%@&company=%@&email=%@&telphone=%@   网校地址后面需要增加4个参数
+
+https://school.talk-cloud.net/office/login.html#/home?token=
+
+https://school.talk-cloud.net/office/login.html#/login
+
+
+
+args[0] = 手机屏幕宽度(像素): 2560
+args[1] = 手机屏幕高度(像素): 1600
+args[2] = 手机屏幕密度: 1.86875
+args[3] = 手机屏幕densityDpi: 299.0
+args[4] = 手机屏幕宽度(dp): 1369
+args[5] = 手机屏幕高度(dp): 856
+args[6] = 手机cpu_abi: x86
+
+
+args[0] = 手机屏幕宽度(像素): 1920
+args[1] = 手机屏幕高度(像素): 1080
+args[2] = 手机屏幕密度: 2.25
+args[3] = 手机屏幕densityDpi: 360.0
+args[4] = 手机屏幕宽度(dp): 853
+args[5] = 手机屏幕高度(dp): 480
+args[6] = 手机cpu_abi: x86
+
+RectF(0.0, 0.0, 1733.0, 972.0),RectF(0.0, 0.0, 1728.0, 972.0)
+RectF(0.0, 0.0, 2518.0, 1413.0)
+
+
+
+
+
+    args[0] = ptStart.x =-=1336.254
+    args[1] = ptStart.y =-=397.5532
+
+
+    args[0] = ptStart.x =-=650.3654
+    args[1] = ptStart.y =-=414.53748
+
+
+微录客房间号： 1623561663
+陈南峰：13349939701
+
+
+https://developer.android.google.cn/studio/releases/gradle-plugin#extractNativeLibs
+
+
+
+测试结果：
+1.安卓移动端学生权限正常登录房间后，web端学生权限登录房间后，安卓移动点击链接进入房间，是可以进入的。
+2.安卓移动端退出房间，切换到桌面，wweb端学生权限登录房间后，安卓移动点击链接进入房间，是可以进入的。
+
+
+
+教室名称
+1对多000
+教室时间
+2021-04-19 17:35:11 ---- 2021-04-23 17:34:59
+教室密码
+老师密码:1 助教密码:2    巡课密码:3    学员密码: 旁听生密码:
+老师地址https://demo.talk-cloud.net/411618398/100567/1/0      复制地址
+学员地址https://demo.talk-cloud.net/411618398/100567/0/2      复制地址
+旁听生地址https://demo.talk-cloud.net/411618398/100567/0/6      复制地址
+
+
+LogUtils.i("SearchCourseAdapter,onBindData, position =-=" + position);
+LogUtils.i("SearchCourseAdapter,onBindData, bean.isSelect() =-=" + bean.isSelect());
+
+
+单机游戏网站：
+http://www.3h3.com/danji/142532.html
+https://www.yxbao.com/game/51829.html#goDown
+https://wap.gamersky.com/gl/Content-714458.html
+
+
+
+714109670
+1111
+
+
+12345
+
+
+
+【Android开源库合集】日历效果：https://www.jianshu.com/p/e1b7b5f1263f
+
+
+CustomizeMonthView
+CustomizeWeekView
+
+
+安卓
+gitlab@gitlab.talk-cloud.com:tk_android/tk_networkschool.git
+https://gitlab.talk-cloud.com/tk_android/tk_networkschool.git
+
+iOS
+gitlab@gitlab.talk-cloud.com:tk_ios/tk_networkschool.git
+https://gitlab.talk-cloud.com/tk_ios/tk_networkschool.git
+
+
+
++86-18507103016  8888
+15695623594       8888
+
+
+
+
+
+
+ChooseIdentityActivity
+
+
+
+server: nginx
+date: Fri, 14 May 2021 08:31:47 GMT
+content-type: application/json; charset=utf-8
+x-powered-by: PHP/7.3.25
+access-control-allow-credentials: true
+access-control-max-age: 1800
+access-control-allow-methods: GET, POST, PATCH, PUT, DELETE, OPTIONS
+access-control-allow-headers: Authorization, Content-Type, If-Match, If-Modified-Since, If-None-Match, If-Unmodified-Since, X-CSRF-TOKEN, X-Requested-With, key, version
+access-control-allow-origin: *
+set-cookie: think_lang=zh-cn; path=/
+
+
+
+13554298369 12345678a
+15056053945
+
+
+
+
+                VariableConfig.isPersonalSettingsActivityEnter = false;
+                PublicPracticalMethodFromJAVA.getInstance().intentToJump(ChangeMobileActivity.this, LoginActivity.class, Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK, null, true);
+
+
+
+
+安卓 https://showdoc.talk-cloud.com/web/#/116
+iOS  https://showdoc.talk-cloud.com/web/#/115
+
+
+
+无身份： 17600294236
+老师    ： 18272005367
+学生    :    15695623594
+双身份 ： 17600152016
+验证码默认：8888
+
+
+
+    packagingOptions {
+        exclude 'META-INF/maven/com.belerweb/pinyin4j/pom.xml'
+        exclude 'META-INF/maven/com.belerweb/pinyin4j/pom.properties'
+    }
+
+
+
+
+1、输入手机号弹出数字键盘
+2、增加加载效果
+3、最近课程（标签样式问题）
+4、修改密码（密码验证后跳转到发送短信界面了）
+5、语言切换后跳到我的界面
+6、切换语言后，突然没有课程了，退出系统后，再登陆后没有问题了
+7、按钮没做点击限制
+8、登陆首页，最近课程没有默认当天
+9、进入课堂无法点击
+10、后台设置无限制，这里没有显示按钮
+
+
+19907149797 123123123
+
+1792
+1344
+280
+
+
+
+
+
+//护眼
+if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {//版本6.0以上的设备需要动态申请该权限
+    if (!Settings.canDrawOverlays(this)) {//没有该权限
+        titleBarView.eye_protection.setChecked(false);
+        EyeProtectionUtil.showDialog(this);
+    } else {//有该权限
+        EyeProtectionUtil.openSuspensionWindow(this, isChecked);
+    }
+} else {
+    EyeProtectionUtil.openSuspensionWindow(this, isChecked);
+}
+
+
+String.format(mActivity.getResources().getString(R.string.updateapp_conten), sysVersionEntity.getLatest_version());
+
+
+    网校项目
+    args[0] = 手机屏幕宽度(像素): 1280
+    args[1] = 手机屏幕高度(像素): 684
+    args[2] = 手机屏幕密度: 1.5
+    args[3] = 手机屏幕densityDpi: 240.0
+    args[4] = 手机屏幕宽度(dp): 853
+    args[5] = 手机屏幕高度(dp): 456
+    args[6] = 手机cpu_abi: x86
+
+
+
+    Demo项目
+    args[0] = 手机屏幕宽度(像素): 1280
+    args[1] = 手机屏幕高度(像素): 720
+    args[2] = 手机屏幕密度: 1.5
+    args[3] = 手机屏幕densityDpi: 240.0
+    args[4] = 手机屏幕宽度(dp): 853
+    args[5] = 手机屏幕高度(dp): 480
+    args[6] = 手机cpu_abi: x86
+
+
+getDimensionPixelSize
+
+
+
+
+已阅读并同意
+
+用户协议及隐私政策
+
+同意下方协议才能继续登陆
+
+
+已閱讀並同意
+
+使用者協定及隱私政策
+
+同意下方協定才能繼續登入
+
+
+
+Have read and agree
+
+user agreement and privacy policy
+
+Agree to the agreement below to continue logging in
+
+
+
+
+
+作业流程：
+1.老师端
+
+发布作业-布置作业（5种方式，拍照、相册，录制视频，录音，文件、网盘）-提交方式
+
+发布作业完后-作业详情-作业点评
+
+我的作业-作业点评
+
+
+2.学生端
+我的作业-写作业-作业详情
+
+
+
+startRecordMicListenSeting
+
+
+Android自定义RatingBar(星级评分控件)：https://www.jianshu.com/p/28fe1335bfde
+通过代码动态更改progressbar的颜色：https://blog.csdn.net/yitianhao000/article/details/54315870
+
+
+HomeworkCommentActivity
+StudentAvatarAdapter
+
+
+通知需求（后端）
+
+1、师生端支持公众号通知和app通知，企业后台仅支持公众号通知
+2、师生端通知权重：app、公众号 如果用户用户安装了app, 首页默认通知app
+3、app提醒，点击通知内容自动打开app,并进入指定页面；公众号提醒，暂时不做跳转。
+
+通知跳转规则（移动端、后端）：
+
+1、上课提醒 （跳转应用首页）
+2、结课提醒通知
+3、作业布置通知 （跳转作业列表）
+4、作业提醒通知 （跳转作业详情页）
+5、作业点评通知 （跳转作业详情页）
+
+
+
+comment_littleredflower_selected
+comment_littleredflower_unselected
+comment_rating_bar
+
+
+ Activity横竖屏切换的那些事:https://blog.csdn.net/gdutxiaoxu/article/details/62235974
+
+
+
+
+         LogUtils.i(ConfigConstants.TAG_ALL, "currentActivity =-= " + MyApplication.myApplication.lifecycleCallbacks.getActivityName(MyApplication.myApplication.lifecycleCallbacks.current().toString()));
+        for (int i = 0; i < MyApplication.myApplication.lifecycleCallbacks.count(); i++) {
+            List<Activity> activities = MyApplication.myApplication.lifecycleCallbacks.getActivitys();
+            LogUtils.i(ConfigConstants.TAG_ALL, "activities =-= " + MyApplication.myApplication.lifecycleCallbacks.getActivityName(activities.get(i).toString()));
+        }
+
+NetworkDiskHistoryRecord
+
+
+
+NSMutableDictionary * params = @{
+        @"companydomain":@"www", // 企业域名
+        @"source":@"4",// 企业来源 企业来源，4：门课
+        @"type":IS_IPAD ? @"3":@"5", //3：iOS iPad、5：iOS iPhone 9：Android，
+        @"version":[NSString stringWithFormat:@"%@%@",[self currentDate],currentV],//封包日期+当日封包次数（默认00），如：2021062100
+    }.mutableCopy;
+
+
+
+    {
+    "result": 0,
+    "version": "2021062000",
+    "filename": "xxx.apk",
+    "filetype": "0",
+    "isupdate": "1",
+    "updateflag": "2",
+    "url": "/Updatefiles/xxx.apk",
+    "apptype": "1",
+    "updateaddr": "http://Updatefiles/xxx.apk",
+    "setupaddr": "http://xxx"
+}
+
+
+result  int 0需要升级，-1无升级信息
+version string  版本号
+filename    string  文件名
+isupdate    string  是否需要升级，0：否、1：是
+updateflag  string  升级标志，1：强制升级、2：不强制
+url string  地址
+apptype string  APP类型，0：拓课云APP、1：门课APP
+updateaddr  string  更新包地址
+setupaddr   string  安装包地址
+
+
+20210731177
+
+
+
+{"version":"20210731177","filename":"Demo-V1.7.7-07061049.apk","filetype":"9","isupdate":"1","updateflag":"2","url":"\/Updatefiles\/Demo-V1.7.7-07061049.apk","versionnum":"1.7.7","apptype":"1","updateaddr":"https:\/\/hwdemocdn.talk-cloud.net\/Updatefiles\/Demo-V1.7.7-07061049.apk","result":0,"setupaddr":"https:\/\/hwdemocdn.talk-cloud.net"}
+
+        ApiService apiService = RetrofitServiceManager3.getInstance(VariableConfig.versionUpdate_url, "").getApiService();
+        Call<ResponseBody> call = apiService.getupdateinfo(map_bodys);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    if (!StringUtils.isBlank(response.body())) {
+                        String jsonString = StringUtils.byte2String(response.body().bytes());
+                        JSONObject jsonObject_data = new JSONObject(jsonString);
+                        int result = jsonObject_data.optInt("result", -1);
+                        if (result == 0) {
+                            SysVersionEntity sysVersionEntity = new SysVersionEntity();
+                            sysVersionEntity.setVersion(jsonObject_data.optString("version", ""));
+                            sysVersionEntity.setFilename(jsonObject_data.optString("filename", ""));
+                            sysVersionEntity.setFiletype(jsonObject_data.optString("filetype", ""));
+                            sysVersionEntity.setIsupdate(jsonObject_data.optString("isupdate", ""));
+                            sysVersionEntity.setUpdateflag(jsonObject_data.optString("updateflag", ""));
+                            sysVersionEntity.setUrl(jsonObject_data.optString("url", ""));
+                            sysVersionEntity.setApptype(jsonObject_data.optString("apptype", ""));
+                            sysVersionEntity.setUpdateaddr(jsonObject_data.optString("updateaddr", ""));
+                            sysVersionEntity.setSetupaddr(jsonObject_data.optString("setupaddr", ""));
+                            sysVersionEntity.setVersionnum(jsonObject_data.optString("versionnum", ""));
+                            personalSettingsView.sysversionCallback(true, sysVersionEntity, "");
+                        } else {
+                            personalSettingsView.sysversionCallback(true, null, "");
+                        }
+                        return;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                personalSettingsView.sysversionCallback(false, null, mActivity.getResources().getString(R.string.data_wrong));
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                personalSettingsView.sysversionCallback(false, null, t.getMessage());
+            }
+        });
+
+
+
+onOpenEyeProtection
+
+
+
+
+        MessageEvent event = new MessageEvent();
+        event.setMessage_type(EventConstant.MY_FLOWS_REFRESH);
+        EventBus.getDefault().post(event);
+
+
+
+        openSuspensionWindow
+
+
+
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- IMSDK 权限 -->
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- <uses-permission android:name="android.permission.SET_DEBUG_APP" /> -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+
+
+
+
+
+
+
+
+
+
+         直播带货去掉的权限
+       <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+   <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+   <uses-permission android:name="android.permission.BLUETOOTH" />
+        <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+      <uses-permission android:name="android.permission.VIBRATE" />
+      <uses-permission android:name="android.permission.WAKE_LOCK" />
+     <uses-permission android:name="android.permission.CALL_PHONE" />
+     <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+
+WeisiVideo
+
+
+git config --global user.name "xiaoqi"
+git config --global user.email "xiaoqi@talk-cloud.com"
+ssh-keygen -t rsa -C "xiaoqi@talk-cloud.com"
+SHA256:FeuRd4TZcPOaqhZqBVXuJjw7+TvRuer1/5qxSgNEBKg laoagitlab@gmail.com
+ssh-agent bash
+ssh-add C:/Users/Administrator/.ssh/id_rsa
+
+git init
+git remote add origin https://gitlab.talk-cloud.com/tk_android/wssx.git
+git add .
+git commit -m "微思视讯"
+git push -u origin master
+
+
+
+Color.parseColor(PublicPracticalMethodFromJAVA.getInstance().getMainColors(""))
+Color.parseColor(PublicPracticalMethodFromJAVA.getInstance().getMainColors("FF"))
+
+
+
+【17talki】把 #1D6AFF 全局替换成 #5EC1BC
+【通技】把 #1D6AFF 全局替换成 #005BAA
+
+
+app:vciv_et_cursor_color="#aaa000"
+
+
+android:textColor="@color/text_color_headerbar_right"
+
+android:digits="0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+
+密码输入框去掉英文和数字限制
+
+
+
+2021-08-23 14:28:23.832 3612-3612/com.talkcloud.weisivideo E/AndroidRuntime: FATAL EXCEPTION: main
+    Process: com.talkcloud.weisivideo, PID: 3612
+    java.lang.RuntimeException: Unable to start activity ComponentInfo{com.talkcloud.weisivideo/com.talkcloud.weisivideo.baselibrary.ui.activities.MainMenuActivity}: android.view.InflateException: Binary XML file line #64: Binary XML file line #64: Error inflating class ImageView
+        at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2670)
+        at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2731)
+        at android.app.ActivityThread.-wrap12(ActivityThread.java)
+        at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1482)
+        at android.os.Handler.dispatchMessage(Handler.java:102)
+        at android.os.Looper.loop(Looper.java:154)
+        at android.app.ActivityThread.main(ActivityThread.java:6146)
+        at java.lang.reflect.Method.invoke(Native Method)
+        at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:892)
+        at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:782)
+     Caused by: android.view.InflateException: Binary XML file line #64: Binary XML file line #64: Error inflating class ImageView
+     Caused by: android.view.InflateException: Binary XML file line #64: Error inflating class ImageView
+     Caused by: android.content.res.Resources$NotFoundException: Drawable com.talkcloud.weisivideo:color/bg_nav_bottom_item with resource ID #0x7f06002e
+     Caused by: android.content.res.Resources$NotFoundException: File res/color/bg_nav_bottom_item.xml from drawable resource ID #0x7f06002e
+        at android.content.res.ResourcesImpl.loadDrawableForCookie(ResourcesImpl.java:725)
+        at android.content.res.ResourcesImpl.loadDrawable(ResourcesImpl.java:571)
+        at android.content.res.Resources.loadDrawable(Resources.java:858)
+        at android.content.res.TypedArray.getDrawable(TypedArray.java:928)
+        at android.view.View.<init>(View.java:4202)
+        at android.widget.ImageView.<init>(ImageView.java:155)
+        at android.widget.ImageView.<init>(ImageView.java:150)
+        at androidx.appcompat.widget.AppCompatImageView.<init>(AppCompatImageView.java:74)
+        at androidx.appcompat.widget.AppCompatImageView.<init>(AppCompatImageView.java:69)
+        at androidx.appcompat.app.AppCompatViewInflater.createImageView(AppCompatViewInflater.java:199)
+        at androidx.appcompat.app.AppCompatViewInflater.createView(AppCompatViewInflater.java:119)
+        at androidx.appcompat.app.AppCompatDelegateImpl.createView(AppCompatDelegateImpl.java:1563)
+        at androidx.appcompat.app.AppCompatDelegateImpl.onCreateView(AppCompatDelegateImpl.java:1614)
+        at android.view.LayoutInflater.createViewFromTag(LayoutInflater.java:769)
+        at android.view.LayoutInflater.createViewFromTag(LayoutInflater.java:727)
+        at android.view.LayoutInflater.rInflate(LayoutInflater.java:858)
+        at android.view.LayoutInflater.rInflateChildren(LayoutInflater.java:821)
+        at android.view.LayoutInflater.rInflate(LayoutInflater.java:861)
+        at android.view.LayoutInflater.rInflateChildren(LayoutInflater.java:821)
+        at android.view.LayoutInflater.rInflate(LayoutInflater.java:861)
+        at android.view.LayoutInflater.rInflateChildren(LayoutInflater.java:821)
+        at android.view.LayoutInflater.rInflate(LayoutInflater.java:861)
+        at android.view.LayoutInflater.rInflateChildren(LayoutInflater.java:821)
+        at android.view.LayoutInflater.inflate(LayoutInflater.java:518)
+        at android.view.LayoutInflater.inflate(LayoutInflater.java:426)
+        at android.view.LayoutInflater.inflate(LayoutInflater.java:377)
+        at androidx.appcompat.app.AppCompatDelegateImpl.setContentView(AppCompatDelegateImpl.java:699)
+        at androidx.appcompat.app.AppCompatActivity.setContentView(AppCompatActivity.java:195)
+        at com.talkcloud.weisivideo.baselibrary.base.BaseActivity.onCreate(BaseActivity.java:34)
+        at com.talkcloud.weisivideo.baselibrary.base.BaseMvpActivity.onCreate(BaseMvpActivity.kt:20)
+        at android.app.Activity.performCreate(Activity.java:6698)
+        at android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1118)
+        at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2623)
+2021-08-23 14:28:23.832 3612-3612/com.talkcloud.weisivideo E/AndroidRuntime:     at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2731)
+        at android.app.ActivityThread.-wrap12(ActivityThread.java)
+        at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1482)
+        at android.os.Handler.dispatchMessage(Handler.java:102)
+        at android.os.Looper.loop(Looper.java:154)
+        at android.app.ActivityThread.main(ActivityThread.java:6146)
+        at java.lang.reflect.Method.invoke(Native Method)
+        at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:892)
+        at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:782)
+     Caused by: org.xmlpull.v1.XmlPullParserException: Binary XML file line #2: <item> tag requires a 'drawable' attribute or child tag defining a drawable
+        at android.graphics.drawable.StateListDrawable.inflateChildElements(StateListDrawable.java:183)
+        at android.graphics.drawable.StateListDrawable.inflate(StateListDrawable.java:116)
+        at android.graphics.drawable.DrawableInflater.inflateFromXml(DrawableInflater.java:130)
+        at android.graphics.drawable.Drawable.createFromXmlInner(Drawable.java:1227)
+        at android.graphics.drawable.Drawable.createFromXml(Drawable.java:1200)
+        at android.content.res.ResourcesImpl.loadDrawableForCookie(ResourcesImpl.java:715)
+          ... 41 more
+
+
+2021-08-23 16:58:59.036 4565-5589/com.talkcloud.weisivideo D/OkHttp: <-- 200 https://demoapi.51menke.com/wssx/member/order/pay?timezone=Asia/Shanghai&lang=zh-cn (709ms)
+2021-08-23 16:58:59.036 4565-5589/com.talkcloud.weisivideo D/OkHttp: server: nginx
+2021-08-23 16:58:59.036 4565-5589/com.talkcloud.weisivideo D/OkHttp: date: Mon, 23 Aug 2021 08:58:58 GMT
+2021-08-23 16:58:59.036 4565-5589/com.talkcloud.weisivideo D/OkHttp: content-type: application/json; charset=utf-8
+2021-08-23 16:58:59.036 4565-5589/com.talkcloud.weisivideo D/OkHttp: x-powered-by: PHP/7.3.25
+2021-08-23 16:58:59.036 4565-5589/com.talkcloud.weisivideo D/OkHttp: access-control-allow-credentials: true
+2021-08-23 16:58:59.037 4565-5589/com.talkcloud.weisivideo D/OkHttp: access-control-max-age: 1800
+2021-08-23 16:58:59.037 4565-5589/com.talkcloud.weisivideo D/OkHttp: access-control-allow-methods: GET, POST, PATCH, PUT, DELETE, OPTIONS
+2021-08-23 16:58:59.037 4565-5589/com.talkcloud.weisivideo D/OkHttp: access-control-allow-headers: Authorization, Content-Type, If-Match, If-Modified-Since, If-None-Match, If-Unmodified-Since, X-CSRF-TOKEN, X-Requested-With, key, version
+2021-08-23 16:58:59.037 4565-5589/com.talkcloud.weisivideo D/OkHttp: access-control-allow-origin: *
+2021-08-23 16:58:59.041 4565-5589/com.talkcloud.weisivideo D/OkHttp: {"result":0,"data":{"signature":"{\"appid\":\"wx3ecf6c6dc7eaaa17\",\"partnerid\":\"1509311051\",\"prepayid\":\"wx23165858553879fed125eb939471a00000\",\"timestamp\":\"1629709138\",\"noncestr\":\"0g2KpRiVFJkUs300\",\"package\":\"Sign=WXPay\",\"sign\":\"BF369A79592CF6E73EE6768AF6218B38\"}","period":30},"msg":"成功"}
+
+
+2021-08-23 17:20:02.537 11018-11449/com.talkcloud.weisivideo D/OkHttp: <-- 200 https://demoapi.51menke.com/wssx/member/order/pay?timezone=Asia/Shanghai&lang=zh-cn (337ms)
+2021-08-23 17:20:02.537 11018-11449/com.talkcloud.weisivideo D/OkHttp: server: nginx
+2021-08-23 17:20:02.537 11018-11449/com.talkcloud.weisivideo D/OkHttp: date: Mon, 23 Aug 2021 09:20:02 GMT
+2021-08-23 17:20:02.537 11018-11449/com.talkcloud.weisivideo D/OkHttp: content-type: application/json; charset=utf-8
+2021-08-23 17:20:02.537 11018-11449/com.talkcloud.weisivideo D/OkHttp: x-powered-by: PHP/7.3.25
+2021-08-23 17:20:02.537 11018-11449/com.talkcloud.weisivideo D/OkHttp: access-control-allow-credentials: true
+2021-08-23 17:20:02.537 11018-11449/com.talkcloud.weisivideo D/OkHttp: access-control-max-age: 1800
+2021-08-23 17:20:02.537 11018-11449/com.talkcloud.weisivideo D/OkHttp: access-control-allow-methods: GET, POST, PATCH, PUT, DELETE, OPTIONS
+2021-08-23 17:20:02.537 11018-11449/com.talkcloud.weisivideo D/OkHttp: access-control-allow-headers: Authorization, Content-Type, If-Match, If-Modified-Since, If-None-Match, If-Unmodified-Since, X-CSRF-TOKEN, X-Requested-With, key, version
+2021-08-23 17:20:02.537 11018-11449/com.talkcloud.weisivideo D/OkHttp: access-control-allow-origin: *
+2021-08-23 17:20:02.541 11018-11449/com.talkcloud.weisivideo D/OkHttp: {"result":0,"data":{"signature":"app_id=2021002171605843&format=JSON&charset=utf-8&sign_type=RSA2&version=1.0&notify_url=https%3A%2F%2Fdemoapi.51menke.com%2Fwssx%2Fpay%2Falipay&timestamp=2021-08-23+17%3A20%3A02&biz_content=%7B%22out_trade_no%22%3A%22WSSX202108231719544494%22%2C%22total_amount%22%3A0.01%2C%22subject%22%3A%22%5Cu5b63%5Cu5361-com.talkcloud.wssx1002%7C90%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%7D&method=alipay.trade.app.pay&sign=UVuxWJaAlsA1nVgPbyt%2FqIUZnLb7BeQ%2FDkS7PguCsIQNRQwuBJ1P%2FyrXlTMh7sivbo7tuUrtUfu5BKmDXvkOgFfswcYf59pVy64deRDeDcihwv5n9pO7dYPQvADBlduHbJ%2BqrEZH8zRDR77YQybsujJfgB8%2B8pj98rrBYmRQf0DGrd5QLCyFv7sxX9QXGAOiQ6ScDpzLHHsryjjry8GoM9jHdChnY%2FDQYQaGt%2BprnwvZ388pMJoRpi47QfthYz1zQFZY88w7N6ObByC8%2B%2F2fG7VSBv7NxBbhfSmDX8qoXEYiXH2KMBKxrUZIlQWvJePgOVtL6R33%2FtyFhjrPhXd0Vg%3D%3D","period":90},"msg":"成功"}
+
+
+
+
+D:\xiaoqi\work\workspace\tk_networkschool\networkshcool\baselibrary\src\main\res\layout\activity_edit_userinfo.xml
+                    android:id="@+id/rl_userheaderadd"
+
+
+    <string name="protocol_useragreement_url">https://doccdncf.talk-cloud.net/static/Agreement/%s/registration-user-cn.html</string>
+    <string name="protocol_userprivacypolicy_url">https://doccdncf.talk-cloud.net/static/Agreement/%s/registration-privacy-cn.html</string>
+
+    https://doccdncf.talk-cloud.net/static/Agreement/wssx/registration-user-cn.html
+
+
+
+java -jar chkbugreport.jar bugreport-ELE-AL00-HUAWEIELE-AL00-2021-08-31-11-02-57.txt
+
+java -jar chkbugreport.jar bugreport-wayne-PKQ1.180904.001-2021-08-31-11-02-38.txt
+
+
+
+
+launch crash 08-31 10:58:56.109 17059 17288 E AndroidRuntime: FATAL EXCEPTION: jg_fr_pool_thread1 08-31 10:58:56.109 17059 17288 E AndroidRuntime: Process: com.talkcloud.networkshcool, PID: 17059 08-31 10:58:56.109 17059 17288 E AndroidRuntime: java.lang.RuntimeException: java.lang.RuntimeException: Please check *.jar files your project depends on. 08-31 10:58:56.109 17059 17288 E AndroidRuntime: at cn.jpush.android.ac.c$1.a(Unknown Source:4) 08-31 10:58:56.109 17059 17288 E AndroidRuntime: at cn.jpush.android.ad.e.run(Unknown Source:9) 08-31 10:58:56.109 17059 17288 E AndroidRuntime: at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1167) 08-31 10:58:56.109 17059 17288 E AndroidRuntime: at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:641) 08-31 10:58:56.109 17059 17288 E AndroidRuntime: at java.lang.Thread.run(Thread.java:764) 08-31 10:58:56.109 17059 17288 E AndroidRuntime: Caused by: java.lang.RuntimeException: Please check *.jar files your project depends on.
+
+
+
+launch crash 08-31 11:02:25.940 4817 4952 E AndroidRuntime: FATAL EXCEPTION: jg_fr_pool_thread1 08-31 11:02:25.940 4817 4952 E AndroidRuntime: Process: com.talkcloud.networkshcool, PID: 4817 08-31 11:02:25.940 4817 4952 E AndroidRuntime: java.lang.RuntimeException: java.lang.RuntimeException: Please check *.jar files your project depends on. 08-31 11:02:25.940 4817 4952 E AndroidRuntime: at cn.jpush.android.ac.c$1.a(Unknown Source:4) 08-31 11:02:25.940 4817 4952 E AndroidRuntime: at cn.jpush.android.ad.e.run(Unknown Source:9) 08-31 11:02:25.940 4817 4952 E AndroidRuntime: at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1167) 08-31 11:02:25.940 4817 4952 E AndroidRuntime: at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:641) 08-31 11:02:25.940 4817 4952 E AndroidRuntime: at java.lang.Thread.run(Thread.java:764) 08-31 11:02:25.940 4817 4952 E AndroidRuntime: Caused by: java.lang.RuntimeException: Please check *.jar files your project depends on.
+
+
+
+
+您的应用审核未通过。
+
+应用ID：104384601
+
+应用名称：门课
+
+应用版本：1.1.2
+
+被拒绝原因：1.详细描述：经检测发现，您的应用存在获取用户的软件安装列表敏感信息行为，且未在应用内的隐私政策/在AppGallery Connect上提交的隐私政策网址中进行说明。
+
+­请参考《审核指南》第7.9相关审核要求：https://developer.huawei.com/consumer/cn/doc/50104
+
+­修改建议：请在应用内的隐私政策/在AppGallery Connect上提交的隐私政策网址中对应用所获取的敏感信息的目的、方式、范围进行说明。
+
+­相关法律及规定请参考《网络安全法》及《关于开展APP侵害用户权益专项整治工作的通知》
+
+­APP常见个人信息保护问题FAQ请参考：
+
+­https://developer.huawei.com/consumer/cn/doc/distribution/app/FAQ-faq#h2-1628489707221-13
+
+2.详细描述：经检测发现，您的应用中集成了cn.jpush.android(极光;极光推送) com.tencent.bugly(Bugly;腾讯Bugly)等SDK，且未在应用内的隐私政策/在AppGallery Connect上提交的隐私政策网址内容中进行明示。
+
+­请参考《审核指南》第7.2相关审核要求：https://developer.huawei.com/consumer/cn/doc/50104
+
+­修改建议：请在应用内的隐私政策/在AppGallery Connect上提交的隐私政策网址内容中明示应用所集成的第三方SDK名称、SDK收集使用的个人信息以及使用目的。
+
+­相关法律及规定请参考《网络安全法》及《关于开展APP侵害用户权益专项整治工作的通知》
+
+­APP常见个人信息保护问题FAQ请参考：
+
+­https://developer.huawei.com/consumer/cn/doc/distribution/app/FAQ-faq#h2-1628489707221-13
+
+3.详细描述：我们发现您应用的隐私政策未以明示同意的方式征得用户同意。
+
+­请参考《审核指南》第7.5相关审核要求：https://developer.huawei.com/consumer/cn/doc/50104
+
+­测试步骤：登录界面，默认已勾选同意隐私政策。请参考截图。
+
+­修改建议：请确保应用内的隐私政策有提供用户主动勾选的空白复选框。
+
+­相关法律及规定请参考《网络安全法》及《关于开展APP侵害用户权益专项整治工作的通知》
+
+­APP常见个人信息保护问题FAQ请参考：
+
+­https://developer.huawei.com/consumer/cn/doc/distribution/app/FAQ-faq#h2-1628489707221-13
+
+问题概述：
+门课1.1.2华为市场没有过审
+
+第一条：获取用户的软件安装列表敏感信息行为，未在应用内的隐私政策/在AppGallery Connect上提交的隐私政策网址中进行说明。，是该 android.permission.QUERY_ALL_PACKAGES 权限，这是极光推送里面需要的
+第二条：您的应用中集成了cn.jpush.android(极光;极光推送)，未在应用内的隐私政策/在AppGallery Connect上提交的隐私政策网址内容中进行明示。华为市场检检测到 隐私协议里面没有说明
+修改建议：修改隐私协议内容，增加相关说明
+
+请协调修改，修改好了后，重新发布市场。
+
+
+
+        //设置卡片列表的背景
+        PublicPracticalMethodFromJAVA.getInstance().setDynamicShapeRECTANGLE2(
+            cl_membershipcard,
+            resources.getDimensionPixelSize(R.dimen.dimen_20x).toFloat(), resources.getDimensionPixelSize(R.dimen.dimen_20x).toFloat(), 0f, 0f,
+            -1, "", null, "#FFFFFF"
+        )
+
+
+预习和备课规则
+
+预习：学生角色，未开始课节，企业预习配置为打开，开课时间和配置时间对比
+
+备课：老师角色，未开始课节，企业备课配置为打开
+
+预习或备课有可能是多课件情况，如果是单课件直接点开，如果是多课件，列出课件菜单。
+
+
+
+一分钟内显示刚刚
+一小时内显示几分钟前
+24小时内显示今天几点几分
+24 - 48小时内显示昨天几点几分
+一年内显示几月几日
+一年前显示 年-月-日
+
+
+18627913331   123456qw
+
+
+
+
+极光推送厂商渠道集成：
+1.华为的厂商渠道已经集成了，杀掉APP进程后，后台推送消息是可以收到的。
+2.有2个问题要说明下：
+（1）华为系统：从EMUI 10.0版本开始推送服务将通知消息智能分成三个级别：一般、重要和非常重要，集成了厂商渠道后，推送过来的消息默认是【营销通知】导致 没有声音提示、没有震动提示，需要用户自己设置后就恢复正常了。看资料表示，。EMUI 10.0之前的版本没有对通知消息进行分类，只有一个级别不过没有做测试，没有相关的手机。
+（2）就是跳转页面问题，之前的通知消息推送过后，我们这边有监听代码，是可以收到消息内容的，集成了厂商通道后，原来的监听代码失效。然后文档里面写了跳转示例，需要后台的同事重新传值，我这边才能再次做测试。目前的效果是点击通知消息后，进入到首页，加上我们做的新需求有一个应用内的通知功能，其实我感觉是可以用，用户点击通知栏消息，进入到首页，再根据应用内的通知跳转到相应的页面，就是说是否可以从通知栏点击跳转相应的页面，其实感觉不太重要。
+3.小米的厂商通道还没有集成，不过看文档 跳转方式跟华为的一样，也存在类似的问题。
+
+
+
+"uri_activity": "com.talkcloud.networkshcool.baselibrary.ui.activities.OpenClickActivity"
+
+
+
+{"result":0,"data":{"count":36},"msg":"success"}
+
+
+小米平台账号：
+appid：2882303761519955542
+appkey：5131995595542
+appsecret：EIitkXQU9JJN4u2KTRp6Kw==
+
+
+
+xixihahayoyo
+198671xixihaha
+
+
+
+1、师生端app 登陆
+2、老师提醒支持单个提醒
+3、意见反馈收集一下用户的基本信息
+4、安卓保活
+5、移动端学生预习、老师备课功能
+6、移动端课程详情作业入口
+7、移动端没有奖杯汇总和明细
+8、作业new标签
+9、移动端已提交的作业没批阅的情况下可以编辑
+10、App提醒限制（配置次数）（web\app）
+11、移动端老师视角下，上课页增加学生详情
+12、短信登录防刷 13、增加显示点评附件
+14、作业、课程资料包（课程资料包不明显）下载（下载后的文件打开所在位置）、分享、打印
+15、布置作业可以选择学生
+16、点击分享链接启动app后自动进入房间
+17、登陆界面增加记忆功能，记录用户上传登陆方式，下次登陆是自动默认到上传登陆方式
+18、移动端支持本地上次附件，支持本地上次文件预览、下载、分享、打印
+19、点评可配置（web\app）
+20、通知列表
+
+
+
+
+$11、老师提醒支持单个提醒
+//12、App提醒限制（配置次数）（web） 排除在外
+$13、移动端老师视角下，上课页增加学生详情
+14、布置作业可以选择学生
+15、点击分享链接启动app后自动进入房间(暂定)
+16、点评增加点评附件，作业详情增加点评附件显示，上传最多支持5个, 格式支持.jpg .png（app）
+17、短信登录防刷(暂定)
+$18、点评可配置（web\app）
+19、移动端没有奖杯汇总和明细(暂定)
+$20、作业new标签
+21、app布置作业限制文件、图片、视频、音频的个数
+22、课堂报告（按上下课时间计算）
+
+（1）11,13,16(我这边做上传图片功能),17,18,20,我来搞
+（2）14,15,16(你估计要做图片展示),19,21,22 你来搞，你看看吧，觉得可以就这样。
+
+
+
+洗脸台拆装
+https://www.youtube.com/watch?v=adeQ7tZPwUM
+
+win10连Wifi后显示无internet,安全怎么办？
+regedit
+\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\NlaSvc\Parameters\Internet
+ActiveWebProbeContent          Microsoft Connect Test    Microsoft NCSI
+ActiveWebProbeContentV6        Microsoft Connect Test    Microsoft NCSI
+ActiveWebProbeHost             www.msftconnecttest.com   www.msftncsi.com
+ActiveWebProbeHostV6           ipv6.msftconnecttest.com  ipv6.msftncsi.com
+ActiveWebProbePath             connecttest.txt           ncsi.txt
+
+
+
+
+    signingConfigs {
+        config {
+            keyAlias 'talk'
+            keyPassword 'talkplus'
+            storeFile file('../talkplus.jks')
+            storePassword 'talkplus'
+        }
+    }
+
+ String.format(mContext.getResources().getString(R.string.networkdisk_confirm), networkDiskBeansSelected.size() + "", total_files + "");
+
+
+
+
+ http://www.253.com/#/data/product_main/133?productCateCode=8&productCateName=%E5%85%AC%E5%85%B1%E6%95%B0%E6%8D%AE
+
+
+
+                     if (map.get(ConfigConstants.NETWORKDISK_PICS_SELECTED) >= max_num_pics) {
+                        ToastUtils.showLongToastFromText(String.format(mContext.getResources().getString(R.string.networkdisk_pics_selected_max), max_num_pics + ""), ToastUtils.bottom);
+                        return;
+                    }
+                    if (map.get(ConfigConstants.NETWORKDISK_VIDEOS_SELECTED) >= max_num_videos) {
+                        ToastUtils.showLongToastFromText(String.format(mContext.getResources().getString(R.string.networkdisk_videos_selected_max), max_num_videos + ""), ToastUtils.bottom);
+                        return;
+                    }
+                    if (map.get(ConfigConstants.NETWORKDISK_AUDIOS_SELECTED) >= max_num_audios) {
+                        ToastUtils.showLongToastFromText(String.format(mContext.getResources().getString(R.string.networkdisk_audios_selected_max), max_num_audios + ""), ToastUtils.bottom);
+                        return;
+                    }
+                    if (map.get(ConfigConstants.NETWORKDISK_FILES_SELECTED) >= max_num_files) {
+                        ToastUtils.showLongToastFromText(String.format(mContext.getResources().getString(R.string.networkdisk_files_selected_max), max_num_files + ""), ToastUtils.bottom);
+                        return;
+                    }
+
+
+
+            //跳转到webView
+            Bundle bundle = new Bundle();
+            bundle.putString("title", "图文验证");
+            bundle.putString("linkurl", "file:///android_asset/web/graphicverification.html");
+            bundle.putInt("type", ConfigConstants.SMS_GRAPHIC_VERIFICATION);
+            PublicPracticalMethodFromJAVA.getInstance().intentToJump(getActivity(), UserAgreementWebView.class, -1, bundle, false, R.anim.activity_right_in, R.anim.activity_xhold);
+
+
+
+            document.querySelector("#CaptchaEl").click();
+
+
+                            if (graphicVerificationView == null) {
+                    graphicVerificationView = GraphicVerificationView(this)
+                    graphicVerificationView!!.setGraphicVerificationListener(this)
+                    graphicVerificationView!!.id = R.id.cl_graphicverification_global
+                    cl_global.addView(graphicVerificationView)
+
+                    val constraintUtil = ConstraintUtil(cl_global)
+                    val begin: ConstraintBegin = constraintUtil.begin()
+                    begin.setHeight(R.id.cl_graphicverification_global, WindowManager.LayoutParams.MATCH_PARENT)
+                    begin.setWidth(R.id.cl_graphicverification_global, WindowManager.LayoutParams.MATCH_PARENT)
+                    begin.setMarginStart(R.id.cl_graphicverification_global, resources.getDimensionPixelSize(R.dimen.dimen_20x))
+                    begin.setMarginEnd(R.id.cl_graphicverification_global, resources.getDimensionPixelSize(R.dimen.dimen_20x))
+                    begin.commit()
+                }
+
+
+￥1、学生年龄（0岁不显示）
+2、通知提醒（过期课程提示）
+￥3、备课无内容提示（还没上传备课内容吆～）
+￥4、进入课程表后，课程表默认收起
+5、学生预习的课件有问题，课程表预习逻辑有问题
+6、消息通知里内容一点击，首页还是显示有未点击的消息
+7、老师模式下，作业附件文件大小没有格式化
+8、布置作业没有选择文件
+9、作业撤回并编辑时候，老师的作业附件变双倍了
+10、点评可以上传文件没做
+11、版本号1.5.2
+12、课节上学生列表更多学生+未显示学生数量有问题
+
+
+
+预习 提示    没有内容给提示语
+学生列表 +号  是显示剩余学生。
+过期教室点击需要给提示语
+
+
+13810472492      老师
+
+15901508918      学生
+
+密码都是12345678
+
+16600006666
+
+
+14006188080
+
+    signingConfigs {
+        config {
+            keyAlias 'talk'
+            keyPassword 'talkplus'
+            storeFile file('../talkplus.jks')
+            storePassword 'talkplus'
+        }
+    }
+
+
+
+
+
+binding.wvPublicpage.evaluateJavascript("javascript:handleScanCode(${userjson})") {
+}
+
+
+ARouter.getInstance().build("/ui/carnival/CarnivalWebView")
+        .withInt(ConfigConstants.storyId, 3)
+        .navigation();
+finish();
+
+
+R.id.imgChatAdd
+
+
+
+
+
+192.168.2.16
+
+
+//                ARouter.getInstance().build(ARouterPath.Club.CarnivalWebView)
+//                        .navigation()
+
+
+        debug {
+            storeFile file("config/debug.jks")
+            storePassword "android"
+            keyAlias "android"
+            keyPassword "android"
+        }
+
+                release {
+            storeFile file("config/sugram_cert.jks")
+            storePassword "g8LDF3sD8EsyuWo8"
+            keyAlias "sugram"
+            keyPassword "JVd9GsN5O1cEa81z"
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+
+文件名：AIFUN-lite-1.1.1-debug.apk
+
+文件大小：73.12M
+
+appKey：t4dh5d
+
+包名(applicationId)：com.snai.aifun.dev
+
+版本号(versionName)：1.1.1-dev
+
+内部版本号(versionCode)：62
+
+scheme(由openinstall自动分配)： t4dh5d
+
+签名证书指纹(SHA-1)： ED:F0:63:2D:41:C2:2D:9A:CA:10:19:50:8C:E8:50:52:E9:C9:76:B2
+
+openinstall sdk版本： 2.5.5
+
+
+
+文件名：AIFUN-baid-1.1.1-debug.apk
+
+文件大小：73.12M
+
+appKey：t4dh5d
+
+包名(applicationId)：com.snai.aifun.dev
+
+版本号(versionName)：1.1.1-dev
+
+内部版本号(versionCode)：62
+
+scheme(由openinstall自动分配)： t4dh5d
+
+签名证书指纹(SHA-1)： 88:7B:FC:CB:85:77:34:77:68:37:EC:61:41:64:29:B2:46:C6:6B:6B
+
+openinstall sdk版本： 2.5.5
+
+
+
+inviterID
+
+
+ getInstall : installData =-= AppData{channel='', data='{"inviterID":"77777"}'}
+ bindData =-= {"inviterID":"77777"}
+
+
+
+         // 获取安装携带的参数
+        OpenInstall.getInstall(new AppInstallAdapter() {
+            @Override
+            public void onInstall(AppData appData) {
+                // 打印数据便于调试
+//                LogUtil.i("BaseLoginRegisterSmsFragment", "getInstall : installData =-= " + appData);
+                // 获取渠道数据
+                String channelCode = appData.getChannel();
+                // 获取自定义数据
+//                String bindData = appData.getData();
+//                LogUtil.i("BaseLoginRegisterSmsFragment", "bindData =-= " + bindData);
+                String bindData = "{\"inviterID\":\"77777\"}";
+                try {
+                    JSONObject jsonData = new JSONObject(bindData);
+                    String inviterID = jsonData.optString("inviterID", "0");
+                    LogUtil.i("BaseLoginRegisterSmsFragment", "inviterID =-= " + inviterID);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+    <!-- 标题头 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_close"
+            android:layout_width="20pt"
+            android:layout_height="16pt"
+            android:layout_marginStart="18pt"
+            android:layout_marginTop="30pt"
+            android:src="@drawable/ic_nav_arrow_icon_left"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5pt"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="1111111"
+            android:textColor="#061925"
+            android:textSize="18dp"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_close"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_close"
+            app:layout_constraintTop_toTopOf="@+id/iv_close" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+{"isJoined":1,"groupId":"123","ownerId":"14882"}
+
+
+
+
+            PermissionRequestManager.request(this@ChoosePinActivity, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
+                    .request({ all, _, _ ->
+                        if (all) {
+                            locationViewModel.fetchLocation().observe(this@ChoosePinActivity) {
+                                mLatitude = it.latitude.toString()
+                                mLongitude = it.longitude.toString()
+                            }
+                        }
+                    }, true)
+
+        //申请开启权限
+        PermissionRequestManager.request(this@CarnivalWebView,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                .request({ all, _, _ ->
+                    if (all) {
+                        //https://pictrue02-1304083978.cos.ap-guangzhou.myqcloud.com/banner2.png
+                        com.shannon.common.utils.glideutils.MyGlideUtils.glideutils.downloadImageToPhotoAlbum(this@CarnivalWebView,
+                                "https://pictrue02-1304083978.cos.ap-guangzhou.myqcloud.com/banner2.png") { _result ->
+                            if (_result)
+                                ToastUtil.showToast("图片保存成功") else ToastUtil.showToast("图片保存失败")
+                        }
+                    }
+                }, false)
+
+
+
+
+
+
+
+
+ LogUtils.iTag(ConfigConstants.CONSTANT.TAG_ALL, "bannerCoverURL =-= ${data.bannerCoverURL}")
+
+
+微信热更新：
+1.Android Tinker集成采坑：https://trello.com/b/kE3xuOgQ/limao
+2.Android-Tinker热修复接入实践问题记录(自己认为的较完善的理解)：https://zhuanlan.zhihu.com/p/89050372
+3.Tinker 接入指南：https://github.com/Tencent/tinker/wiki/Tinker-%E6%8E%A5%E5%85%A5%E6%8C%87%E5%8D%97
+微信分享图片
+https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Share_and_Favorites/Android.html
+QQ分享图片
+https://www.jianshu.com/p/3c2f61ee4a2d
+
+RequestBuilder
+PostDynamicDialog
+StoreNewDetailActivity
+UserTagActivity
+CommonUtil
+PublicPracticalMethodFromKT.ppmfKT.intentToJump(
+        requireActivity(), CarnivalWebView::class.java,
+        null, false,
+        R.anim.push_bottom_in, R.anim.contry_open_exit,
+)
+AllClubActivity，FollowersFansActivity
+RegisterInfoNewFragment
+BaseFunBindingRecyclerViewAdapter
+
+
+String secretId = "AKIDsY2LhrZMn22rRtTlrkMEvJyJQFEXKR2U"; //永久密钥 secretId
+String secretKey = "GG1gDh21ndLp95A7Yae07zccIFxQfhaC"; //永久密钥 secretKey
+
+
+    https://qr.alipay.com/bax045236z1fsqb5u3wc00cd
+
+    https://mobilecodec.alipay.com/client_download.htm?qrcode=bax045236z1fsqb5u3wc00cd
+
+    https://render.alipay.com/p/s/i?scheme=%61%6C%69%70%61%79%73%3A%2F%2F%70%6C%61%74%66%6F%72%6D%61%70%69%2F%73%74%61%72%74%61%70%70%3F%73%61%49%64%3D%31%30%30%30%30%30%30%37%26%71%72%63%6F%64%65%3D%25%36%38%25%37%34%25%37%34%25%37%30%25%37%33%25%33%41%25%32%46%25%32%46%25%37%31%25%37%32%25%32%45%25%36%31%25%36%43%25%36%39%25%37%30%25%36%31%25%37%39%25%32%45%25%36%33%25%36%46%25%36%44%25%32%46%25%36%32%25%36%31%25%37%38%25%33%30%25%33%34%25%33%35%25%33%32%25%33%33%25%33%36%25%37%41%25%33%31%25%36%36%25%37%33%25%37%31%25%36%32%25%33%35%25%37%35%25%33%33%25%37%37%25%36%33%25%33%30%25%33%30%25%36%33%25%36%34%25%33%46%25%35%46%25%37%33%25%33%44%25%37%37%25%36%35%25%36%32%25%32%44%25%36%46%25%37%34%25%36%38%25%36%35%25%37%32
+
+    alipays://platformapi/startapp?saId=10000007&qrcode=%68%74%74%70%73%3A%2F%2F%71%72%2E%61%6C%69%70%61%79%2E%63%6F%6D%2F%62%61%78%30%34%35%32%33%36%7A%31%66%73%71%62%35%75%33%77%63%30%30%63%64%3F%5F%73%3D%77%65%62%2D%6F%74%68%65%72
+
+
+    https://qr.alipay.com/bax03939l8gmqnimw2vt0061
+
+
+
+val intent = Intent(Intent.ACTION_VIEW)
+var uri: Uri? = null
+try {
+    uri = Uri.parse(url)
+} catch (e: UnsupportedEncodingException) {
+    e.printStackTrace()
+}
+intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+intent.data = uri
+if (CommonUtil.isIntentResolvable(context, intent)) {
+    startActivityForResult(intent, 1001)
+} else {
+    viewModel.dismissLoading()
+    Toast.makeText(context, "请安装支付宝！", Toast.LENGTH_SHORT).show()
+}
+return true
+
+
+
+
+
+
+
+   val jsonBody = JsonObject().apply {
+      addProperty("inviteeUserId", 777)
+      addProperty("inviterUserId", 888)
+  }
+  val requestBody = jsonBody.toString().toRequestBody("application/json;charset=utf-8".toMediaTypeOrNull())
+  HttpFactory.getInstance().APINew(APiServiceNew.BASE_SCRIPTKILL_URL).acceptInvitation(requestBody)
+          .subscribeOn(Schedulers.io())
+          .observeOn(AndroidSchedulers.mainThread())
+          .subscribe({
+              if (it.code == 200) {
+              } else {
+                  ToastUtil.showCenter(it.msg)
+              }
+          }, {
+              LogUtils.eTag(ConfigConstants.CONSTANT.TAG_ALL, it.message)
+          })
+
+
+
+//添加支付宝请求判断
+if (url.startsWith("alipays:") || url.startsWith("alipay")) {
+    try {
+//                            downloadByBrowser(url)
+        val intent = Intent(Intent.ACTION_VIEW)
+        var uri: Uri? = null
+        uri = Uri.parse(url)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        intent.data = uri
+        this@CarnivalWebView.startActivity(intent)
+
+//                            this@CarnivalWebView.startActivity(Intent("android.intent.action.VIEW", Uri.parse(url)))
+    } catch (e: Exception) {
+        e.printStackTrace()
+        showConfirmDialog(this@CarnivalWebView, "", "未检测到支付宝客户端，请安装后重试",
+                "立即安装", "取消",
+                {
+                }, {
+            val alipayUrl = Uri.parse("https://d.alipay.com")
+            this@CarnivalWebView.startActivity(Intent("android.intent.action.VIEW", alipayUrl))
+//                                downloadByBrowser("https://d.alipay.com")
+        })
+    }
+    return true
+}
+
+        /** 基础BASE_URL配置 **/
+    //测试环境，还没有给，后期需要补齐
+    def API_BASE_URL_TEST = "http://159.75.99.192:30175"
+    //预发布环境
+    def API_BASE_URL_PRE = "http://159.75.99.192:30175"
+    //正式环境
+    def API_BASE_URL_RELEASE = "https://apic.aifun.com"
+    /** 基础剧本杀大赛 BASE_URL 配置 **/
+    //测试环境
+    def API_BASE_SCRIPTKILL_URL_TEST = "http://192.168.2.192:35701"
+    //预发布环境
+    def API_BASE_SCRIPTKILL_URL_PRE = "https://dsh5pre.aifun.com"
+    //正式环境，还没有给，后期需要补齐
+    def API_BASE_SCRIPTKILL_URL_RELEASE = "https://dsh5pre.aifun.com"
+    /** SocketAddress 配置 **/
+    //测试环境
+    def SOCKET_ADDRESS_TEST = "192.168.2.192"
+    def SOCKET_ADDRESS_PORT_TEST = 22100
+    //预发布环境
+    def SOCKET_ADDRESS_PRE = "106.55.103.163"
+    def SOCKET_ADDRESS_PRE_TEST = 22100
+    //正式环境
+    def SOCKET_ADDRESS_RELEASE = "159.75.132.252"
+    def SOCKET_ADDRESS_PRE_RELEASE = 22100
+
+
+java -jar tinker-patch-cli-1.9.2.jar -old old.apk -new new.apk -config tinker_config.xml -out output
+
+
+createOrJoinScriptGame(params) {
+    try {
+        if (!PublicPracticalMethodFromKT.ppmfKT.isBlank(it) && !PublicPracticalMethodFromKT.ppmfKT.isBlank(it.data)) {
+            val jsonGson = GsonBuilder().disableHtmlEscaping().create()
+            val serviceNeedBean = jsonGson.fromJson(it.data, AliPayBean::class.java)
+            orderNo = serviceNeedBean.orderNo
+            val orderType = serviceNeedBean.orderType
+            if (orderType == 1) {//零元购订单
+//                            foregroundListener = ForegroundDetectorListener(this@PreparePaymentDialog)
+//                            ForegroundDetector.getInstance().addListener(foregroundListener)
+                //跳转页面
+                startActivity(Intent(mContext, MyOrderInfoActivity::class.java).apply {
+                    putExtra("orderNo", orderNo)
+                    putExtra("isCreate", 1)
+                })
+            } else {
+                jumpToAliPay(serviceNeedBean.payInfo)
+            }
+        } else {
+            ToastUtil.showCenter("组局失败！")
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+    } finally {
+        viewModel.dismissLoading()
+    }
+}
+
+        fun createOrJoinScriptGame(params: CreateGroupBean, onCallBack: (joinGroupPayBean: JoinGroupPayBean) -> Unit) {
+        BureauRepository.createOrJoinScriptGame(params)
+        .funSubscribe(true, { e ->
+        if (e is NettServerException) {
+
+         }
+        }, {
+        onCallBack(it)
+        allowClickable = false
+        })
+        }
+
+val mMap: MutableMap<String, Any> = HashMap()
+    mMap["code"] = code
+    mMap["data"] = data
+    mMap["msg"] = msg
+    val paramsData = JSONObject(mMap as Map<*, *>)
+
+
+http://192.168.2.225:18080/examples/testweb.html
+
+    │ main, org.sugram.base.LaunchActivity.initShare(LaunchActivity.java:306)
+    ├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+    │ args[0] = Scheme =-= sugramlogin
+    │ args[1] = host =-= open.sugramapp.com
+    │ args[2] = key1 =-= 哈哈
+    │ args[3] = key2 =-= 嘻嘻
+
+
+
+{"token":"NTg1NDI2MjYsNTExMzgsMjkyNTIwMjE=","user":{"uin":51138,"nickName":"微笑的酒窝","langCode":"86","phone":"13554298369","smallAvatarUrl":"","originalAvatarUrl":"","email":"","qrcodeString":"http://120.76.215.216/ap/pv7vTMknuC6oMG+VjyVHHg==","gender":1,"contactStatus":0,"alias":null,"isBlock":false,"isMatch":false,"numberInPhoneBook":null,"isRecordEncrypt":false,"aliasMobile":null,"aliasDesp":null,"displayName":"","phones":[]}}
+
+
+投票系统 android端 时间估算：
+1.投票webview页面，编写和功能优化    【1天】
+2.webview页面进入后，整理相应的数据传递给H5页面  【0.5天】
+3.(1)webviwe中 aifun分享，微信分享，朋友圈分享，QQ分享，微博分享功能实现 【1天】
+  (2)分享功能和H5端调试，实现下载或者唤起APP应用 【1天】
+4.调试优化代码，debug修改    【1.5天】
+合计：【5天】
+
+
+
+分享功能H5所需要传递给原生的数据：
+
+1.落地页地址url
+落地页中需要拼接传递的参数，PS：https://www.baidu.com/?playerId=xxxxxx&openVoteWebViewUrl=xxxxxx
+
+(1)playerId的值是落地页中获取，启动app的时候传递给app的作为页面跳转等功能使用
+(2)openVoteWebViewUrl的值是 访问投票系统的基础url  PS：http://192.168.2.71:8888/
+
+2.分享标题title
+
+3.分享描述description
+
+4.分享缩略图coverUrl
+
+5.分享分类platform   1-aifun分享；2-微信好友；3-微信朋友圈；4-QQ； 5-微博；6-复制链接；
+(1)如果是aifun分享，那么1中分享的url就是投票系统的基础url+参数playerId=xxxx  PS：http://192.168.2.71:8888/?playerId=xxxxxx，原生端点击消息的时候，直接把地址用webview打开
+
+(2)微信好友,微信朋友圈,QQ,微博 的时候 分享中的url 就是落地页地址
+
+6.如果是复制按钮，直接传值落地页url地址，2,3,4可以为 " "
+
+
+super(context, WCDBUtils.getWcdbDbName(uin), (BuildConfig.DEBUG) ? null : WCDBUtils.getWcdbDbEncryptKey(uin).getBytes(), null, null,
+        DATABASE_VERSION, null);
+
+//开启Stetho调试
+Stetho.initializeWithDefaults(this);
+
+
+
+
+这些是需要测试，屏蔽后是否还会显示相关信息的：
+首页club列表接口：【status/clubStatusList】
+首页动态列表接口：【status/userStatusList】
+我喜欢的接口：【status/userLikeStatusList】
+我的收藏接口：【user/userCollect】
+
+
+这些是接口中需要传相关值的：
+club详情接口：【club/clubDetails】
+动态详情接口：【status/statusDetails】
+我的动态列表：【status/userStatusList】
+目前动态、club接口中C端需要获取新的三个字段
+判断动态状态类型A：审核、屏蔽、封禁等
+动态状态返回值B，例如：
+1.审核中：动态在审核阶段，暂不能对外开放。
+动态封禁、驳回返回值C，例如：
+2.封禁：动态因（运营填写的原因）审核不通过，请删除后重新发布。
+
+
+
+    cmdId: 268468225(0x10008001)
+    cmdName: org.telegram.sgnet.SGBaseRpc$HeartbeatResp$1
+
+
+    cmdId: 805376017(0x30011011)
+    cmdName: org.telegram.sgnet.SGLoginRpc$AuthSignIn2Req$1
+
+        //本地方法调用异常
+    ERR_METHOD_INVOKE_EXCEPTION(0x00001101, "方法调用异常"),
+
+
+
+//接收消息处理线程
+ReceiveMsgThread
+
+
+账号在其他手机上面登录：
+
+1.tcp状态：
+//已在其它手机上登录 本手机上被退出
+//注: 该请求由server端主动推送 故没有对应的req类
+message SessionKilledNotificationResp {
+  //SessionKilledNotificationRespCmdId = 0x10008005;
+    int32 newLoginDeviceType = 1; //新登陆所在的设备类型 1:安卓 2:iOS 3:web 4:pc.
+    string newLoginImei = 2; //新登陆所在的手机串号
+    string newLoginPhoneBrand = 3; // 新登陆所在的手机品牌
+    string newLoginPhoneModel = 4; // 新登陆所在手机型号
+    bool forceLogoutDeleteAllLocalMessagesFlag=5;//踢人下线删除 默认为不删除 false
+}
+
+2.http状态是会返回：
+{"code":401,"msg":"你没有登录:request sessionId not match","data":null}
+
+
+
+cmdId == SGCmd.CmdId.UserFrozenToLoginRespCmdId_VALUE  //封号通知
+
+
+封号客户端这块：
+tcp连接：
+// 封号主动推送
+message UserFrozenToLoginResp {
+  //UserFrozenToLoginRespCmdId = 0x30018FFF;
+  int32 errorCode = 1;
+  string errorMessage = 2;
+  int32 frozenType = 3; // 封号级别
+  bool forceLogoutDeleteAllLocalMessagesFlag = 4;//踢人下线删除 默认为不删除 false
+}
+
+登录那块返回：
+ErrorCode.ERR_USER_FROZEN.getErrorCode()   ERR_USER_FROZEN(0x30010020, "您被封号,请联系客服"),
+
+
+
+
+
+
+http://raksmart.com/home/article/details?a_id=182
+账号：qinqinmybaby@protonmail.com
+密码：
+107.148.14.4
+VUD964fs
+购买域名：
+qinqinmybaby.xyz
+
+匿名邮箱：
+https://protonmail.com/
+账号：qinqinmybaby@protonmail.com
+密码：198671$Kid
+
+godaddy：
+https://account.godaddy.com/profile
+账号：qinqinmybaby@protonmail.com
+
+
+模拟人物信息网站：
+https://www.prepostseo.com/tool/fake-address-generator
+https://www.fakeaddressgenerator.com/
+
+cloud：
+https://cloudflare.com/
+
+免费注册域名：
+https://www.freenom.com/zh/index.html?lang=zh
+
+https://www.vultr.com/
+账号：524971307@qq.com
+密码：198671$Kid
+
+
+
+develop-ref-124-operation
+
+
+13554298358
+13554298357
+13554298356
+
+
+
+@drawable/af_login_1
+
+
+
+
+
+
+
+
+
+
+/** 有用的类  **/
+LoginByPasswordFragment中的clickLogin()方法
+//从服务器获取国家数据  参考例子
+getCountryListFromServer()
+//对话fragment
+ChatFunFragment
+//数据库相关类
+WCDBOpenHelper
+//数据库操作类
+WCDBOperation
+//SP工具类
+SharedpreferencesUtil
+//支付
+PreparePaymentDialog
+//聊天类
+SGChatActivity
+//ByRecyclerView实例
+AllScriptForShopActivity
+//我的动态页面，可以参考RecyclerView写法
+DynamicListAdapter
+//发送消息统一入口
+SendMsgFactory
+//插入或者更新一条dialog表记录 都调这个函数
+asyncReplaceDialogToDB
+//发送消息工具类，其中包括保存缓存文件
+SendMsgUtils
+//server同app端协定的 错误码定义
+ErrorCode
+//RecyclerView之使用FlexboxLayoutManager，自动换行
+ABoutFragment，TagAdapter
+
+
+
+
+//aifun IM 聊天消息格式配置用的到类
+AIFUN-ANDROID\TMessagesProj\src\main\java\org\sugram\business\sendmsg\SendMsgBean.java
+AIFUN-ANDROID\TMessagesProj\src\main\java\org\sugram\business\sendmsg\SendMsgFactory.java
+AIFUN-ANDROID\TMessagesProj\src\main\java\org\sugram\dao\common\ForwardActivity.java
+AIFUN-ANDROID\TMessagesProj\src\main\java\org\sugram\dao\dialogs\model\ChatAdapter.java
+AIFUN-ANDROID\TMessagesProj\src\main\java\org\telegram\messenger\ChatUtils.java
+AIFUN-ANDROID\TMessagesProj\src\main\java\org\telegram\messenger\Consts.java
+AIFUN-ANDROID\TMessagesProj\src\main\java\org\telegram\sgnet\SGMediaObject.java
+AIFUN-ANDROID\TMessagesProj\src\main\java\org\telegram\sgnet\SGMediaStore.java
+AIFUN-ANDROID\TMessagesProj\src\main\java\org\sugram\aifun\cell\ChatLandingPageCell.java
+AIFUN-ANDROID\TMessagesProj\src\main\res\layout\cell_chat_landing_page.xml
+
+1. 首先在SGMediaObject类中创建一个新的消息类  例如：FunVoteShareLinkMessage
+2. 在SGMediaStore中添加配置 例如：mediaStore.put(SGMediaObject.FunVoteShareLinkMessage.constructor, SGMediaObject.FunVoteShareLinkMessage.class);
+3. Consts中 MsgType的 配置 消息类型 例如：public static final int VOTE_SHARELINK = 12202;
+4. 在ChatUtils中的getMessageDisplayType方法中添加分支判断代码
+(1).例如 else if (mediaConstructor == SGMediaObject.FunVoteShareLinkMessage.constructor) {
+            type = Consts.MsgType.VOTE_SHARELINK;
+        }
+(2).getMediaMsgTypeText 方法中添加分支判断
+例如：else if (type == Consts.MsgType.VOTE_SHARELINK) {
+            text = "[投票分享]";
+        }
+
+5. 新增消息显示自定义view  例如：ChatVoteShareLinkCell 并且创建 相应的布局文件 cell_chat_vote_share_link.xml
+6. 在聊天页内容列表适配器 ChatAdapter 中添加分支判断方法
+例如: else if (viewType == Consts.MsgType.VOTE_SHARELINK) {
+            view = new ChatVoteShareLinkCell(mContext, mGroupFlag);
+        }
+7. SendMsgBean中 创建消息实体 例如：createVoteShareLinkMessage
+8. SendMsgFactory 中
+(1).创建 发送SDK分享的文本消息 方法 例如： sendVoteShareLink 方法
+(2).sendBatchForwardMsg方法 中添加 分支判断方法
+例如： else if (Consts.MsgType.VOTE_SHARELINK == type) {
+                SGMediaObject.FunVoteShareLinkMessage voteShareLinkMessage = (SGMediaObject.FunVoteShareLinkMessage) SGMediaStore.Instance().SGdeserialize(msgList.get(i).mediaConstructor,
+                        msgList.get(i).mediaAttribute, false);
+                LMessage message = SendMsgBean.createVoteShareLinkMessage(destUin, voteShareLinkMessage);
+                LMessage originalMsg = msgList.get(i);
+                message.isFromCollection = (originalMsg.isFromCollection && originalMsg.sendState == Consts.MsgStatus.MSG_STATUS_DEFAULT);
+                newMsgList.add(message);
+            }
+
+9. 在 ForwardActivity 中 配置判断分支
+例如: else if (mediaObject instanceof SGMediaObject.FunVoteShareLinkMessage) {
+                //投票系统分享链接
+                SendMsgFactory.getInstance().sendVoteShareLink(destUin, (SGMediaObject.FunVoteShareLinkMessage) mediaObject);
+            }
