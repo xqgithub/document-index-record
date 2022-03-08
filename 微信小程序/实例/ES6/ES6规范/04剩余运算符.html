@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>剩余参数</title>
+	</head>
+	<body>
+
+		<script type="text/javascript">
+			const a = 10;
+			//es5=============================================================================================
+			//arguments 是一个对应于传递给函数的参数的类数组对象
+			
+			// function add(num) {
+			// 	// console.log(arguments)
+			// 	for (let i = 1; i < arguments.length; i++) {
+			// 		num += arguments[i]
+			// 	}
+			// 	return num;
+			// }
+
+			//es6=============================================================================================
+			function add(num, ...arr) {
+				console.log(arr)
+				for (let i = 0; i < arr.length; i++) {
+					num += arr[i]
+				}
+				return num;
+			}
+
+			const data = add(a, 20, 30, 40, 50)
+			document.write(data)
+		</script>
+	</body>
+</html>

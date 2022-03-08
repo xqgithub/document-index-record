@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>对象的简写</title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			const name = '张三',
+				age = 18,
+				sex = '男';
+			//es5===========================================
+			// const obj = {
+			// 	name: name,
+			// 	age: age,
+			// 	xb: sex
+			// }
+			//es6===========================================
+			const obj = {
+				name,
+				age,
+				xb: sex,
+				getName() {
+					return this.name;
+				}
+			}
+
+			console.log(obj)
+		</script>
+	</body>
+</html>

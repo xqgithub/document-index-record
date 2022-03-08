@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>箭头函数</title>
+	</head>
+	<body>
+
+		<script type="text/javascript">
+			//1.多个参数写法
+			// let add = (a, b) => {
+			// 	return a + b;
+			// }
+
+			//2.一个参数
+			// let add = a => {
+			// 	return a + 10;
+			// }
+
+			//3.没有参数
+			// let add = () => {
+			// 	return 10;
+			// }
+
+			//4.表达式写法
+			// let add = (a, b) => a + b;
+			// let add = a => a + 10;
+			// let add = () => 10;
+			// let add = () => [1, 2, 3];
+			let add = () => ({
+				name: '张三',
+				age: 18,
+				sex: '男'
+			})
+			console.log(add())
+		</script>
+	</body>
+</html>

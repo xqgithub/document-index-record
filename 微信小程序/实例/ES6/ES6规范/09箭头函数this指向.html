@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>箭头函数this指向</title>
+		<script type="text/javascript">
+			let obj = {
+				name: '张三',
+				age: 18,
+				fun: () => {
+					//该this指向的是window
+					console.log(this)
+				}
+			}
+
+			obj.fun()
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

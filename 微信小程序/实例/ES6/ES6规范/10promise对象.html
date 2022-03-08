@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>promise对象</title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			const pA = new Promise((resolve, reject) => {
+				setTimeout(() => {
+					// let data = '从服务器返回了数据';
+					// resolve(data);
+
+					let err = '从服务器返回了数据,失败'
+					reject(err);
+				}, 2000)
+			})
+			
+			
+			pA.then(res => {
+				//promise对象中的then方法用于指定promise状态为成功时的函数回调
+				console.log(res);
+			}).catch(err => {
+				//promise对象中的catch方法用于指定promise状态为失败时的函数回调
+				console.log(err);
+			})
+		</script>
+	</body>
+</html>
