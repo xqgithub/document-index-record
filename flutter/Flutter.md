@@ -1,5 +1,9 @@
 # Flutter
 
+## 项目地址
+
+https://github.com/xqgithub/TestMyFlutterDemo/tree/master/test_my_flutter_demo
+
 ## 使用镜像
 
 由于在国内访问Flutter有时可能会受到限制，Flutter官方为中国开发者搭建了临时镜像，大家可以将如下环境变量加入到用户环境变量中：
@@ -674,4 +678,1219 @@ I/flutter (17666): hello 3
 
 ## Flutter应用
 
-### 一.计数器应用示例
+### 一.widget介绍
+
+#### widget概念
+
+1. 在Flutter中几乎所有的对象都是一个 widget
+2. Flutter 中的 widget 的概念更广泛，它不仅可以表示UI元素，也可以表示一些功能性的组件如：用于手势检测的 `GestureDetector` 、用于APP主题数据传递的 `Theme` 等等
+3. Flutter 中是通过 Widget 嵌套 Widget 的方式来构建UI和进行实践处理的，所以记住，Flutter 中万物皆为Widget。
+
+#### widget接口
+
+1.  Widget 中定义的属性（即配置信息）必须是不可变的（final），Flutter 中如果属性发生则会重新构建Widget树，即重新创建新的 Widget 实例来替换旧的 Widget 实例。
+2.  Flutter 开发中，我们一般都不用直接继承`Widget`类来实现一个新组件，相反，我们通常会通过继承`StatelessWidget`或`StatefulWidget`来间接继承`widget`类来实现。
+
+#### Flutter中的四棵树
+
+![](https://thumbnail1.baidupcs.com/thumbnail/739c693bdg72929dc8cd9b2989ceac7c?fid=604039242-250528-1379095029685&rt=pr&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-0iL4MpBoSJk1E0AhLXxRmZqFhMU%3d&expires=8h&chkbd=0&chkv=0&dp-logid=8764426155602539268&dp-callid=0&time=1647846000&size=c1920_u1080&quality=90&vuk=604039242&ft=image&autopolicy=1)
+
+1. 三棵树中，Widget 和 Element 是一一对应的，但并不和 RenderObject 一一对应。比如 `StatelessWidget` 和 `StatefulWidget` 都没有对应的 RenderObject
+2. 渲染树在上屏前会生成一棵 Layer 树，这个我们将在后面原理篇介绍，在前面的章节中读者只需要记住以上三棵树就行
+
+#### StatelessWidget
+
+1. `StatelessWidget`相对比较简单，它继承自`widget`类，重写了`createElement()`方法。
+2. `StatelessWidget`用于不需要维护状态的场景，它通常在`build`方法中通过嵌套其它 widget 来构建UI，在构建过程中会递归的构建其嵌套的 widget。
+
+#### Context
+
+1. `build`方法有一个`context`参数，它是`BuildContext`类的一个实例，表示当前 widget 在 widget 树中的上下文，每一个 widget 都会对应一个 context 对象（因为每一个 widget 都是 widget 树上的一个节点）
+
+   ```dart
+   class ContextRoute extends StatelessWidget {
+     @override
+     Widget build(BuildContext context) {
+       return Scaffold(
+         appBar: AppBar(
+           title: const Text("Context测试"),
+         ),
+         body: Container(
+           child: Builder(builder: (context) {
+             // 在 widget 树中向上查找最近的父级`Scaffold`  widget
+             Scaffold? scaffold =
+                 context.findAncestorWidgetOfExactType<Scaffold>();
+             // 直接返回 AppBar的title， 此处实际上是Text("Context测试")
+             return (scaffold?.appBar as AppBar).title!;
+           }),
+         ),
+       );
+     }
+   }
+   ```
+
+#### StatefulWidget
+
+1. `StatelessWidget`一样，`StatefulWidget`也是继承自`widget`类，并重写了`createElement()`方法，不同的是返回的Element 对象并不相同；另外`StatefulWidget`类中添加了一个新的接口`createState()`
+2. `StatefulElement` 间接继承自`Element`类，与`StatefulWidget`相对应（作为其配置数据）。`StatefulElement`中可能会多次调用`createState()`来创建状态（State）对象
+3. `createState()` 用于创建和 `StatefulWidget` 相关的状态，它在`StatefulWidget` 的生命周期中可能会被多次调用
+
+#### State
+
+1. StatefulWidget 类会对应一个 State 类，State表示与其对应的 StatefulWidget 要维护的状态，State 中的保存的状态信息可以:
+
+   - 在 widget 构建时可以被同步读取
+   - 在 widget 生命周期中可以被改变，当State被改变时，可以手动调用其`setState()`方法通知Flutter 框架状态发生改变，Flutter 框架在收到消息后，会重新调用其`build`方法重新构建 widget 树，从而达到更新UI的目的
+
+2. State 中有两个常用属性:
+
+   - `widget`，它表示与该 State 实例关联的 widget 实例，由Flutter 框架动态设置.State实例只会在第一次插入到树中时被创建，当在重新构建时，如果 widget 被修改了，Flutter 框架会动态设置State. widget 为新的 widget 实例
+   - `context`。StatefulWidget对应的 BuildContext，作用同StatelessWidget 的BuildContext。
+
+3. state生命周期
+
+   ```dart
+   ///State生命周期 测试
+   class CounterWidget extends StatefulWidget {
+     const CounterWidget({Key? key, this.initValue = 0}) : super(key: key);
+   
+     final int initValue;
+   
+     @override
+     _CounterWidgetState createState() => _CounterWidgetState();
+   }
+   
+   class _CounterWidgetState extends State<CounterWidget> {
+     int _counter = 0;
+   
+     ///当 widget 第一次插入到 widget 树时会被调用，对于每一个State对象，Flutter 框架只会调用一次该回调
+     @override
+     void initState() {
+       super.initState();
+       _counter = widget.initValue;
+       LogUtils.i('initState =-= ');
+     }
+   
+     ///当State对象的依赖发生变化时会被调用
+     @override
+     void didChangeDependencies() {
+       super.didChangeDependencies();
+       LogUtils.i('didChangeDependencies =-= ');
+     }
+   
+     ///主要是用于构建 widget 子树的，会在如下场景被调用:
+     ///1.在调用initState()之后
+     ///2.在调用didUpdateWidget()之后。
+     ///3.在调用setState()之后。
+     ///4.在调用didChangeDependencies()之后。
+     @override
+     Widget build(BuildContext context) {
+       LogUtils.i('build =-= ');
+       return Scaffold(
+         body: Center(
+           child: TextButton(
+             child: Text('$_counter'),
+   
+             ///点击后计数器自增
+             onPressed: () {
+               setState(() {
+                 ++_counter;
+               });
+             },
+           ),
+         ),
+       );
+     }
+   
+     ///在 widget 重新构建时，Flutter 框架会调用widget.canUpdate来检测 widget 树中同一位置的新旧节点，然后决定是否需要更新
+     @override
+     void didUpdateWidget(covariant CounterWidget oldWidget) {
+       super.didUpdateWidget(oldWidget);
+       LogUtils.i('didUpdateWidget =-= ');
+     }
+   
+     ///当 State 对象从树中被移除时，会调用此回调
+     @override
+     void deactivate() {
+       super.deactivate();
+       LogUtils.i('deactivate =-= ');
+     }
+   
+     ///当 State 对象从树中被永久移除时调用；通常在此回调中释放资源
+     @override
+     void dispose() {
+       super.dispose();
+       LogUtils.i('dispose =-= ');
+     }
+   
+     ///此回调是专门为了开发调试而提供的，在热重载(hot reload)时会被调用，此回调在Release模式下永远不会被调用
+     @override
+     void reassemble() {
+       super.reassemble();
+       LogUtils.i('reassemble =-= ');
+     }
+   }
+   ```
+
+   - 打开路由进入页面，initState -> didChangeDependencies -> build
+
+   - 热重载,reassemble -> didUpdateWidget -> build
+
+   - 在 widget 树中移除`CounterWidget`然后重载，reassemble -> deactive -> dispose
+
+   - 退出该页面，deactivate -> dispose
+
+     ![](https://thumbnail1.baidupcs.com/thumbnail/2b170d3f2s302278c8bb955ba401ddf5?fid=604039242-250528-966985939913061&rt=pr&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-ApCWM7pREkg5r2V3EoAXPtkCf4A%3d&expires=8h&chkbd=0&chkv=0&dp-logid=8764426155602539268&dp-callid=0&time=1647846000&size=c1920_u1080&quality=90&vuk=604039242&ft=image&autopolicy=1)
+
+#### 在widget树中获取State对象
+
+1. 通过Context获取
+
+   - `context`对象有一个`findAncestorStateOfType()`方法，该方法可以从当前节点沿着 widget 树向上查找指定类型的 StatefulWidget 对应的 State 对象
+
+     ```dart
+     // 查找父级最近的Scaffold对应的ScaffoldState对象
+     ScaffoldState _state = context.findAncestorStateOfType<ScaffoldState>()!;
+     ```
+
+   - `Scaffold`也提供了一个`of`方法，我们其实是可以直接调用它
+
+     ```dart
+     // 直接通过of静态方法来获取ScaffoldState
+      ScaffoldState _state=Scaffold.of(context);
+     ```
+
+2. 通过GlobalKey
+
+   - 给目标`StatefulWidget`添加`GlobalKey`
+
+     ```dart
+     //定义一个globalKey, 由于GlobalKey要保持全局唯一性，我们使用静态变量存储
+     static GlobalKey<ScaffoldState> _globalKey= GlobalKey();
+     ...
+     Scaffold(
+         key: _globalKey , //设置key
+         ...  
+     )
+     ```
+
+   - 通过`GlobalKey`来获取`State`对象
+
+     ```dart
+     _globalKey.currentState.openDrawer()
+     ```
+
+   - 如果一个 widget 设置了`GlobalKey`，那么我们便可以通过`globalKey.currentWidget`获得该 widget 对象;`globalKey.currentElement`来获得 widget 对应的element对象;当前 widget 是`StatefulWidget`，则可以通过`globalKey.currentState`来获得该 widget 对应的state对象
+
+     <font color="#dd0000">使用 GlobalKey 开销较大，如果有其他可选方案，应尽量避免使用它。另外，同一个 GlobalKey 在整个 widget 树中必须是唯一的，不能重复。</font>
+
+#### 通过RenderObject自定义Widget
+
+1. `StatelessWidget` 和 `StatefulWidget` 都是用于组合其它组件的，它们本身没有对应的 RenderObject
+
+2. Flutter 组件库中的很多基础组件都不是通过`StatelessWidget` 和 `StatefulWidget` 来实现的，比如 Text 、Column、Align等
+
+3. 积木都是通过自定义 RenderObject 来实现的
+
+   - 如果组件不会包含子组件，则我们可以直接继承自 LeafRenderObjectWidget
+
+   - 自定义的 widget 可以包含子组件，则可以根据子组件的数量来选择继承SingleChildRenderObjectWidget 或 MultiChildRenderObjectWidget
+
+     ```dart
+     class CustomWidget extends LeafRenderObjectWidget{
+       @override
+       RenderObject createRenderObject(BuildContext context) {
+         // 创建 RenderObject
+         return RenderCustomObject();
+       }
+       @override
+       void updateRenderObject(BuildContext context, RenderCustomObject  renderObject) {
+         // 更新 RenderObject
+         super.updateRenderObject(context, renderObject);
+       }
+     }
+     
+     class RenderCustomObject extends RenderBox{
+     
+       @override
+       void performLayout() {
+         // 实现布局逻辑
+       }
+     
+       @override
+       void paint(PaintingContext context, Offset offset) {
+         // 实现绘制
+       }
+     }
+     ```
+
+#### Flutter SDK 内置组件库介绍
+
+##### 基础组件
+
+1. 导包：package:flutter/widgets.dart
+2. Text:该组件可让您创建一个带格式的文本
+3. Row、Colum：这些具有弹性空间的布局类 widget 可让您在水平（Row）和垂直（Column）方向上创建灵活的布局
+4. Stack：取代线性布局，允许子 widget 堆叠， 你可以使用Positioned来定位他们相对Stack的上下左右四条边的位置。
+5. Container：可让您创建矩形视觉元素。可以装饰一个BoxDecoration，如background、一个边框、或者一个阴影。具有边距（margins）、填充(padding)和应用于其大小的约束(constraints)。可以使用矩阵在三维空间中对其进行变换
+
+##### Material组件
+
+1. 导包：package:flutter/material.dart
+2. Scaffold、AppBar、TextButton等
+
+##### Cupertino组件
+
+IOS风格UI
+
+### 二.状态管理
+
+#### 管理状态的最常见的方法
+
+1. Widget 管理自己的状态。
+2. Widget 管理子 Widget 状态。
+3. 混合管理（父 Widget 和子 Widget 都管理状态）。
+
+#### 如何决定哪种管理方法
+
+1. 如果状态是用户数据，如复选框的选中状态、滑块的位置，则该状态最好由父 Widget 管理
+2. 如果状态是有关界面外观效果的，例如颜色、动画，那么状态最好由 Widget 本身来管理
+3. 果某一个状态是不同 Widget 共享的则最好由它们共同的父 Widget 管理
+
+
+
+#### Widget管理自身状态
+
+- 管理TapboxA的状态
+- 定义`_active`：确定盒子的当前颜色的布尔值。
+- 定义`_handleTap()`函数，该函数在点击该盒子时更新`_active`，并调用`setState()`更新UI。
+- 实现widget的所有交互式行为。
+
+```dart
+class WidgetStateManagement extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return TapboxA();
+  }
+}
+
+///Widget管理自身状态
+class TapboxA extends StatefulWidget {
+  TapboxA({Key? key}) : super(key: key);
+
+  @override
+  _TapboxAState createState() => _TapboxAState();
+}
+
+class _TapboxAState extends State<TapboxA> {
+  ///确定盒子的当前颜色的布尔值。
+  bool _active = false;
+
+  ///设置开关状态
+  void _handleTap() {
+    setState(() {
+      _active = !_active;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: _handleTap,
+      child: Container(
+        child: Center(
+          child: Text(
+            _active ? 'Active' : 'Inactive',
+            style: const TextStyle(
+                fontSize: 32.0,
+                color: Colors.white,
+                decoration: TextDecoration.none),
+          ),
+        ),
+        width: 200.0,
+        height: 200.0,
+        decoration: BoxDecoration(
+          color: _active ? Colors.lightGreen[700] : Colors.grey[600],
+        ),
+      ),
+    );
+  }
+}
+```
+
+#### 父Widget管理子Widget的状态
+
+- 为TapboxB 管理`_active`状态
+
+- 实现`_handleTapboxChanged()`，当盒子被点击时调用的方法。
+
+- 当状态改变时，调用`setState()`更新UI。
+
+  ```dart
+  class WidgetStateManagement extends StatelessWidget {
+    @override
+    Widget build(BuildContext context) {
+      return ParentWidget();
+    }
+  }
+  
+  ///父Widget管理子Widget的状态
+  class ParentWidget extends StatefulWidget {
+    @override
+    _ParentWidgetState createState() => _ParentWidgetState();
+  }
+  
+  class _ParentWidgetState extends State<ParentWidget> {
+    ///确定盒子的当前颜色的布尔值。
+    bool _active = false;
+  
+    ///设置开关状态
+    void _handleTapboxChanged(bool newValue) {
+      setState(() {
+        _active = !_active;
+      });
+    }
+  
+    @override
+    Widget build(BuildContext context) {
+      return Container(
+        color: Colors.white,
+        child: TapboxB(active: _active, onChanged: _handleTapboxChanged),
+      );
+    }
+  }
+  
+  class TapboxB extends StatelessWidget {
+    TapboxB({Key? key, this.active = false, required this.onChanged})
+        : super(key: key);
+  
+    final bool active;
+    final ValueChanged<bool> onChanged;
+  
+    void _handleTap() {
+      onChanged(!active);
+    }
+  
+    @override
+    Widget build(BuildContext context) {
+      return GestureDetector(
+        onTap: _handleTap,
+        child: Center(
+          child: Container(
+            child: Text(
+              active ? 'Active' : 'Inactive',
+              style: const TextStyle(
+                  fontSize: 32.0,
+                  color: Colors.white,
+                  decoration: TextDecoration.none),
+            ),
+            alignment: Alignment.topLeft,
+            width: 500.0,
+            height: 250.0,
+            padding: const EdgeInsets.fromLTRB(20.0, 10.0, 0.0, 0.0),
+            margin: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
+            decoration: BoxDecoration(
+              color: active ? Colors.lightGreen[700] : Colors.grey[600],
+              border: Border.all(
+                width: 2.0,
+                color: Colors.red,
+              ),
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        ),
+      );
+    }
+  }
+  ```
+
+#### 混合状态管理
+
+1. `_ParentWidgetStateC`类:
+   - 管理`_active` 状态
+   - 实现 `_handleTapboxChanged()` ，当盒子被点击时调用。
+   - 当点击盒子并且`_active`状态改变时调用`setState()`更新UI。
+
+2. `_TapboxCState` 对象:
+
+   - 管理`_highlight` 状态
+   - `GestureDetector`监听所有tap事件。当用户点下时，它添加高亮（深绿色边框）；当用户释放时，会移除高亮
+   - 当按下、抬起、或者取消点击时更新`_highlight`状态，调用`setState()`更新UI。
+   - 当点击时，将状态的改变传递给父组件
+
+   ```dart
+   class WidgetStateManagement extends StatelessWidget {
+     @override
+     Widget build(BuildContext context) {
+       return ParentWidgetC();
+     }
+   }
+   
+   ///混合状态管理
+   class ParentWidgetC extends StatefulWidget {
+     @override
+     _ParentWidgetCState createState() => _ParentWidgetCState();
+   }
+   
+   class _ParentWidgetCState extends State<ParentWidgetC> {
+     bool _active = false;
+   
+     void _handleTapboxChanged(bool newValue) {
+       setState(() {
+         _active = newValue;
+       });
+     }
+   
+     @override
+     Widget build(BuildContext context) {
+       return Container(
+         color: Colors.white,
+         child: TapboxC(active: _active, onChanged: _handleTapboxChanged),
+       );
+     }
+   }
+   
+   class TapboxC extends StatefulWidget {
+     const TapboxC({Key? key, this.active = false, required this.onChanged})
+         : super(key: key);
+   
+     final bool active;
+     final ValueChanged<bool> onChanged;
+   
+     @override
+     _TapboxCState createState() => _TapboxCState();
+   }
+   
+   class _TapboxCState extends State<TapboxC> {
+     bool _highlight = false;
+   
+     void _handleTapDown(TapDownDetails details) {
+       setState(() {
+         _highlight = true;
+       });
+     }
+   
+     void _handleTapUp(TapUpDetails details) {
+       setState(() {
+         _highlight = false;
+       });
+     }
+   
+     void _handleTapCancel() {
+       setState(() {
+         _highlight = false;
+       });
+     }
+   
+     void _handleTap() {
+       widget.onChanged(!widget.active);
+     }
+   
+     @override
+     Widget build(BuildContext context) {
+       return GestureDetector(
+         onTapDown: _handleTapDown,
+         //处理按下事件
+         onTapUp: _handleTapUp,
+         //处理抬起事件
+         onTap: _handleTap,
+         onTapCancel: _handleTapCancel,
+         child: Center(
+           child: Container(
+             child: Text(
+               widget.active ? 'Active' : 'Inactive',
+               style: const TextStyle(
+                   fontSize: 32.0,
+                   color: Colors.white,
+                   decoration: TextDecoration.none),
+             ),
+             alignment: Alignment.topLeft,
+             width: 500.0,
+             height: 250.0,
+             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 0.0, 0.0),
+             margin: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
+             decoration: BoxDecoration(
+               color: widget.active ? Colors.lightGreen[700] : Colors.grey[600],
+               border: _highlight
+                   ? Border.all(
+                       width: 2.0,
+                       color: Colors.red,
+                     )
+                   : null,
+               borderRadius: BorderRadius.circular(12),
+             ),
+           ),
+         ),
+   
+       );
+     }
+   }
+   ```
+
+### 三.包管理
+
+1. 可共享的独立模块统一称为“包”（ Package）
+
+2. 包的结构说明：
+
+   ```yaml
+   name: flutter_in_action
+   description: First Flutter Application.
+   
+   version: 1.0.0+1
+   
+   dependencies:
+     flutter:
+       sdk: flutter
+     cupertino_icons: ^0.1.2
+   
+   dev_dependencies:
+     flutter_test:
+       sdk: flutter
+       
+   flutter:
+     uses-material-design: true
+   ```
+
+   - name:应用或包名称
+   - description:应用或包的描述、简介
+   - version：应用或包的版本号
+   - dependencies:应用或包依赖的其它包或插件
+   - dev_dependencies：开发环境依赖的工具包（而不是flutter应用本身依赖的包）
+   - flutter:flutter相关的配置选项
+
+#### pub仓库
+
+Pub（https://pub.dev/ ）是 Google 官方的 Dart Packages 仓库，类似于 node 中的 npm仓库、Android中的 jcenter。我们可以在 Pub 上面查找我们需要的包和插件，也可以向 Pub 发布我们的包和插件。我们将在后面的章节中介绍如何向 Pub 发布我们的包和插件
+
+#### 其他依赖方式
+
+- 依赖本地包
+
+  ```yaml
+  dependencies:
+  	pkg1:
+          path: ../../code/pkg1
+              
+   //路径可以是相对的，也可以是绝对的
+  ```
+
+- 依赖Git：你也可以依赖存储在Git仓库中的包。如果软件包位于仓库的根目录中，请使用以下语法
+
+  ```yaml
+  dependencies:
+    pkg1:
+      git:
+        url: git://github.com/xxx/pkg1.git
+  ```
+
+- 不是这种情况，可以使用path参数指定相对位置
+
+  ```yaml
+  dependencies:
+    package1:
+      git:
+        url: git://github.com/flutter/packages.git
+        path: packages/package1  
+  ```
+
+### 四.资源管理
+
+#### 指定assets
+
+```yaml
+flutter:
+  uses-material-design: true
+  assets:
+      - assets/images/
+```
+
+- `assets`指定应包含在应用程序中的文件， 每个 asset 都通过相对于`pubspec.yaml`文件所在的文件系统路径来标识自身的路径。asset 的声明顺序是无关紧要的，asset的实际目录可以是任意文件夹
+
+#### Asset变体(variant)
+
+- …/graphics/my_icon.png
+- …/graphics/background.png
+- …/graphics/dark/**background.png**
+
+```yaml
+flutter:
+  assets:
+    - graphics/background.png
+```
+
+#### 指定assets中的字体
+
+```yaml
+  fonts:
+    - family: Charmonman
+      fonts:
+        - asset: assets/fonts/Charmonman-Bold.ttf
+        - asset: assets/fonts/Charmonman-Regular.ttf
+          weight: 500
+    - family: Iconfont
+      fonts:
+        - asset: assets/fonts/iconfont.ttf
+```
+
+#### 加载assets资源中的图片
+
+1. 加载assets中的图片
+
+   - Image.asset("assets/images/iocn_diqiu.png", width: 60, height: 60)
+
+   - Image(image: AssetImage("assets/images/error_null.png"),width: 60,height: 60)
+
+     ```dart
+     class LoadAssets extends StatelessWidget {
+       @override
+       Widget build(BuildContext context) {
+         return Scaffold(
+           appBar: AppBar(
+             title: const Text('加载assets文件中的内容'),
+           ),
+           body: LoadAssetsImg(),
+         );
+       }
+     }
+     
+     ///加载图片
+     class LoadAssetsImg extends StatefulWidget {
+       @override
+       _LoadAssetsImgState createState() => _LoadAssetsImgState();
+     }
+     
+     class _LoadAssetsImgState extends State<LoadAssetsImg> {
+       @override
+       Widget build(BuildContext context) {
+         return Column(
+           mainAxisAlignment: MainAxisAlignment.start,
+           crossAxisAlignment: CrossAxisAlignment.end,
+           children: <Widget>[
+             Row(
+               children: [
+                 Image.asset("assets/images/iocn_diqiu.png", width: 60, height: 60),
+               ],
+             ),
+             const Image(
+                 image: AssetImage("assets/images/error_null.png"),
+                 width: 60,
+                 height: 60),
+           ],
+         );
+       }
+     }
+     ```
+
+2. 加载依赖包中的资源图片
+
+   - AssetImage('icons/heart.png', package: 'my_icons')
+   - Image.asset('icons/heart.png', package: 'my_icons')
+
+   假设您的应用程序依赖一个名为"my_icons"的包 
+
+#### 加载文本assets
+
+- 通过`rootBundle`对象加载：全局静态的`rootBundle`对象来加载asset即可
+
+  ```dart
+  import 'dart:async' show Future;
+  import 'package:flutter/services.dart' show rootBundle;
+  
+  Future<String> loadAsset() async {
+    return await rootBundle.loadString('assets/config.json');
+  }
+  ```
+
+  
+
+- 通过DefaultAssetBundle对象加载：建议使用 `DefaultAssetBundle`来获取当前 BuildContext 的AssetBundle
+
+  ```dart
+  import 'dart:convert' show json;
+  import 'package:flutter/material.dart';
+  
+  ///加载json文件
+  class JsonView extends StatefulWidget {
+    @override
+    State<StatefulWidget> createState() {
+      return new _JsonViewState();
+    }
+  }
+  
+  class _JsonViewState extends State<JsonView> {
+    @override
+    Widget build(BuildContext context) {
+      return new FutureBuilder(
+          future:
+              DefaultAssetBundle.of(context).loadString("assets/country.json"),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              List<dynamic> data = json.decode(snapshot.data.toString());
+              return ListView.builder(
+                itemCount: data.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return new Card(
+                    child: new Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        new Text("Name: ${data[index]["name"]}"),
+                        new Text("Age: ${data[index]["age"]}"),
+                        new Text("Height: ${data[index]["height"]}"),
+                        new Text("Gender: ${data[index]["gender"]}"),
+                      ],
+                    ),
+                  );
+                },
+              );
+            }
+            return new CircularProgressIndicator();
+          });
+    }
+  }
+  ```
+
+
+### 五.调试Flutter应用
+
+#### 1.degbugger()声明
+
+- 可以使用该`debugger()`语句插入编程式断点
+- 要使用这个，你必须添加`import 'dart:developer'`
+- `debugger()`语句采用一个可选`when`参数，我们可以指定该参数仅在特定条件为真时中断
+
+#### 2.print、debugPrint、flutter logs
+
+#### 3.DevTools
+
+### 六.Flutter异常捕获
+
+#### 1.Dart单线程模型
+
+1. Dart是单线程模式，如果程序发生异常而未被捕获，程序是不会因崩溃而终止的。
+
+2. Dart大致的运行原理:
+
+   ![](https://thumbnail1.baidupcs.com/thumbnail/054552ce6idf49265158b9b957692a1f?fid=604039242-250528-427919126093998&rt=pr&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-R0KZG%2bfPGVDEgth%2fP%2bU8ukya6qA%3d&expires=8h&chkbd=0&chkv=0&dp-logid=8829193834416307076&dp-callid=0&time=1648087200&size=c1920_u1080&quality=90&vuk=604039242&ft=image&autopolicy=1)
+
+   - 微任务队列” **microtask queue**;“事件队列” **event queue**
+
+   - 入口函数 main() 执行完后，消息循环机制便启动了,在这种情况下，整个线程的执行过程便是一直在循环，不会退出，而Flutter中，主线程的执行过程正是如此，永不终止
+
+   - 微任务太多，执行时间总和就越久，事件队列任务的延迟也就越久
+
+   - 可以通过`Future.microtask(…)`方法向微任务队列插入一个任务
+
+   - 事件循环中，当某个任务发生异常并没有被捕获时，程序并不会退出，而直接导致的结果是**当前任务**的后续代码就不会被执行了，也就是说一个任务中的异常是不会影响其它任务执行的
+
+
+#### 2.异常捕获
+
+   1. 发生异常时，Flutter默认的处理方式是弹一个ErrorWidget
+
+      ```dart
+      @override
+      void performRebuild() {
+       ...
+        try {
+          //执行build方法  
+          built = build();
+        } catch (e, stack) {
+          // 有异常时则弹出错误提示  
+          built = ErrorWidget.builder(_debugReportException('building $this', e, stack));
+        } 
+        ...
+      } 
+      ```
+
+   2. 我们想自己上报异常，只需要提供一个自定义的错误处理回调即可
+
+      ```dart
+      void main() {
+        FlutterError.onError = (FlutterErrorDetails details) {
+          reportError(details);
+        };
+       ...
+      }
+      ```
+
+   #### 3.其他异常捕获与日志收集
+
+1. 同步异常：同步异常可以通过`try/catch`捕获
+
+2. 异步异常：`runZoned(...)` 方法，可以给执行对象指定一个Zone
+
+   ```dart
+   runZoned(
+     () => runApp(MyApp()),
+     zoneSpecification: ZoneSpecification(
+       // 拦截print 蜀西湖
+       print: (Zone self, ZoneDelegate parent, Zone zone, String line) {
+         parent.print(zone, "Interceptor: $line");
+       },
+       // 拦截未处理的异步错误
+       handleUncaughtError: (Zone self, ZoneDelegate parent, Zone zone,
+                             Object error, StackTrace stackTrace) {
+         parent.print(zone, '${error.toString()} $stackTrace');
+       },
+     ),
+   );
+   ```
+
+## 基础组件
+
+### 一.文本及样式
+
+#### 1.Text
+
+- 用于显示简单样式文本，它包含一些控制文本显示样式的一些属性
+- textAlign：文本的对齐方式；可以选择左对齐、右对齐还是居中。对齐的参考系是Text widget 本身
+- maxLines、overflow：指定文本显示的最大行数，默认情况下，文本是自动折行的，如果指定此参数，则文本最多不会超过指定的行。如果有多余的文本，可以通过`overflow`来指定截断方式
+- textScaleFactor：代表文本相对于当前字体大小的缩放因子
+
+```dart
+///基础组件
+class BasicComponents extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return TextComponent();
+  }
+}
+
+///Text
+class TextComponent extends StatefulWidget {
+  @override
+  _TextComponent createState() => _TextComponent();
+}
+
+class _TextComponent extends State<TextComponent> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Text组件'),
+      ),
+      body: Column(
+        children: [
+          Container(
+            color: Colors.red[300],
+            width: 500.0,
+            child: const Text(
+              "Hello world",
+              textAlign: TextAlign.start,
+            ),
+          ),
+          Container(
+            color: Colors.deepOrange[300],
+            width: 500.0,
+            child: Text(
+              "Hello world! I'm Jack." * 4,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          Container(
+            color: Colors.yellow[300],
+            width: 500.0,
+            child: const Text(
+              "Hello world",
+              textScaleFactor: 1.5,
+            ),
+          ),
+          Container(
+            color: Colors.greenAccent[400],
+            width: 450.0,
+            child: Text(
+              "Hello world"*8,
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+```
+
+
+
+#### 2.TextStyle
+
+- `TextStyle`用于指定文本显示的样式如颜色、字体、粗细、背景等
+
+```dart
+Text("Hello world",
+  style: TextStyle(
+    color: Colors.blue,
+    fontSize: 18.0,
+    height: 1.2,  
+    fontFamily: "Courier",
+    background: Paint()..color=Colors.yellow,
+    decoration:TextDecoration.underline,
+    decorationStyle: TextDecorationStyle.dashed
+  ),
+);
+```
+
+#### 3.TextSpan
+
+- Text 的所有文本内容只能按同一种样式，如果我们需要对一个 Text 内容的不同部分按照不同的样式显示，这时就可以使用`TextSpan`
+
+```dart
+          Container(
+            width: 450.0,
+            child: Text.rich(
+              TextSpan(
+                children: [
+                  const TextSpan(text: "我将会成为"),
+                  TextSpan(
+                    text: "【海贼王】",
+                    style: TextStyle(
+                        fontSize: 26.0,
+                        color: _discoloration ? Colors.green : Colors.red),
+                    recognizer: _tapGestureRecognizer
+                      ..onTap = () {
+                        setState(() {
+                          _discoloration = !_discoloration;
+                          LogUtils.i("我被点击了");
+                        });
+                      },
+                  ),
+                  const TextSpan(text: "的男人"),
+                ],
+              ),
+            ),
+          )
+```
+
+#### 4.DefaultTextStyle
+
+- 在 Widget 树的某一个节点处设置一个默认的文本样式，那么该节点的子树中所有文本都会默认使用这个样式，而`DefaultTextStyle`正是用于设置默认文本样式的
+
+```dart
+DefaultTextStyle(
+  //1.设置文本默认样式  
+  style: TextStyle(
+    color:Colors.red,
+    fontSize: 20.0,
+  ),
+  textAlign: TextAlign.start,
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: <Widget>[
+      Text("hello world"),
+      Text("I am Jack"),
+      Text("I am Jack",
+        style: TextStyle(
+          inherit: false, //2.不继承默认样式
+          color: Colors.grey
+        ),
+      ),
+    ],
+  ),
+);
+```
+
+#### 5.字体
+
+- 在pubspec.yaml文件中配置后，在TextStyle中使用
+
+```yaml
+  fonts:
+    - family: Charmonman
+      fonts:
+        - asset: assets/fonts/Charmonman-Bold.ttf
+        - asset: assets/fonts/Charmonman-Regular.ttf
+          weight: 500
+    - family: youyuan
+      fonts:
+        - asset: assets/fonts/youyuan.ttf
+    - family: pingguolihei
+      fonts:
+        - asset: assets/fonts/pingguolihei.ttf
+    - family: Iconfont
+      fonts:
+        - asset: assets/fonts/iconfont.ttf
+```
+
+### 二.按钮
+
+- Material 组件库中提供了多种按钮组件如`ElevatedButton`、`TextButton`、`OutlineButton`等
+- 它们都是直接或间接对`RawMaterialButton`组件的包装定制,他们大多数属性都和`RawMaterialButton`一样
+
+#### 1.ElevatedButton
+
+- "漂浮"按钮，它默认带有阴影和灰色背景。按下后，阴影会变大
+
+  ```dart
+                ElevatedButton(
+                  onPressed: () {
+                    LogUtils.i("ElevatedButton按钮  被点击了");
+                  },
+                  child: const Text("ElevatedButton按钮"),
+                ),
+  ```
+
+#### 2.TextButton
+
+- 文本按钮，默认背景透明并不带阴影。按下后，会有背景色
+
+  ```dart
+  TextButton(
+              onPressed: () {
+                LogUtils.i("TextButton按钮  被点击了");
+              },
+              child: const Text("TextButton按钮"),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.resolveWith(
+                    (states) => _TextButtoncolor(context, states)),
+              ),
+            ),
+  
+  
+  ///设置 TextButton按钮背景色方法
+  _TextButtoncolor(BuildContext context, Set<MaterialState> states) {
+    if (states.contains(MaterialState.pressed)) {
+      return Theme.of(context).colorScheme.primary.withOpacity(0.5);
+    } else {
+      return Colors.purple[200];
+    }
+  }
+  ```
+
+#### 3.OutlinedButton
+
+- 默认有一个边框，不带阴影且背景透明。按下后，边框颜色会变亮、同时出现背景和阴影
+
+  ```dart
+            OutlinedButton(
+              onPressed: () {
+                LogUtils.i("OutlinedButton  被点击了");
+              },
+              child: const Text("OutlinedButton按钮"),
+            ),
+  ```
+
+#### 4.IconButton
+
+- 一个可点击的Icon，不包括文字，默认没有背景，点击后会出现背景
+
+  ```dart
+            IconButton(
+              onPressed: () {
+                LogUtils.i("IconButton按钮  被点击了");
+              },
+              icon: const Icon(Icons.thumb_up),
+            ),
+  ```
+
+#### 5.带图标的按钮
+
+- `ElevatedButton`、`TextButton`、`OutlineButton`都有一个`icon` 构造函数，通过它可以轻松创建带图标的按钮
+
+### 三.图片及Icon
+
+#### 1.ImageProvider
+
+- 一个抽象类，主要定义了图片数据获取的接口`load()`
+
+- 从不同的数据源获取图片需要实现不同的`ImageProvider` ，如`AssetImage`是实现了从Asset中加载图片的 ImageProvider，而`NetworkImage` 实现了从网络加载图片的 ImageProvider
+
+- 加载本地图片
+
+  - ```dart
+    Image.asset("assets/images/iocn_diqiu.png", width: 60, height: 60),
+    ```
+
+  - ```dart
+    Image(
+          image: AssetImage("assets/images/error_null.png"),
+          width: 60,
+          height: 60)
+    ```
+
+- 网路加载图片
+
+  - ```dart
+    Image(
+      image: NetworkImage(
+          "https://avatars2.githubusercontent.com/u/20411648?s=460&v=4"),
+      width: 100.0,
+    )
+    ```
+
+  - ```dart
+    Image.network(
+      "https://avatars2.githubusercontent.com/u/20411648?s=460&v=4",
+      width: 100.0,
+    )
+    ```
+
+- image缓存：Flutter框架对加载过的图片是有缓存的（内存），关于Image的详细内容及原理我们将会在后面进阶部分深入介绍
+
+#### 2.ICON
+
+- 像Web开发一样使用 iconfont，iconfont 即“字体图标”，它是将图标做成字体文件，然后通过指定不同的字符而显示不同的图片
+
+### 四.单选开关和复选框
+
+- Material 风格的单选开关`Switch`和复选框`Checkbox`，虽然它们都是继承自`StatefulWidget`，但它们本身不会保存当前选中状态，选中状态都是由父组件来管理的
+- 当`Switch`或`Checkbox`被点击时，会触发它们的`onChanged`回调，我们可以在此回调中处理选中状态改变逻辑
+
+### 五.输入框及表单
+
+- Material 组件库中提供了输入框组件`TextField`和表单组件`Form`
+
+#### 1.TextField
+
+- 用于文本输入，它提供了很多属性
+
+  ```dart
+  const TextField({
+    ...
+    //编辑框的控制器，通过它可以设置/获取编辑框的内容、选择编辑内容、监听编辑文本改变事件。大多数情况下我们都需要显式提供一个controller来与文本框交互。如果没有提供controller，则       TextField内部会自动创建一个    
+    TextEditingController controller, 
+    //用于控制TextField是否占有当前键盘的输入焦点。它是我们和键盘交互的一个句柄（handle）  
+    FocusNode focusNode,
+    //用于控制TextField的外观显示，如提示文本、背景颜色、边框等
+    InputDecoration decoration = const InputDecoration(),
+    //用于设置该输入框默认的键盘输入类型
+    TextInputType keyboardType,
+    //键盘动作按钮图标(即回车键位图标)，它是一个枚举值，有多个可选值,全部的取值列表读者可以查看API文档
+    TextInputAction textInputAction,
+    //正在编辑的文本样式  
+    TextStyle style,
+    //输入框内编辑文本在水平方向的对齐方式  
+    TextAlign textAlign = TextAlign.start,
+    //是否自动获取焦点  
+    bool autofocus = false,
+    //是否隐藏正在编辑的文本，如用于输入密码的场景等，文本内容会用“•”替换  
+    bool obscureText = false,
+    //输入框的最大行数，默认为1；如果为null，则无行数限制  
+    int maxLines = 1,
+    //maxLength代表输入框文本的最大长度，设置后输入框右下角会显示输入的文本计数  
+    int maxLength,
+    //决定当输入文本长度超过maxLength时如何处理，如截断、超出等  
+    this.maxLengthEnforcement,
+    //长按或鼠标右击时出现的菜单，包括 copy、cut、paste 以及 selectAll  
+    ToolbarOptions? toolbarOptions,
+    //输入框内容改变时的回调函数；注：内容改变事件也可以通过controller来监听  
+    ValueChanged<String> onChanged,
+    //onEditingComplete和onSubmitted：这两个回调都是在输入框输入完成时触发，比如按了键盘的完成键（对号图标）或搜索键（🔍图标）。不同的是两个回调签名不同，onSubmitted回调是ValueChanged<String>类型，它接收当前输入内容做为参数，而onEditingComplete不接收参数。  
+    VoidCallback onEditingComplete,
+    ValueChanged<String> onSubmitted,
+    //用于指定输入格式；当用户输入内容改变时，会根据指定的格式来校验  
+    List<TextInputFormatter> inputFormatters,
+    //如果为false，则输入框会被禁用，禁用状态不接收输入和事件，同时显示禁用态样式  
+    bool enabled,
+    //这三个属性是用于自定义输入框光标宽度、圆角和颜色的  
+    this.cursorWidth = 2.0,
+    this.cursorRadius,
+    this.cursorColor,
+    this.onTap,
+    ...
+  })
+  ```
+
+#### 2.表单Form
+

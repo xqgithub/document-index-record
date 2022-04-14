@@ -952,6 +952,10 @@ aifun api 接口地址：
 https://apicpre.aifun.com/doc.html#/default/%E5%8F%91%E7%8E%B0%E9%A1%B5(v2)/getBannerListUsingPOST
 https://apic.aifun.com/doc.html#/default/%E7%BB%84%E5%B1%80(v2)/getStoreListUsingPOST
 http://159.75.99.192:30175/doc.html
+aifun2.0接口文档地址：
+http://yapi.aifun.com/
+xiaoqi
+198671Kid
 
 
 openinstall：https://sspai.com/post/59034
@@ -1025,53 +1029,8 @@ vless://4d224875-2141-4cc5-9b07-aa9e9b827540@104.16.34.243:443?encryption=none&s
 vless://68d4bbe1-8d39-4460-827b-4e6062ddfb1c@107.148.14.4:443?encryption=none&security=tls&sni=lucian.gimy.cf&type=ws&host=lucian.gimy.cf&path=%2f4e40430425%2f#WS_TLS_wulabing-qinqinmybaby.xyz
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+github  token：
+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
 
 
 -------------------------------------万能的分割线请注意了，哈哈------------------------------
@@ -1150,6 +1109,90 @@ Company Phone   1-530-914-4886 x8509    Company Email   rlindgren@bashirian.biz
 
 
 
+全名
+Mazarakio
+性别
+Male
+生日
+11/9/1977
+Title
+Mr.
+头发颜色
+Brown
+地址
+
+街道
+3429  Mattson Street
+区县
+城市
+Portland
+州
+OR
+州全称
+Oregon
+邮编
+97230
+
+真实邮编查询点击这里
+电话号码
+503-867-5948
+临时邮箱
+hgwznqvzfp@iubridge.com
+
+这是一个真实的邮箱，点击这里接收邮件
+就业 & 信用卡
+
+信用卡类型
+Visa
+信用卡号
+4556132495505381
+CVV2
+122
+过期时间
+12/2024
+职业
+Spa Manager, Sports Book Writer
+公司名称
+Monsource
+公司规模
+19-50 employees
+就业状态
+Own business
+月薪
+$6,300
+社会保障号
+125-10-1756
+身份证
+更多资料
+
+用户名
+cancellationdeformed
+密码
+jQfyANLxlqdt
+身高
+5' 4" (167cm)
+体重
+240.9lbs (109.3kg)
+血型
+B+
+操作系统
+Windows 10
+GUID
+d711dbf3-ddda-4a63-89f8-1201604209ad
+浏览器useragent
+Mozilla/5.0 (iPhone; CPU iPhone OS 12_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/86.0.4240.93 Mobile/15E148 Safari/604.1
+教育背景
+High school diploma or GED
+个人主页
+ykcacapwx.com
+安全问题
+What is your dog's name?
+问题答案
+speedboatsecond-hand
+
+
+
+
 
 V2Ray客户端:https://tlanyan.pp.ua/v2ray-clients-download/
 V2rayN 4.12配置教程:https://v2xtls.org/v2rayn-4-12%e9%85%8d%e7%bd%ae%e6%95%99%e7%a8%8b/
@@ -1166,9 +1209,8 @@ twitter 账号(关联苹果账号):
 198671Killua
 用户名:@weixiaodejiuwo
 
+github token
 @PkLu5XXcRJ8WPwN
-
-
 
 -------------------------------------万能的分割线请注意了，哈哈------------------------------
 

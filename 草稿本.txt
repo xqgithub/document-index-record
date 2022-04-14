@@ -1698,11 +1698,6 @@ assets:     D41D8CD98F00B204E9800998ECF8427E
 CA文件：D41D8CD98F00B204E9800998ECF8427E
 
 
-
-
-
-
-
 ca_crt = "https://pre.xr110.net:20013/aclconf/server.crt"
 ca_crt_md5 = "4d2ddf99df5fd9f48f5e3c54bbb6097f"
 ca_der = "https://pre.xr110.net:20013/aclconf/servers.der"
@@ -3792,6 +3787,49 @@ http://192.168.2.64/a.html
 
 
 
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_journey"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="cl_month,brv_journey" />
+
+
+R.drawable.default_user_icon
+layout_navigation_main_new
+R.drawable.img_empty
+R.drawable.img_loading
+
+
+
+1649766020000   2022-04-12 20:20:20
+1651293030000   2022-04-30 12:30:30
+1651695330000   2022-05-05 04:15:30
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3831,6 +3869,37 @@ ErrorCode
 ABoutFragment，TagAdapter
 //头像重叠控件
 PileLayout
+//权限申请弹框
+PermissionRequestBeforeDialog
+//底部弹出框
+BottomDialog
+
+
+//首页底部导航栏
+MainNavigationLayout
+//我的页面旧版
+MineFunFragment
+//发现页面
+NewsFragment
+//自定义下拉刷新
+FunRefreshHeaderView
+//RecyclerView分割线
+CommentDialogDecoration
+
+
+EventBus.getDefault().post(
+    UniversalEvent(
+        UniversalEvent.EVENT_PAY_ATTENTION_UPDATE,
+        PayAttentionBean(detail?.userId ?: 0, hasFollow)
+    )
+)
+
+//列表实体类参考
+ChooseStoreListBean
+//图片加载
+sImgUserAvatar.load(data.replyUserImage, R.drawable.default_user_avatar, R.drawable.default_user_avatar)
+
+
 
 
 
