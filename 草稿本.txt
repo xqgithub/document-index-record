@@ -3799,6 +3799,11 @@ layout_navigation_main_new
 R.drawable.img_empty
 R.drawable.img_loading
 
+        <View
+            android:id="@+id/seperator"
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="#F0F0F0" />
 
 
 1649766020000   2022-04-12 20:20:20
@@ -3898,7 +3903,23 @@ EventBus.getDefault().post(
 ChooseStoreListBean
 //图片加载
 sImgUserAvatar.load(data.replyUserImage, R.drawable.default_user_avatar, R.drawable.default_user_avatar)
+//移动弹幕效果
+SmoothScrollLayout
+//图片多元化显示
+SixImageLayout
 
+
+
+
+    <View
+        android:id="@+id/view_vertical_splitline"
+        android:layout_width="1px"
+        android:layout_height="0pt"
+        android:background="#F0F0F0"
+        app:layout_constraintBottom_toBottomOf="@+id/tvCancel"
+        app:layout_constraintEnd_toStartOf="@+id/tvSure"
+        app:layout_constraintStart_toEndOf="@+id/tvCancel"
+        app:layout_constraintTop_toTopOf="@+id/tvCancel" />
 
 
 
