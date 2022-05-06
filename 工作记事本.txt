@@ -1033,6 +1033,15 @@ github  token：
 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
 
 
+游戏&电商项目：
+1.原型图：
+https://www.zptq.com/s/team/446/1226/c697957aaf5d11ec8e270017fa002dc2/start.html
+密码 123456
+2.UI图：
+https://www.figma.com/file/w2CMdPaK6iJZhI7ChovgSf/%E6%B8%B8%E6%88%8F%2B%E7%94%B5%E5%95%86?node-id=185%3A472
+
+
+
 -------------------------------------万能的分割线请注意了，哈哈------------------------------
 
 vpn翻墙搭建服务器

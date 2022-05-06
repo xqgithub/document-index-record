@@ -3907,6 +3907,8 @@ sImgUserAvatar.load(data.replyUserImage, R.drawable.default_user_avatar, R.drawa
 SmoothScrollLayout
 //图片多元化显示
 SixImageLayout
+//绑定xml文件
+InflateBinding
 
 
 

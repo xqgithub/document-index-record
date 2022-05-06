@@ -840,7 +840,7 @@ I/flutter (17666): hello 3
 
    - 退出该页面，deactivate -> dispose
 
-     ![](https://thumbnail1.baidupcs.com/thumbnail/2b170d3f2s302278c8bb955ba401ddf5?fid=604039242-250528-966985939913061&rt=pr&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-ApCWM7pREkg5r2V3EoAXPtkCf4A%3d&expires=8h&chkbd=0&chkv=0&dp-logid=8764426155602539268&dp-callid=0&time=1647846000&size=c1920_u1080&quality=90&vuk=604039242&ft=image&autopolicy=1)
+     ![](https://thumbnail1.baidupcs.com/thumbnail/054552ce6idf49265158b9b957692a1f?fid=604039242-250528-427919126093998&rt=pr&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-Cj11NHQVy7hS1bQRsfxIDNJlaq4%3d&expires=8h&chkbd=0&chkv=0&dp-logid=8654948495871356607&dp-callid=0&time=1651730400&size=c1920_u1080&quality=90&vuk=604039242&ft=image&autopolicy=1)
 
 #### 在widget树中获取State对象
 
@@ -1893,4 +1893,11 @@ DefaultTextStyle(
   ```
 
 #### 2.表单Form
+
+### 六.进度指示器
+
+#### 1.两种进度指示器：`LinearProgressIndicator`和`CircularProgressIndicator`
+
+- `LinearProgressIndicator`是一个线性、条状的进度条
+- `CircularProgressIndicator`是一个圆形进度条
 
