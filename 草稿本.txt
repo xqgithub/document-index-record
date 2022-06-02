@@ -3420,7 +3420,7 @@ inviterID
 
 
 
- LogUtils.iTag(ConfigConstants.CONSTANT.TAG_ALL, "bannerCoverURL =-= ${data.bannerCoverURL}")
+
 
 
 微信热更新：
@@ -3909,6 +3909,8 @@ SmoothScrollLayout
 SixImageLayout
 //绑定xml文件
 InflateBinding
+// 选择地点（百度地图）
+SelectPlaceActivity
 
 
 
@@ -3974,3 +3976,53 @@ AIFUN-ANDROID\TMessagesProj\src\main\res\layout\cell_chat_landing_page.xml
                 //投票系统分享链接
                 SendMsgFactory.getInstance().sendVoteShareLink(destUin, (SGMediaObject.FunVoteShareLinkMessage) mediaObject);
             }
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+val bundle = Bundle()
+bundle.putInt("type", ConfigConstants.USERAGREEMENT)
+PublicPracticalMethodFromJAVA.getInstance().intentToJump(mActivity, UserAgreementWebView::class.java, -1, bundle, false, R.anim.activity_right_in, R.anim.activity_xhold)
+
+ScreenTools.getInstance().dp2px(requireActivity(), 8f, true)
+
+PublicPracticalMethodFromKT.ppmfKT.intentToJump(
+    this@AuthenticationActivity,
+    AccountSecurityActivity::class.java, null, false,
+    -1, -1,
+    Intent.FLAG_ACTIVITY_CLEAR_TOP
+)
+
+    private val mainViewModel by activityViewModels<MainViewModel>()
+    private val commentViewModel by viewModels<CommentNewViewModel>()
+    private val dynamicItemViewModel by viewModels<DynamicItemViewModel>()
+
+ LogUtils.iTag(ConfigConstants.CONSTANT.TAG_ALL, "bannerCoverURL =-= ${data.bannerCoverURL}")
+
+
+ editText.text=Editable.Factory.getInstance().newEditable("文本内容")
+
+
+1653393630   2022-05-24 20:00:30
+1653393690   2022-05-24 20:01:30
+1653393810   2022-05-24 20:03:30
+1653395430   2022-05-24 20:30:30
+
+
+
+//离线奖励弹框
+with(SelectionTooltipDialog(requireContext())) {
+    settitle(View.VISIBLE, "离线奖励", "#57493B", 18f)
+    setContent("在您离线期间(24小时)，小鹅获得金币")
+    setCancel(View.GONE) {}
+    setRewardedIcon(R.drawable.ge_money_placeholder, true)
+    setTvPrizeSnumber("x 777", true)
+    setSure {
+        dismissDialog()
+    }
+    show()
+}
+
+showLoadingExt
+
+ic_img_emp

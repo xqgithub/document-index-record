@@ -1896,8 +1896,86 @@ DefaultTextStyle(
 
 ### 六.进度指示器
 
-#### 1.两种进度指示器：`LinearProgressIndicator`和`CircularProgressIndicator`
+#### 1.两种进度指示器
 
-- `LinearProgressIndicator`是一个线性、条状的进度条
-- `CircularProgressIndicator`是一个圆形进度条
+- LinearProgressIndicator
+
+  1. `LinearProgressIndicator`是一个线性、条状的进度条
+
+  2. ```dart
+     LinearProgressIndicator({
+       double value,
+       Color backgroundColor,
+       Animation<Color> valueColor,
+       ...
+     })
+     ```
+
+     - `value`表示当前的进度，取值范围为[0,1]，如果`value`为`null`时则指示器会执行一个循环动画（模糊进度），当`value`不为`null`时，指示器为一个具体进度的进度条。
+     - `backgroundColor`：指示器的背景色。
+     - `valueColor`: 指示器的进度条颜色；值得注意的是，该值类型是`Animation<Color>`，这允许我们对进度条的颜色也可以指定动画。如果我们不需要对进度条颜色执行动画，换言之，我们想对进度条应用一种固定的颜色，此时我们可以通过`AlwaysStoppedAnimation`来指定。
+
+- CircularProgressIndicator
+
+  1. `CircularProgressIndicator`是一个圆形进度条
+
+  2. ```dart
+      CircularProgressIndicator({
+       double value,
+       Color backgroundColor,
+       Animation<Color> valueColor,
+       this.strokeWidth = 4.0,
+       ...   
+     }) 
+     ```
+
+     - 前三个参数和`LinearProgressIndicator`相同，不再赘述。`strokeWidth` 表示圆形进度条的粗细
+
+#### 2.自定义进度指示器样式
+
+可以通过`CustomPainter` Widget 来自定义绘制逻辑
+
+## 布局类组件
+
+### 一.布局类组件简介
+
+1. 布局类组件都会包含一个或多个子组件，不同的布局类组件对子组件排列（layout）方式不同。
+   - LeafRenderObjectWidget：非容器类组件基类，Widget树的叶子节点，用于没有子节点的widget，通常基础组件都属于这一类，如Image
+   - SingleChildRenderObjectWidget：单子组件基类，包含一个子Widget，如：ConstrainedBox、DecoratedBox等
+   - MultiChildRenderObjectWidget：多子组件基类，包含多个子Widget，一般都有一个children参数，接受一个Widget数组。如Row、Column、Stack等
+2. 布局类组件就是指直接或间接继承(包含)`SingleChildRenderObjectWidget` 和`MultiChildRenderObjectWidget`的Widget
+
+### 二.布局原理与约束(constraints)
+
+1. 尺寸限制类容器用于限制容器大小，Flutter中提供了多种这样的容器，如`ConstrainedBox`、`SizedBox`、`UnconstrainedBox`、`AspectRatio` 等
+
+2. BoxConstraints
+
+   - ```dart
+     const BoxConstraints({
+       this.minWidth = 0.0, //最小宽度
+       this.maxWidth = double.infinity, //最大宽度
+       this.minHeight = 0.0, //最小高度
+       this.maxHeight = double.infinity //最大高度
+     })
+     ```
+
+3. ConstrainedBox
+
+   - `ConstrainedBox`用于对子组件添加额外的约束
+
+   - ```dart
+     ConstrainedBox(
+       constraints: BoxConstraints(
+         minWidth: double.infinity, //宽度尽可能大
+         minHeight: 50.0 //最小高度为50像素
+       ),
+       child: Container(
+         height: 5.0, 
+         child: redBox ,
+       ),
+     )
+     ```
+
+   - 
 
