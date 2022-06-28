@@ -4026,3 +4026,62 @@ with(SelectionTooltipDialog(requireContext())) {
 showLoadingExt
 
 ic_img_emp
+
+EventBus.getDefault().post(
+    UniversalEvent(
+        UniversalEvent.EVENT_MAINACTIVITY_STARTTRANSITIONS_ANIMATION,
+        null
+    )
+)
+
+
+fun userFocus(userId: Long, type: Int) {
+    HttpFactory.getInstance().APINew(APiServiceNew.BASE_TEST_YAPI).userFocus(userId, type)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                if (it.code == 200) {
+                    val resultJSON = JSONObject(it.data.toString())
+                    val focusState = resultJSON.optInt("focusState", 0)
+                    userFocusCallbackLive.postValue(focusState)
+                } else {
+                    ToastUtil.showCenter(it.msg)
+                }
+            }
+}
+
+//            val StatusBarHeight = ImmersionBar.getStatusBarHeight(requireActivity())
+//            val screenHeight = AutoSizeConfig.getInstance().screenHeight
+//            val _tempScreenHeight = (0.85 * AutoSizeConfig.getInstance().screenHeight).toInt()
+//            LogUtils.iTag(
+//                ConfigConstants.CONSTANT.TAG_ALL,
+//                "StatusBarHeight =-= ${StatusBarHeight}",
+//                "screenHeight =-= ${screenHeight}",
+//                "_tempScreenHeight =-= ${_tempScreenHeight}"
+//            )
+//
+//
+val a = DateUtil.date2TimeStamp("2022-06-14 08:00:00", "yyyy-MM-dd HH:mm:ss")
+val b = DateUtil.date2TimeStamp("2022-06-15 08:00:00", "yyyy-MM-dd HH:mm:ss")
+val c = b - a
+
+
+
+13554298368----13554298350
+13554298367----13554298349
+13554298366----13554298348
+13554298365----13554298347
+13554298364----13554298346
+13554298363----13554298345
+13554298362
+13554298361
+13554298360
+13554298359
+13554298358
+13554298357
+13554298356
+13554298355
+13554298354
+13554298353
+13554298352
+13554298351
