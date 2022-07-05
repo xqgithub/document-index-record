@@ -693,7 +693,7 @@ I/flutter (17666): hello 3
 
 #### Flutter中的四棵树
 
-![](https://thumbnail1.baidupcs.com/thumbnail/739c693bdg72929dc8cd9b2989ceac7c?fid=604039242-250528-1379095029685&rt=pr&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-0iL4MpBoSJk1E0AhLXxRmZqFhMU%3d&expires=8h&chkbd=0&chkv=0&dp-logid=8764426155602539268&dp-callid=0&time=1647846000&size=c1920_u1080&quality=90&vuk=604039242&ft=image&autopolicy=1)
+![](./fourtrees.png)
 
 1. 三棵树中，Widget 和 Element 是一一对应的，但并不和 RenderObject 一一对应。比如 `StatelessWidget` 和 `StatefulWidget` 都没有对应的 RenderObject
 2. 渲染树在上屏前会生成一棵 Layer 树，这个我们将在后面原理篇介绍，在前面的章节中读者只需要记住以上三棵树就行
@@ -1471,7 +1471,7 @@ flutter:
 
 2. Dart大致的运行原理:
 
-   ![](https://thumbnail1.baidupcs.com/thumbnail/054552ce6idf49265158b9b957692a1f?fid=604039242-250528-427919126093998&rt=pr&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-R0KZG%2bfPGVDEgth%2fP%2bU8ukya6qA%3d&expires=8h&chkbd=0&chkv=0&dp-logid=8829193834416307076&dp-callid=0&time=1648087200&size=c1920_u1080&quality=90&vuk=604039242&ft=image&autopolicy=1)
+   ![](./life.jpg)
 
    - 微任务队列” **microtask queue**;“事件队列” **event queue**
 
