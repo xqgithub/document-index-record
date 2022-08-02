@@ -3915,6 +3915,10 @@ SelectPlaceActivity
 
 
 
+SharedpreferencesUtil.putString(context, SAVE_CONTRIBUTE, GsonUtils.toJson(bean))
+val bean = GsonUtils.fromJson(dynamicJson, PublishContributeBean::class.java)
+
+
     <View
         android:id="@+id/view_vertical_splitline"
         android:layout_width="1px"
@@ -4090,4 +4094,90 @@ val c = b - a
 13554298348
 13554297369
 13554298344
+13554298343
 
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+接口请求数据，返回值例子：
+NetworkTimelineRemoteMediator  load方法中 调用的 viewModel.fetchStatusesForKind(null, null, limit = state.config.pageSize) 方法
+
+
+//适配器模板
+TimelinePagingAdapter
+
+//RXjava中引入Lifecycle
+.autoDispose(this, Lifecycle.Event.ON_PAUSE)
+
+
+@Inject
+lateinit var viewModelFactory: ViewModelFactory
+
+//初始化viewmodel
+private val viewModel: ConversationsViewModel by viewModels { viewModelFactory }
+
+//加载xml文件
+private val binding by viewBinding(FragmentTimelineBinding::bind)
+
+//打开侧边栏
+binding.mainDrawerLayout.open()
+
+//播放器控制类
+PlayerControllerView
+
+
+
+val a = ScreenTools.getInstance()
+    .dp2px(FunApplication.getInstance().applicationContext, 60f, true)
+val b = 60.dp
+ScreenTools.getInstance()
+    .getEquipmentInformation(FunApplication.getInstance().applicationContext)
+ScreenTools.getInstance()
+    .getDisplayAreaInformation(FunApplication.getInstance().applicationContext)
+
+
+app:shapeAppearance="@style/circleStyle"
+
+
+//handler 工具类 实例
+class MineFragment : KBaseFragment<FragmentMineBinding, MineViewModel>() {
+
+    val handler: HandlerUtils? by lazy {
+        Looper.myLooper()?.let {
+            HandlerUtils(it, requireContext()) { mes ->
+                when (mes.what) {
+                    HandlerUtils.HandleWhatCode.testone -> LogUtils.i("testone =-= ${mes.obj}")
+                    HandlerUtils.HandleWhatCode.testtwo -> LogUtils.i("testone =-= 我延迟了3秒 ${mes.obj}")
+                }
+            }
+        }
+    }
+
+
+    override fun onInit() {
+        setNavigationBarColor(ThemeUtil.getColor(requireContext(), R.attr.navigationBarBackground))
+
+        handler?.sendMessageDelayed(
+            Message.obtain().apply {
+                what = HandlerUtils.HandleWhatCode.testone
+                obj = "嘻嘻哈哈"
+            }, 1000
+        )
+
+        handler?.sendMessageDelayed(
+            Message.obtain().apply {
+                what = HandlerUtils.HandleWhatCode.testtwo
+                obj = "嘻嘻哈哈2"
+            }, 3000
+        )
+
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        handler?.removeCallbacksAndMessages(null)
+    }
+}
+
+
+!this@LeaderboardActivity::headerBinding.isLateinit

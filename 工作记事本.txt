@@ -1054,6 +1054,19 @@ xqkillua
 13306492473
 
 
+游戏SDK项目:
+https://codeup.aliyun.com/606539f86cc98419b95d5234/SHANNON-AI/AIFUN-SDK-Android/tree/master/
+
+
+OpenVoice项目:
+https://codeup.aliyun.com/606539f86cc98419b95d5234/SHANNON-AI/AIFUN-SDK-Android/tree/master/
+https://codeup.aliyun.com/606539f86cc98419b95d5234/OpenVoice/OpenVoice.git
+测试账号：xixihaha@qq.com,12345678
+demo 地址：https://joinmastodon.org/
+接口文档：
+1. https://docs.joinmastodon.org/entities/instance/
+2. http://yapi.aifun.com/project/190/interface/api
+UI地址：https://www.figma.com/file/af0vhiSsoREmc2ZIC6AZin/OpenVoice--Color2?node-id=866%3A6968
 
 
 -------------------------------------万能的分割线请注意了，哈哈------------------------------
