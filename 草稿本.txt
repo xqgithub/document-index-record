@@ -4181,3 +4181,89 @@ class MineFragment : KBaseFragment<FragmentMineBinding, MineViewModel>() {
 
 
 !this@LeaderboardActivity::headerBinding.isLateinit
+
+
+
+
+
+    <com.shannon.android.lib.components.ShapeableConstraintLayout
+        android:id="@+id/status_trade_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/shape_secondary_background"
+        android:minHeight="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/status_timestamp_info"
+        app:layout_constraintTop_toBottomOf="@id/status_avatar"
+        app:shapeAppearance="@style/roundedCornerImageStyle2">
+
+ 108757694605460963  用户test2 accountId
+
+
+ DefaultLifecycleObserver
+
+
+
+
+xixihaha1
+xixihaha1@qq.com
+a123456
+
+
+Accept-Language
+opv_notification_filter
+opv_notification_clean
+
+
+
+androidQToPath = null
+bucketId = 1268025138
+chooseModel = 1
+compressPath = "/storage/emulated/0/Android/data/com.shannon.openvoice.debug/files/Pictures/IMG_CROP_20220809_15352045.jpeg"
+compressed = true
+cutPath = "/storage/emulated/0/Android/data/com.shannon.openvoice.debug/files/Pictures/IMG_CROP_20220809_15352045.jpeg"
+duration = 0
+fileName = "magazine-unlock-03-2.3.2022080901-BA4C85BD3E06F109CCEFF223589AE241.jpg"
+height = 557
+id = 2558
+isChecked = false
+isCut = true
+isLongImage = false
+isMaxSelectEnabledMask = false
+isOriginal = false
+loadLongImageStatus = 0
+mimeType = "image/jpeg"
+num = 1
+orientation = 0
+originalPath = null
+parentFolderName = "MagazineUnlock"
+path = "/storage/emulated/0/MagazineUnlock/magazine-unlock-03-2.3.2022080901-BA4C85BD3E06F109CCEFF223589AE241.jpg"
+position = 10
+realPath = "/storage/emulated/0/MagazineUnlock/magazine-unlock-03-2.3.2022080901-BA4C85BD3E06F109CCEFF223589AE241.jpg"
+size = 54431
+width = 695
+shadow$_klass_ = "class com.luck.picture.lib.entity.LocalMedia"
+shadow$_monitor_ = -1979989700
+
+
+en
+zh-CN
+zh-HK
+先做这3种
+
+zh_HK_#Hant
+zh_TW_#Hant
+
+
+google市场地址
+https://play.google.com/store/apps/details?id=com.baidu.searchbox
+
+192.168.2.57
+
+http://192.168.2.57:18080/examples/AIFUN-candy.apk
+
+
+{error:"asasassassa"}
+val resultJSON = JSONObject(it.data.toString())
+val focusState = resultJSON.optInt("focusState", 0)

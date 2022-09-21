@@ -816,7 +816,7 @@ haole84
 【蒲公英】Apk上传：
 https://www.pgyer.com/
 用户名：xqkillua
-密码:198671kid
+密码:123456Xixihaha
 还缺少实名认证
 
 
@@ -952,10 +952,13 @@ aifun api 接口地址：
 https://apicpre.aifun.com/doc.html#/default/%E5%8F%91%E7%8E%B0%E9%A1%B5(v2)/getBannerListUsingPOST
 https://apic.aifun.com/doc.html#/default/%E7%BB%84%E5%B1%80(v2)/getStoreListUsingPOST
 http://159.75.99.192:30175/doc.html
+
 aifun2.0接口文档地址：
 http://yapi.aifun.com/
 xiaoqi
 198671Kid
+
+
 
 
 openinstall：https://sspai.com/post/59034
@@ -1062,11 +1065,29 @@ OpenVoice项目:
 https://codeup.aliyun.com/606539f86cc98419b95d5234/SHANNON-AI/AIFUN-SDK-Android/tree/master/
 https://codeup.aliyun.com/606539f86cc98419b95d5234/OpenVoice/OpenVoice.git
 测试账号：xixihaha@qq.com,12345678
+524971307@qq.com,111111a
+test2@voicedev.aifun.com,a111111
+https://voicedev.aifun.com
+
+
 demo 地址：https://joinmastodon.org/
 接口文档：
 1. https://docs.joinmastodon.org/entities/instance/
 2. http://yapi.aifun.com/project/190/interface/api
-UI地址：https://www.figma.com/file/af0vhiSsoREmc2ZIC6AZin/OpenVoice--Color2?node-id=866%3A6968
+UI地址：https://www.figma.com/file/2VXQZ53K1XumXjUuHcE2E8/OpenVoice--Color3?node-id=0%3A1
+开发环境：https://voicedev.aifun.com   admin账号 sadmin@aifun.com   da3badda791cf3a1005d5850ca7ffc58
+产品需求文档：https://shannonai.feishu.cn/docx/doxcnpFZb9bgDpRawdHGVyK4nRc
+原型图：https://www.zptq.com/#/rpverification?uid=7b8b6500080611ed9cae0017fa002dc2&type=606
+密码：123456
+
+接口文档(yapi)地址：
+https://yapix.aifun.com/login
+xiaoqi@aifun.com
+1qaz@WSX
+
+
+
+
 
 
 -------------------------------------万能的分割线请注意了，哈哈------------------------------
