@@ -1069,7 +1069,6 @@ https://codeup.aliyun.com/606539f86cc98419b95d5234/OpenVoice/OpenVoice.git
 test2@voicedev.aifun.com,a111111
 https://voicedev.aifun.com
 
-
 demo 地址：https://joinmastodon.org/
 接口文档：
 1. https://docs.joinmastodon.org/entities/instance/
@@ -1086,6 +1085,32 @@ xiaoqi@aifun.com
 1qaz@WSX
 
 
+
+
+区块链钱包
+WalletConnect
+https://docs.walletconnect.com/mobile-linking
+
+metamask-mobile
+https://github.com/MetaMask/metamask-mobile
+
+WalletConnectKotlinV2
+https://github.com/WalletConnect/WalletConnectKotlinV2
+
+How to Get Wallet Address Using WalletConnect On Android
+https://betterprogramming.pub/how-to-get-wallet-address-using-walletconnect-on-android-cdffda84cda1
+
+MetaMask Docs
+https://docs.metamask.io/guide/create-dapp.html#basic-action-part-1
+
+Install MetaMask for your browser
+https://metamask.io/download/
+
+OpenSea Developer Platform
+https://docs.opensea.io/docs/getting-started-1
+
+NFT
+https://steadfast-kiss-0a3.notion.site/NFT-b9c6c2822e094b9282dc43a095dd928e
 
 
 
