@@ -4269,3 +4269,20 @@ val resultJSON = JSONObject(it.data.toString())
 val focusState = resultJSON.optInt("focusState", 0)
 
 opv_login_resend
+opv_mine_user_agreement
+
+
+
+Open Voice 隐私政策
+https://openvoice-s.blogspot.com/2022/10/openvoice-privacy-policy.html
+
+Open Voice 用户协议
+https://openvoice-s.blogspot.com/2022/10/openvoice-user-agreement.html
+
+@肖奇 @陈静
+
+
+
+20210916000945321
+
+MvZklvybMSskH5tG55fD

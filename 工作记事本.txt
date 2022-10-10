@@ -1085,6 +1085,13 @@ xiaoqi@aifun.com
 1qaz@WSX
 
 
+AWS的文件存储服务的开发文档：
+1.https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/API/Welcome.html
+2.https://docs.amplify.aws/start/q/integration/android/?pg=developertools
+
+
+
+
 
 
 区块链钱包
@@ -1111,7 +1118,7 @@ https://docs.opensea.io/docs/getting-started-1
 
 NFT
 https://steadfast-kiss-0a3.notion.site/NFT-b9c6c2822e094b9282dc43a095dd928e
-
+https://0xdx.notion.site/NFT-b9c6c2822e094b9282dc43a095dd928e
 
 
 
