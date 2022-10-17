@@ -1088,7 +1088,11 @@ xiaoqi@aifun.com
 AWS的文件存储服务的开发文档：
 1.https://docs.aws.amazon.com/zh_cn/AmazonS3/latest/API/Welcome.html
 2.https://docs.amplify.aws/start/q/integration/android/?pg=developertools
-
+S3连接信息：
+region： us-east-2
+ID： AKIAWLW3WTFPCSFCJVNJ
+key： B7aX1aT+vTiNJ2RaZ8ZqC7WCPZMTgOT7/jgGSCxC
+bucket： openvoice
 
 
 
