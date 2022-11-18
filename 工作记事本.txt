@@ -1065,9 +1065,12 @@ OpenVoice项目:
 https://codeup.aliyun.com/606539f86cc98419b95d5234/SHANNON-AI/AIFUN-SDK-Android/tree/master/
 https://codeup.aliyun.com/606539f86cc98419b95d5234/OpenVoice/OpenVoice.git
 测试账号：xixihaha@qq.com,12345678
-524971307@qq.com,111111a
+524971307@qq.com,123456a
 test2@voicedev.aifun.com,a111111
+hello123@eumail.tk,a123456
 https://voicedev.aifun.com
+
+
 
 demo 地址：https://joinmastodon.org/
 接口文档：
@@ -1094,7 +1097,13 @@ ID： AKIAWLW3WTFPCSFCJVNJ
 key： B7aX1aT+vTiNJ2RaZ8ZqC7WCPZMTgOT7/jgGSCxC
 bucket： openvoice
 
+AWS管理后台：https://us-east-2.console.aws.amazon.com/cognito/users/?region=us-east-2#/?_k=pjbcgl
+453760145@qq.com
+Zhabi8306
 
+
+google管理后台：https://play.google.com/console/u/0/developers/8288252923885918681/app-list
+openvoiceover@gmail.com Shannong2022
 
 
 

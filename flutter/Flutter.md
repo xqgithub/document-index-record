@@ -3135,4 +3135,82 @@ StreamBuilder({
     })
     ```
 
-    
+- SimpleDialog：是Material组件库提供的对话框，它会展示一个列表
+
+- Dialog：`AlertDialog`和`SimpleDialog`都使用了`Dialog`类。由于`AlertDialog`和`SimpleDialog`中使用了`IntrinsicWidth`来尝试通过子组件的实际尺寸来调整自身尺寸，这就导致他们的子组件不能是延迟加载模型的组件（如`ListView`、`GridView` 、 `CustomScrollView`等）
+
+#### 2.对话框打开动画及遮罩
+
+- Flutter 提供了一个`showGeneralDialog`方法来实现普通风格的对话框，可以自定义背景色，动画等
+
+#### 3.对话框实现原理
+
+- 实现很简单，直接调用`Navigator`的`push`方法打开了一个新的对话框路由`RawDialogRoute`，然后返回了`push`的返回值。可见对话框实际上正是通过路由的形式实现的，这也是为什么我们可以使用`Navigator`的`pop` 方法来退出对话框的原因
+- 对话框的样式定制在`RawDialogRoute`中，没有什么新的东西，读者可以自行查看
+
+#### 4.对话框状态管理
+
+#### 5.其他类型的对话框
+
+- 底部菜单列表：showModalBottomSheet
+- Loading框:showDialog`+`AlertDialog来定义
+- 日历选择器
+
+### 八.事件处理与通知
+
+#### 1.原始指针事件处理
+
+(1)命中测试简介
+
+- 原始指针事件(Pointer Event，在移动设备上通常为触摸事件)
+- 一次完整的事件：手指按下、手指移动、手指抬起
+
+(2)Listener组件
+
+- Flutter中可以使用`Listener`来监听原始触摸事件
+
+- ```dart
+  Listener({
+    Key key,
+    this.onPointerDown, //手指按下回调
+    this.onPointerMove, //手指移动回调
+    this.onPointerUp,//手指抬起回调
+    this.onPointerCancel,//触摸事件取消回调
+    this.behavior = HitTestBehavior.deferToChild, //先忽略此参数，后面小节会专门介绍
+    Widget child
+  })
+  ```
+
+(3)忽略指针事件
+
+- 我们不想让某个子树响应`PointerEvent`的话，我们可以使用`IgnorePointer`和`AbsorbPointer`，这两个组件都能阻止子树接收指针事件，不同之处在于`AbsorbPointer`本身会参与命中测试，而`IgnorePointer`本身不会参与，这就意味着`AbsorbPointer`本身是可以接收指针事件的(但其子树不行)，而`IgnorePointer`不可以
+
+- ```dart
+  Listener(
+    child: AbsorbPointer(
+      child: Listener(
+        child: Container(
+          color: Colors.red,
+          width: 200.0,
+          height: 100.0,
+        ),
+        onPointerDown: (event)=>print("in"),
+      ),
+    ),
+    onPointerDown: (event)=>print("up"),
+  )
+  ```
+
+#### 2.手势识别
+
+(1)GestureDetector
+
+- 点击、双击、长按
+  - 当同时监听`onTap`和`onDoubleTap`事件时，当用户触发tap事件时，会有200毫秒左右的延时，这是因为当用户点击完之后很可能会再次点击以触发双击事件
+  - 用户只监听了`onTap`（没有监听`onDoubleTap`）事件时，则没有延时
+- 拖动 、滑动
+  - `GestureDetector`对于拖动和滑动事件是没有区分的，他们本质上是一样的
+  - `GestureDetector`可以只识别特定方向的手势事件，例如onVerticalDragUpdate就是垂直方向的拖动事件
+- 缩放
+  - `GestureDetector`可以监听缩放事件：onScaleUpdate
+

@@ -4291,3 +4291,38 @@ MvZklvybMSskH5tG55fD
 uploadVoice方法
 
 AmazonS3 android sdk接入：https://blog.csdn.net/Fancy_xty/article/details/110646607
+
+//        private const val Region = "us-east-2"
+//        private const val Bucket = "openvoice"
+//        private const val key = "B7aX1aT+vTiNJ2RaZ8ZqC7WCPZMTgOT7/jgGSCxC"
+//        private const val ID = "AKIAWLW3WTFPCSFCJVNJ"
+//
+//
+//
+//
+shape_secondary_background
+
+postVoiceModel  创建语音模型类
+
+
+
+opv_announcement_logo
+
+const val keyStoreFile = "D:\\xiaoqi\\work\\workspace\\OpenVoice\\plugin-version\\sign\\store-sign.jks"
+
+fq.woshinidie.ml
+
+夜神模拟器：adb connect 127.0.0.1:62001
+逍遥安卓模拟器： adb connect 127.0.0.1:21503
+天天模拟器：adb connect 127.0.0.1:6555
+海马玩模拟器 ：adb connect 127.0.0.1:53001
+网易MUMU模拟器：adb connect 127.0.0.1:7555
+
+rv5.cn(黑豹加速器)
+1355
+kjslink.com(快加速加速器)
+mac版本
+https://kjsdd.lanzouj.com/kjsmac
+
+苹果端官网https://kjslink.com
+其他系统端官网https://kuaijiasu.xyz
