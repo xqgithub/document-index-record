@@ -1068,6 +1068,7 @@ https://codeup.aliyun.com/606539f86cc98419b95d5234/OpenVoice/OpenVoice.git
 524971307@qq.com,123456a
 test2@voicedev.aifun.com,a111111
 hello123@eumail.tk,a123456
+320@linshiyou.com    q111111
 https://voicedev.aifun.com
 
 
@@ -1308,7 +1309,7 @@ v2rayN路由高级功能、全局模式、PAC模式设置方法：https://ivpsr.
 
 twitter 账号(关联苹果账号):
 524971307@qq.com(手机号联动)
-198671Killua
+198671killua
 用户名:@weixiaodejiuwo
 
 github token
@@ -1405,14 +1406,3 @@ github token
 
 
 
-
-
-
-
-
-前端、后端程序员薪资范围参考如下：
-助理：助理（2k ≤ X < 8k)，助理+（8k ≤ X < 12k)
-初级：初级（12k ≤ X < 18k)，初级+（18k ≤ X < 24k)
-中级：中级（24k ≤ X < 36k)，中级+（36k ≤ X < 45k)
-高级：高级（45k ≤ X < 60k)，高级+（60k ≤ X < 70k)
-资深：资深（70k ≤ X < 100k)，资深+（100k ≤ X < 120k)
