@@ -1064,12 +1064,16 @@ https://codeup.aliyun.com/606539f86cc98419b95d5234/SHANNON-AI/AIFUN-SDK-Android/
 OpenVoice项目:
 https://codeup.aliyun.com/606539f86cc98419b95d5234/SHANNON-AI/AIFUN-SDK-Android/tree/master/
 https://codeup.aliyun.com/606539f86cc98419b95d5234/OpenVoice/OpenVoice.git
+
 测试账号：xixihaha@qq.com,12345678
-524971307@qq.com,123456a
+524971307@qq.com,a123456
 test2@voicedev.aifun.com,a111111
 hello123@eumail.tk,a123456
 320@linshiyou.com    q111111
-https://voicedev.aifun.com
+
+官网地址：https://voicedev.aifun.com
+管理后台api：voiceadminapi.openvoiceover.com
+管理后台页面：voiceadmin.openvoiceover.com
 
 
 
