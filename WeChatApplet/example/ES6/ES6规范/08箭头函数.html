@@ -8,31 +8,35 @@
 
 		<script type="text/javascript">
 			//1.多个参数写法
-			// let add = (a, b) => {
-			// 	return a + b;
-			// }
+			let add = (a, b) => {
+				return a + b;
+			}
+			console.log(add(1, 2))
 
 			//2.一个参数
-			// let add = a => {
-			// 	return a + 10;
-			// }
+			let add2 = a => {
+				return a + 10;
+			}
+			console.log(add2(2))
 
 			//3.没有参数
-			// let add = () => {
-			// 	return 10;
-			// }
-
+			let add3 = () => {
+				return 10;
+			}
+			console.log(add3())
+			
 			//4.表达式写法
 			// let add = (a, b) => a + b;
 			// let add = a => a + 10;
 			// let add = () => 10;
 			// let add = () => [1, 2, 3];
-			let add = () => ({
+
+			let add5 = () => ({
 				name: '张三',
 				age: 18,
 				sex: '男'
 			})
-			console.log(add())
+			console.log(add5())
 		</script>
 	</body>
 </html>

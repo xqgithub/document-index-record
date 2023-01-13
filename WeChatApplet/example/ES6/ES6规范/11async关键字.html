@@ -24,8 +24,8 @@
 			const jf = async (x, y) => {
 
 				try {
-					let a = await cf(x);
-					let b = await cf(y);
+					let a = await cf(x);//返回具体的值
+					let b = await cf(y);//返回具体的值
 					return a + b;
 				} catch (e) {
 					//TODO handle the exception

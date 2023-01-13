@@ -9,7 +9,7 @@
         ]
     },
     "setting": {
-        "urlCheck": false,
+        "urlCheck": true,
         "es6": true,
         "enhance": true,
         "postcss": true,
@@ -47,7 +47,7 @@
         "ignoreUploadUnusedFiles": true
     },
     "compileType": "miniprogram",
-    "libVersion": "2.19.4",
+    "libVersion": "2.29.1",
     "appid": "wx6f16ca2dc521af9d",
     "projectname": "weixin1",
     "debugOptions": {

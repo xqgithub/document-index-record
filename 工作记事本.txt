@@ -1043,12 +1043,16 @@ https://www.zptq.com/s/team/446/1226/c697957aaf5d11ec8e270017fa002dc2/start.html
 2.UI图：
 https://www.figma.com/file/w2CMdPaK6iJZhI7ChovgSf/%E6%B8%B8%E6%88%8F%2B%E7%94%B5%E5%95%86?node-id=185%3A472
 3.接口文档地址：
-http://192.168.2.69:25001/doc.html#/home
+https://gmalltest.aifun.com/doc.html#/home
 4.bug系统：
 https://account.aliyun.com/login/login.htm?oauth_callback=https%3A%2F%2Faccount-devops.aliyun.com%2Flogin%3Fnext_url%3Dhttp%3A%2F%2Faccount-devops.aliyun.com%2Flogin%3Fnext_url%3Dhttps%253A%252F%252Fdevops.aliyun.com%252Fproject%252F61272f2e04558e003fc813ae%252Fbug%252Fsection%252F62907664dc3b2f001273b101
 xqkillua
 198671killuakid
 198671killuakid
+
+
+
+
 
 
 测试环境账号：
