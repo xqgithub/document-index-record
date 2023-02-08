@@ -4337,8 +4337,50 @@ xixihaha.aaa@qq.com
 
 APP 统计
 1.  https://www.appsflyer.com/cn/
+SDK对接概览：https://support.appsflyer.com/hc/zh-cn/articles/207032126
+AppsFlyer使用入门：https://blog.csdn.net/stevenmtk/article/details/105741936
+
+
 2.  https://analytics.google.com/analytics/web/provision/#/provision
+Android接入Google Firebase（Analytics功能）：https://www.jianshu.com/p/4f38013d4b89
+
+
+
+google Analytics
+用户（Users） ：访问您网站的人数。（以前称为“唯一访问者”）。
+会话数（Sessions） ：人们访问您网站的次数（以前称为“访问(visits)”）
+跳出率（Bounce Rate） ： 它表示进入网站然后离开而不是继续查看同一网站内其他页面的访问者的百分比。一般来说，跳出率越低越好。
+会话时长（Session Duration） ：人们停留在你的网站上的时间。通常，会话持续时间越长越好。
+流量渠道（Traffic channel） ：这是流量来源的高级概述。它分为“自然搜索流量”、“直接流量”、“社交流量”和“推荐流量”等类别。
+实时（Real-time） ：这是您网站上目前正在发生的活动。对我来说，这是最有趣的功能。
 
 
 
 
+opv_precautions
+
+    //APP在前端心跳
+    private var isAPPForeground_HeartBeat_Disposable: Disposable? = null
+
+
+
+DefaultLifecycleObserver   ViewModel中获取LifecycleOwner
+
+
+            android:name=".business.main.login.LoginMethodActivity"
+
+
+
+http://192.168.2.77/aaa.jpg
+http://192.168.2.77/a.html
+http://localhost/aaa.jpg
+http://localhost/a.html
+
+https://chrome.google.com/webstore/detail/tab-groups-extension/nplimhmoanghlebhdiboeellhgmgommi
+D:\xiaoqi\work\workspace\document-index-record\WeChatApplet\weixin\weixin1
+
+
+nowrap | wrap | wrap-reverse
+是flex-direction属性和flex-wrap属性的简写形式，默认值为row nowrap
+flex-start | flex-end | center | space-between | space-around;
+flex-start | flex-end | center | baseline | stretch

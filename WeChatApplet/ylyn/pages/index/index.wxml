@@ -1,0 +1,50 @@
+<!--pages/index/index.wxml-->
+<!-- <text>pages/index/index.wxml</text> -->
+<view class="header">
+    <!--logo-->
+    <image class="logo" src="/images/logo.png" style="margin-top: 70rpx;"></image>
+    <!-- 轮播图 -->
+    <view class="swiper-box">
+        <swiper indicator-dots="true" autoplay="true" interval="3000" duration="300">
+            <swiper-item>
+                <image src="/images/food/ggpg.jpg"></image>
+            </swiper-item>
+            <swiper-item>
+                <image src="/images/food/ggtd.jpg"></image>
+            </swiper-item>
+            <swiper-item>
+                <image src="/images/food/tgdt.jpg"></image>
+            </swiper-item>
+        </swiper>
+    </view>
+</view>
+<!-- 首页导航 -->
+<view class="navbox">
+    <view class="nacitem">
+        <image src="/images/icon/guanguo.png"></image>
+        <text>干锅</text>
+    </view>
+    <view class="nacitem">
+        <image src="/images/icon/tangguo.png"></image>
+        <text>汤锅</text>
+    </view>
+</view>
+
+<!-- 美食推荐 -->
+<view class="food-text">
+    <text>美食推荐</text>
+</view>
+<!-- 首页列表项布局 -->
+<view class="food-box">
+    <view class="food-item">
+        <image src="/images//food/ggpg.jpg"></image>
+        <view class="item-r">
+            <text class="title">香辣排骨干锅</text>
+            <text class="small">食材主要有原味排骨，辅料：油辣椒、黄豆酱、油泼辣子、调料：蒜泥、姜末、冰糖、生抽</text>
+            <view class="price-box">
+                <text class="price">大158/中128/小98元</text>
+                <view class="btn">详情</view>
+            </view>
+        </view>
+    </view>
+</view>

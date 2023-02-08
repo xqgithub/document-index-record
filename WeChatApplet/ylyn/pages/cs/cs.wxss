@@ -1,1 +1,39 @@
 /* pages/cs/cs.wxss */
+.img {
+    height: 800rpx;
+    width: 750rpx;
+    background: url('http://192.168.2.77/aaa.jpg') no-repeat;
+    background-position: center;
+    background-size: 80%;
+}
+
+.box{
+    width: 750rpx;
+    height: 200rpx;
+    background-color: aqua;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content:space-between;
+    align-items: center;
+}
+.left{
+    width: 200rpx;
+    height: 200rpx;
+    background-color: red;
+}
+.center{
+    flex: 1;
+    height: 200rpx;
+    line-height: 40rpx;
+    margin: 0 20rpx;
+    background-color: green;
+}
+.right{
+    width: 150rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    background-color: blue;
+    text-align: center;
+    color: #ffffff;
+}

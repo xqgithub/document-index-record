@@ -1,6 +1,39 @@
 <!--pages/cs/cs.wxml-->
+
 <!-- <view style="height: 100px;background-color: red;width: 100px;"></view>
 <text>我具有行级特点1</text>
 <image style="width: 100px;height: 100px;" src="/images/icon/guanguo.png"></image>
 <image style="width: 100px;height: 100px;" src="/images/icon/guanguo.png"></image> -->
-<view style="height:300px;width: 300px;background: url('/images/indexBackground.jpg') no-repeat 0 0/100% 100%"></view>
+
+<!-- view的使用 -->
+<!-- <view style="height:500px; background-color:lightpink;display: flex;flex-direction:row;justify-content:center">
+    <image style="width: 100px;height: 100px;" src="/images/icon/guanguo.png"></image>
+    <image style="width: 100px;height: 100px;" src="/images/icon/guanguo.png"></image>
+</view> -->
+
+<!-- 背景图片的引入 -->
+<!-- <view style="height:400px;background: url('/images/indexBackground.jpg') no-repeat; background-position: center;background-size: 70%;"></view> -->
+
+<!-- 引入wxss样式，需要先在块级中设置好class -->
+<!-- <view class="img"></view> -->
+
+<!-- 弹性布局使用 -->
+<!-- <view class="box">
+    <view class="left"></view>
+    <view class="center"></view>
+    <view class="right"></view>
+</view> -->
+
+<!-- 固比模型 -->
+<!-- <view class="box">
+    <image class="left" src="/images/food/ggpg.jpg"></image>
+    <text class="center">我是中间的文字</text>
+    <view class="right">按钮</view>
+</view> -->
+<!-- ---------------------------------------------------------- 分割线 ---------------------------------------------------------- -->
+
+
+
+
+
+
