@@ -1,0 +1,23 @@
+/* pages/reser/reser.wxss */
+.reser{
+    width: 600rpx;
+    margin: 0 auto;
+}
+
+.reser text{
+    height: 60rpx;
+    line-height: 60rpx;
+}
+
+input,radio-group,picker{
+    height: 80rpx;
+    line-height: 80rpx;
+    border: 1px solid #000;
+    margin-bottom: 30rpx;
+    padding-left: 40rpx;
+}
+
+button{
+    margin-bottom: 30rpx;
+
+}

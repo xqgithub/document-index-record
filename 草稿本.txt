@@ -4384,3 +4384,6 @@ nowrap | wrap | wrap-reverse
 是flex-direction属性和flex-wrap属性的简写形式，默认值为row nowrap
 flex-start | flex-end | center | space-between | space-around;
 flex-start | flex-end | center | baseline | stretch
+
+
+    // "navigationStyle": "custom",

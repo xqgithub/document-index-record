@@ -1,0 +1,57 @@
+<!--pages/content/content.wxml-->
+<!-- 内容页banner -->
+<view class="banner">
+<image class="bannerimg" src="/images/food/ggpg.jpg"></image>
+<image class="music" src="/images/icon/music2.png"></image>
+<!-- <image class="music" src="/images/icon/music1.png"></image> -->
+</view>
+<!-- 内容页电话及价格区块布局 -->
+<view class="content-box">
+<view class="reser">
+<text class="phone">订座电话：13912345678</text>
+<view class="btn">收藏</view>
+<view class="btn">订座</view>
+</view>
+<view class="price">
+<text>大148/中118/小88</text>
+</view>
+
+<!-- 内容页简介 -->
+<view class="small">
+<text>肉香味美，色泽诱人，令人垂涎。主料：兔肉、笋子、胡豆。辅料：姜、葱、蒜</text>
+</view>
+<view class="list">
+<view class="item" style="color:#e60303;">
+<text class="name">菜名</text>
+<text class="num">数量(大中小)</text>
+<text class="unit">单位</text>
+</view>
+<view class="item">
+<text class="name">兔肉</text>
+<text class="num">5/4/3</text>
+<text class="unit">市斤</text>
+</view>
+<view class="item">
+<text class="name">牛肉</text>
+<text class="num">5/4/3</text>
+<text class="unit">市斤</text>
+</view>
+<view class="item">
+<text class="name">土豆</text>
+<text class="num">1</text>
+<text class="unit">份</text>
+</view>
+<view class="item">
+<text class="name">驴肉</text>
+<text class="num">5</text>
+<text class="unit">斤</text>
+</view>
+</view>
+
+<view class="footer">
+<text>凡在本店消费，底锅及餐具免费，赠送饮料一瓶。酒水一件也批发</text>
+</view>
+
+</view>
+
+

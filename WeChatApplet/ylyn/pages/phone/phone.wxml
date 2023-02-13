@@ -1,0 +1,24 @@
+<!--pages/phone/phone.wxml-->
+<view class="mycontainer">
+    <video src="https://v6-web.toutiaovod.com/2d50b81d32bc0f004f2b700cee4a996f/63e469df/video/tos/cn/tos-cn-ve-0026c800/390b5675da75425ca8efe9cbcafb0319/?a=24&ch=0&cr=0&dr=0&er=0&lr=unwatermarked&cd=0%7C0%7C0%7C0&br=1735&bt=1735&cs=0&ds=3&ft=hGkwBy6LRR0sTHC4NDv2Ncy3kIXbvLrVIM_cx4kUamZRYvjThb&mime_type=video_mp4&qs=0&rc=ZWdnZGhkOmRkPGU7NGdmNkBpajxpbnkzc2hvdDMzaWQzM0AvYTRgYTY2Ni0xNTEwXmIxYSMtZjFxcHAxaG1fLS00Li9zcw%3D%3D&l=20230209103233C4B2A042C8BA5EC1A843&btag=28000"></video>
+    <view class="info">
+        <view class="info-item">
+            <text>餐厅名称：</text>
+            <text>一路有你餐厅</text>
+        </view>
+        <view class="info-item">
+            <text>餐厅地址：</text>
+            <text>XX市XX区XX街XX号</text>
+        </view>
+        <view class="info-item">
+            <text>订座电话：</text>
+            <text>13912345678</text>
+        </view>
+        <view class="info-item">
+            <text>在线订座：</text>
+            <view class="btn">立即订座</view>
+        </view>
+    </view>
+    <map  longitude="114.4349" latitude="30.5002" scale="14"></map>
+
+</view>

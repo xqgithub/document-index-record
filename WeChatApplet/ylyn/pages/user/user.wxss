@@ -1,0 +1,91 @@
+/* pages/user/user.wxss */
+.mycontainer{
+    width: 720rpx;
+    margin: 0 auto;
+}
+.userinfo{
+    width: 720rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50rpx;
+    margin-bottom: 40rpx;
+}
+.user-avatar{
+    width: 150rpx;
+    height: 150rpx;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 50rpx;
+}
+.user-name{
+    font-size: 40rpx;
+}
+
+
+
+
+.tab{
+    height: 60rpx;
+    line-height: 60rpx;
+    border: 1px solid #07c160;
+    display: flex;
+}
+
+.storage,.reser{
+    flex: 1;
+    text-align: center;
+}
+
+.storage-item{
+ display: flex;
+ align-items: center;
+ padding: 20rpx 0;
+ border-bottom: 1px solid #ccc;
+}
+.storagepic{
+    width: 120rpx;
+    height: 120rpx;
+    margin-right: 20rpx;
+}
+
+.storagedel{
+    width: 100rpx;
+    height: 60rpx;
+    text-align: center;
+    background-color: #07c160;
+    line-height: 60rpx;
+    border-radius: 12rpx;
+    color: #fff;
+}
+
+.storagename{
+    flex: 1;
+    height: 60rpx;
+    line-height: 60rpx;
+    overflow: hidden;
+    margin-right: 20rpx;
+}
+
+.reser-item{
+   display: flex;
+   height: 60rpx;
+   line-height: 60rpx;
+   text-align: center;
+   border-bottom: 1px solid #ccc; 
+   padding: 20rpx 0;
+}
+
+.reser-date,.go-date{
+width: 250rpx;
+}
+.table-num{
+    width: 220rpx;
+}
+
+
+
+
+
+
+

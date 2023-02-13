@@ -1,0 +1,66 @@
+<!--pages/list/list.wxml-->
+<view class="food-box">
+    <view class="food-item">
+        <image src="/images//food/ggpg.jpg"></image>
+        <view class="item-r">
+            <text class="title">香辣排骨干锅</text>
+            <text class="small">食材主要有原味排骨，辅料：油辣椒、黄豆酱、油泼辣子、调料：蒜泥、姜末、冰糖、生抽</text>
+            <view class="price-box">
+                <text class="price">大158/中128/小98元</text>
+                <view class="btn">详情</view>
+            </view>
+        </view>
+    </view>
+</view>
+<view class="food-box">
+    <view class="food-item">
+        <image src="/images//food/ggpg.jpg"></image>
+        <view class="item-r">
+            <text class="title">香辣排骨干锅</text>
+            <text class="small">食材主要有原味排骨，辅料：油辣椒、黄豆酱、油泼辣子、调料：蒜泥、姜末、冰糖、生抽</text>
+            <view class="price-box">
+                <text class="price">大158/中128/小98元</text>
+                <view class="btn">详情</view>
+            </view>
+        </view>
+    </view>
+</view>
+<view class="food-box">
+    <view class="food-item">
+        <image src="/images//food/ggpg.jpg"></image>
+        <view class="item-r">
+            <text class="title">香辣排骨干锅</text>
+            <text class="small">食材主要有原味排骨，辅料：油辣椒、黄豆酱、油泼辣子、调料：蒜泥、姜末、冰糖、生抽</text>
+            <view class="price-box">
+                <text class="price">大158/中128/小98元</text>
+                <view class="btn">详情</view>
+            </view>
+        </view>
+    </view>
+</view>
+<view class="food-box">
+    <view class="food-item">
+        <image src="/images//food/ggpg.jpg"></image>
+        <view class="item-r">
+            <text class="title">香辣排骨干锅</text>
+            <text class="small">食材主要有原味排骨，辅料：油辣椒、黄豆酱、油泼辣子、调料：蒜泥、姜末、冰糖、生抽</text>
+            <view class="price-box">
+                <text class="price">大158/中128/小98元</text>
+                <view class="btn">详情</view>
+            </view>
+        </view>
+    </view>
+</view>
+<view class="food-box">
+    <view class="food-item">
+        <image src="/images//food/ggpg.jpg"></image>
+        <view class="item-r">
+            <text class="title">香辣排骨干锅</text>
+            <text class="small">食材主要有原味排骨，辅料：油辣椒、黄豆酱、油泼辣子、调料：蒜泥、姜末、冰糖、生抽</text>
+            <view class="price-box">
+                <text class="price">大158/中128/小98元</text>
+                <view class="btn">详情</view>
+            </view>
+        </view>
+    </view>
+</view>
