@@ -14,7 +14,6 @@ Page({
   },
   handleChild(){
     console.log('child')
-
   },
 
   // 跳转至logs页面的方法
@@ -31,13 +30,13 @@ Page({
     console.log('onLoad() 监听页面加载');
     // debugger;
     // 修改msg的状态数据， 语法： this.setData
-    // console.log(this.data.msg) // this代表当前页面的实例对象
-    // setTimeout(() => {
-    //   this.setData({
-    //     msg: '修改之后的数据'
-    //   })
-    //   console.log(this.data.msg)
-    // }, 2000)
+    console.log(this.data.msg) // this代表当前页面的实例对象
+    setTimeout(() => {
+      this.setData({
+        msg: '修改之后的数据'
+      })
+      console.log(this.data.msg)
+    }, 3000)
 
     // 授权以后获取用户信息
     wx.getUserInfo({

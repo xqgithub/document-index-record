@@ -4387,3 +4387,37 @@ flex-start | flex-end | center | baseline | stretch
 
 
     // "navigationStyle": "custom",
+
+    │ main, com.shannon.android.lib.util.ScreenTools.getEquipmentInformation(ScreenTools.java:275)
+    ├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+    │ args[0] = 手机设备屏幕宽度(px) =-= 900
+    │ args[1] = 手机设备屏幕高度(px) =-= 1600
+    │ args[2] = 手机屏幕密度 density =-= 2.0
+    │ args[3] = 手机屏幕密度 densityDpi =-= 320
+    │ args[4] = 手机屏幕宽度(dp) =-= 450
+    │ args[5] = 手机屏幕高度(dp) =-= 800
+    │ args[6] = 字体缩放系数 =-= 2.0
+    │ args[7] = 手机的cpu型号 =-= [x86, armeabi-v7a, armeabi]
+
+SplashActivity Info: isBaseOnWidth = true, designWidthInDp = 375.000000, designWidthInSubunits = 375.000000, targetDensity = 2.400000, targetScaledDensity = 2.400000, targetDensityDpi = 384, targetXdpi = 2.400000, targetScreenWidthDp = 375, targetScreenHeightDp = 646
+
+60 144
+60.dp = 120
+
+
+
+        │ main, com.shannon.android.lib.util.ScreenTools.getEquipmentInformation(ScreenTools.java:275)
+    ├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+    │ args[0] = 手机设备屏幕宽度(px) =-= 1080
+    │ args[1] = 手机设备屏幕高度(px) =-= 2400
+    │ args[2] = 手机屏幕密度 density =-= 2.75
+    │ args[3] = 手机屏幕密度 densityDpi =-= 440
+    │ args[4] = 手机屏幕宽度(dp) =-= 392
+    │ args[5] = 手机屏幕高度(dp) =-= 872
+    │ args[6] = 字体缩放系数 =-= 2.75
+    │ args[7] = 手机的cpu型号 =-= [arm64-v8a, armeabi-v7a, armeabi]
+
+ SplashActivity Info: isBaseOnWidth = true, designWidthInDp = 375.000000, designWidthInSubunits = 375.000000, targetDensity = 2.880000, targetScaledDensity = 2.880000, targetDensityDpi = 460, targetXdpi = 2.880000, targetScreenWidthDp = 375, targetScreenHeightDp = 833
+
+60    173
+60    165s
