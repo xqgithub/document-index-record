@@ -4503,4 +4503,20 @@ opv_icon_pause2
 ic_opv_notification_clean2
 
 
-524971308@qq.com
+#
+# For example:
+#
+#      102.54.94.97     rhino.acme.com          # source server
+#       38.25.63.10     x.acme.com              # x client host
+
+# localhost name resolution is handled within DNS itself.
+# 127.0.0.1       localhost
+# ::1             localhost
+#192.30.253.112 github.com
+#172.217.160.78 maven.google.com
+20.205.243.166 github.com
+113.108.239.162 translate.google.com
+108.177.97.100 translate.googleapis.com
+127.0.0.1 192.168.7.22
+127.0.0.1 192.168.2.77
+192.168.2.77 windows10.microdone.cn
