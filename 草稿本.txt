@@ -4344,6 +4344,18 @@ AppsFlyer使用入门：https://blog.csdn.net/stevenmtk/article/details/10574193
 2.  https://analytics.google.com/analytics/web/provision/#/provision
 Android接入Google Firebase（Analytics功能）：https://www.jianshu.com/p/4f38013d4b89
 
+APP google 推送
+1. Firebase文档： https://firebase.google.com/docs/samples?authuser=0&hl=zh
+2. Firebase 基础知识文档  https://firebase.google.com/docs/guides?authuser=0&hl=zh
+3. 设置 Firebase Cloud Messaging 客户端应用(Android)  https://firebase.google.com/docs/cloud-messaging/android/client?hl=zh-cn
+
+"project_number": "173738161948",
+"mobilesdk_app_id": "1:173738161948:android:8cd053ede354898ba3acd9",
+"project_id": "openvoicefcm",
+ "current_key": "AIzaSyB2Tlv7eEfRYu3PzRR1qJcgg6jjQyyeaSc"
+
+
+
 
 
 google Analytics
@@ -4354,7 +4366,7 @@ google Analytics
 流量渠道（Traffic channel） ：这是流量来源的高级概述。它分为“自然搜索流量”、“直接流量”、“社交流量”和“推荐流量”等类别。
 实时（Real-time） ：这是您网站上目前正在发生的活动。对我来说，这是最有趣的功能。
 
-
+Android 13(T) 适配：https://juejin.cn/post/7103123064623202318
 
 
 opv_precautions
@@ -4421,3 +4433,74 @@ SplashActivity Info: isBaseOnWidth = true, designWidthInDp = 375.000000, designW
 
 60    173
 60    165s
+
+
+
+http://localhost:3000/banner
+
+opv_notification_setting
+opv_notification_clean2
+
+
+DrawerLayout   侧滑
+
+opv_mine_setting
+
+Jetpack Compose
+Android全新UI编程 - Jetpack Compose 超详细教程：https://www.jianshu.com/p/c49565f298f0
+官方教程：https://developer.android.google.cn/courses/pathways/compose?hl=zh-cn
+Jetpack Compose UI组件入门教程：https://blog.csdn.net/vitaviva/article/details/109689950
+
+
+android:background="?android:windowBackground"
+
+opv 分割线颜色  R.color.divider
+ ByRecyclerView.itemDivider
+
+
+
+mine_you_like_models
+
+
+opv_model_state_original
+opv_model_state_bought
+opv_model_state_fail
+opv_model_state_generating
+opv_model_use_logo
+
+
+    <View
+        android:id="@+id/viewDividingLine1"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="14dp"
+        android:background="?attr/navigationBarBackground"
+        app:layout_constraintTop_toBottomOf="@+id/tvName" />
+
+
+opv_more_features
+opv_popular_logo
+
+
+opv_icon_play2
+opv_icon_pause2
+
+
+
+<ImageButton
+    android:id="@+id/ibBack"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:background="?attr/selectableItemBackgroundBorderless"
+    android:src="@drawable/icon_nav_arrow"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:tint="?attr/iconTintOnPrimary" />
+
+
+ic_opv_notification_clean2
+
+
+524971308@qq.com
