@@ -4520,3 +4520,15 @@ ic_opv_notification_clean2
 127.0.0.1 192.168.7.22
 127.0.0.1 192.168.2.77
 192.168.2.77 windows10.microdone.cn
+
+
+
+
+AndroidStudio20221121
+
+C:\Users\joker\AppData\Roaming\Google\AndroidStudio4.2\settings.zip
+
+
+GsonFormat
+wifi adb
+camelcaseplugin
