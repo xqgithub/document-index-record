@@ -826,8 +826,12 @@
 
 - Activity的生命周期
 
-  onCreate() -> onStart() -> onResume() -> onPause() -> onStop() -> onDetroy()
-
+  - 开始：onCreate() -> onStart() -> onResume() -> onPause() -> onStop() -> onDetroy()
+  - 失去焦点：onPause() -> onStop()
+  - 重新获得焦点：onReastart()->onStart() -> onResume()
+  - 关闭：onPause() -> onStop()->onDestroy()
+  - ![](./reference_graph/070ab4baa81941688d9174f717e61586~tplv-k3u1fbpfcp-zoom-in-crop-mark_1512_0_0_0.png)
+  
 - activity之间的通信方式
 
   - intent 传递数据
@@ -835,20 +839,656 @@
   - 广播
   - 数据库
   - 文件
+  
+- Activity和Fragment之间的数据通信
+  - 接口回调
+  - Bundle和setArgments(bundle)
+  - EventBus
+  - 广播
+  - Handler
 
-- 
+- 横竖屏切换的时候，Activity 各种情况下的生命周期
+
+  - 不设置`android:configChanges=orientation|keyboardHidden|screenSize`，onPause->onSaveInstanceState(保存Activity中的数据，以便恢复的时候调用)->onStop->onDestroy->onCreate->onStart->onRestoreInstanceState(恢复状态数据)->onResume
+  - 设置了`android:configChanges=orientation|keyboardHidden|screenSize`，onConfigChanged方法
+
+- Activity与Fragment之间生命周期比较
+
+  - `Fragment`生命周期
+
+    - onAttach()->onCreate()->onCreateView()->onActivityCreated()->onStart()->onResume()->onPause()->onStop()->onDestroyView()->onDestroy()->onDetach()
+
+  - 生命周期比较
+
+    ![](./reference_graph/20170711193226098.png)
+    
+    
+  
+- Activity上有Dialog的时候按Home键时的生命周期
+
+  - Dialog看作成Activity的一个满屏组件，不会影响其生命周期
+  - 生命周期 onPause() -> onStop() 
+
+  
+
+- 两个Activity 之间跳转时必然会执行的是哪几个方法
+
+  - A,B两个Activity，B进入，A会调用onPause()方法,然后B调用onCreate() ,onStart(), onResume()。这个时候B覆盖了A的窗体, A会调用onStop()方法
+  - B是个透明的窗口,或者是对话框的样式, 就不会调用A的onStop()方法
+  - B已经存在于Activity栈中，B就不会调用onCreate()方法
+
+  
+
+- Activity的四种启动模式对比
+
+  - `standard` 标准启动模式，也是activity的默认启动模式
+  - `singleTop` activity的实例已经存在于任务桟的桟顶，那么再启动这个Activity时，不会创建新的实例，而是重用位于栈顶的那个实例，并且会调用该实例的onNewIntent()方法将Intent对象传递到这个实例中
+  - `singleTask` 一个activity的启动模式为singleTask，那么系统总会在一个新任务的最底部（root）启动这个activity，并且被这个activity启动的其他activity会和该activity同时存在于这个新任务中; 系统中已经存在这样的一个activity则会重用这个实例，并且调用他的onNewIntent()方法
+  - `singleInstance` activity会自动运行于另一个任务中。当再次启动该activity的实例时，会重用已存在的任务和实例。并且会调用这个实例的onNewIntent()方法，将Intent实例传递到该实例中
+  - `taskAffinity` 
+    - 一个应用中的所有activity具有相同的taskAffinity，即应用程序的包名
+    - 设置不同的taskAffinity属性给应用中的activity分组，也可以把不同的应用中的activity的taskAffinity设置成相同的值
+
+- Activity状态保存于恢复
+
+  - 使用本地储存：SharedPreferences
+  - 使用数据库
+  - 序列化对象为字符串，保存在SP文件中
+  - 使用Intent
+  
+- Activity的启动过程
+
+  ![](./reference_graph/1-1.png)
+
+  - 当点击Launcher的icon开始，Launcher进程会像AMS发送点击icon的启动信息（这些信息就是在AndroidMainifest.xml中<intent-filter>标签定义的启动信息，数据由PackageManagerService解析出来）
+  - AMS收到信息后会先后经过ActivityTaskManagerService->ActivityStartController->ActivityStarter内部类Request，然后把信息存到Request中，并通知Launcher进程让Activity休眠（补充个小知识点，这个过程会检测Activity在AndroidMainifest.xml的注册，如果没有注册就报错了）
+  - Launcher进程的ApplicationThread对象收到消息后调用handlePauseActivity()进行暂停，并通知AMS已经暂停
+  - AMS收到Launcher的已暂停消息后，会检查要启动的Activity所在的进程是否已经启动了，如果已经启动了就打开，如果未启动则通过Process.start(android.app.ActivityThread)来启动一个新的进程。
+  - 进程创建好以后，会调用ActivityThread.main(),初始化MainLooper，并创建Application对象。然后Instrumentation.newApplication()反射创建Application，创建ContextImpl通过Application的attach方法与Application进行绑定，最终会调用Instrumentation.callApplicationOnCreate执行Application的onCreate函数进行一些初始化的工作。完成后会通知AMS进程已经启动好了
+  - AMS收到app进程启动成功的消息后，从ActivityTaskManagerService中取出对应的Activity启动信息， 并通过ApplicationThreadProxy对象，调用其scheduleTransaction(ClientTransaction transaction)方法，具体要启动的Activity都在ClientTransaction对象中
+  - app进程的ApplicationThread收到消息后会调用ActiivtyThread.sendMessage()，通过H发送Handler消息，在handleMessage方法的内部又会调用 mTransactionExecutor.execute(transaction);具体参考第3步
+     最终调用performLaunchActivity方法创建activity和context并将其做关联，然后通过mInstrumentation.callActivityOnCreate()->Activity.performCreate()->Activity.onCreate()回调到了Activity的生命周期。
+
+#### 7.Service
+
+- Service的生命周期，启动方式
+  - 直接启动  startService
+    - 生命周期 onCreate->onStartConmon->StopService->onDestroy
+    - ![](./reference_graph/1441907-3dbf045663fb54a5.webp)
+    - 开启之后无法操作service，activity退出之后 service依旧存在
+    - **startCommand()**能被多次调用
+  - 绑定开启 bindService
+    - onCreate-->onBind-->unBind-->onDestroy
+    - ![](./reference_graph/1441907-08f50068b747b98d.webp)
+    - 开启之后可以操作service，activity退出之后 service就销毁了
 
 
 
+#### 8.广播broadcast
+
+- 分类
+
+  - 按照`发送方式`分类
+    - 无序广播：同时收到，没有先后顺序可言，而且这种广播是没法被截断的
+    - 有序广播：一个一个的接收，广播中的逻辑执行完成后，广播才会继续传播`Priority属性的值决定，值越大，优先级越高；Priority属性相同时，动态注册的广播优先于静态注册的广播`
+  - 按照`注册方式`分类
+    - 动态广播：代码中注册的
+    - 静态广播：AndroidManifest中进行注册
+  - 按照`定义方式`分类
+    - 系统广播：每个系统广播都具有特定的intent-filter，主要包括具体的action，系统广播发出后，将被相应的BroadcastReceiver接收
+    - 自定义广播：应用程序开发者自己定义的广播
+
+- 广播的实现
+
+  ```java
+  public class MyBroadcastReceiver extends BroadcastReceiver {
+      @Override
+      public void onReceive(Context context, Intent intent) {
+          Toast.makeText(context, "received in MyBroadcastReceiver", Toast.LENGTH_SHORT).show();
+          abortBroadcast();
+      }
+  }
+  ```
+
+  ```java
+  public class MainActivity extends AppCompatActivity {
+  
+      private IntentFilter intentFilter;
+      private MyBroadcastReceiver myBroadcastReceiver;
+  
+      @Override
+      protected void onCreate(Bundle savedInstanceState) {
+          super.onCreate(savedInstanceState);
+          setContentView(R.layout.activity_main);
+          intentFilter = new IntentFilter();
+          intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+          myBroadcastReceiver = new MyBroadcastReceiver();
+          registerReceiver(myBroadcastReceiver, intentFilter);
+          
+          Button button = (Button) findViewById(R.id.button);
+          button.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  Intent intent = new Intent("android.net.conn.CONNECTIVITY_CHANGE");
+                  sendBroadcast(intent); // 发送广播
+              }
+          });
+      }
+  
+      @Override
+      protected void onDestroy() {
+          super.onDestroy();
+          unregisterReceiver(myBroadcastReceiver);
+      }
+  }
+  
+  ```
+
+- 静态实现
+
+  ```javascript
+          <receiver
+              android:name=".MyBroadcastReceiver"
+              android:enabled="true"
+              android:exported="true">
+              <intent-filter>
+                  <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+              </intent-filter>
+          </receiver>
+  ```
+
+  - `android:exported` 此BroadcastReceiver能否接收其他App发出的广播(其默认值是由receiver中有无intent-filter决定的，如果有intent-filter，默认值为true，否则为false)
+  - `android:name` 广播名称
+  - `android:enabled` 表示是否能被其他应用隐式调用
+
+- APP退出了，也能接收到消息
+
+  ```java
+  //通过自定义广播设置标识FLAG_INCLUDE_STOPPED_PACKAGES
+  Intent intent = new Intent();
+  intent.setAction(BROADCAST_ACTION);
+  intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+  sendBroadcast(intent);
+  ```
+
+  <font color= #FF0000>替代方案：通过将Service与App本身设置成不同的进程已经成为实现此类需求的可行替代方案</font>
+
+- 广播安全性
+
+  - `android:exported="false"`
+  - 广播发送和接收时，都增加上相应的permission，用于权限验证
+  - 发送广播时，指定特定广播接收器所在的包名，具体是通过intent.setPackage(packageName)指定
+  - 采用LocalBroadcastManager的方式
 
 
 
+#### 9.内容提供者ContentProvider
+
+- 什么是ContentProvider？
+
+  - Android的四大组件之一，以标准化的方式在Android 应用间共享数据
+  - 封装的数据存储以及增删改查等，并且必须实现一个对外统一的接口(Uri)
+  - Android系统内置的数据也是通过ContentProvider提供给用户使用，例如通讯录、音视频文件和图像文件等
+  - 可以指定需要共享的数据，而其他应用程序则可以在不知道数据来源、路径的情况下，对共享数据进行增删改查等操作
+
+- 什么是Uri?
+
+  - Uri(通用资源标识符 Universal Resource Identifer)，代表数据操作的地址，每一个ContentProvider都会有唯一的地址
+
+  - `ContentProvider`使用uri的语法结构
+
+    - ```java
+      content://authority/data_path/id
+      ```
+
+      
+
+    - `content://` 是通用前缀，表示该Uri用于ContentProvider定位资源。
+
+    - `authority` 授权者名称，用来确定具体哪一个ContentProvider提供资源。因此一般authority都由类的小写全称组成，以保证唯一性
+
+    - `data_path` 是数据路径，用来确定请求的是哪个数据集
+
+    - `id` 是数据编号，用来请求单条数据。如果是多条数据，这个字段忽略
+
+      - ```java
+              content://com.scc.userprovider/user多条
+              content://com.scc.userprovider/user/10单条
+        ```
+
+- 什么是ContentResolver？
+
+  - 数据调用者，ContentProvider将数据发布出来，通过ContentResolver对象结合Uri进行调用
+  - 一般来说ContentProvider是单例模式，多个应用可通过ContentResolver调用ContentProvider的增删改查操作数据，ContentResolver调用的数据操作会让同一个ContentProvider处理
+
+- 创建ContentProvider
+
+  - 创建一个类让其继承ContentProvider，并重载6个函数
+
+  - 实现的主要方法
+
+    - insert、delete、update、query对数据集的增删改查操作
+    - onCreate 用来初始化底层数据集和建立数据连接等工作
+    - getType 用来返回指定Uri的MIME数据类型
+      - 若Uri是单条数据，则返回的MIME数据类型以vnd.android.cursor.item开头
+      - 若Uri是多条数据，则返回的MIME数据类型以vnd.android.cursor.dir/开头
+
+  - 声明Uri规则，实现UriMatcher
+
+    addUri()方法用来添加新的匹配项
+
+    ```java
+    public void addUri(String authority, String path, int code)
+    ```
+
+    - authority表示匹配的授权者名称
+    - path表示数据路径
+    - code表示返回代码
+
+    
 
 
 
+#### 10.AIDL
 
+- 什么是AIDL？
+  - Android Interface Definition Language 用于描述Android应用程序组件间通信接口的语言。AIDL被广泛用于客户端和服务端之间的进程间通信（IPC），包括远程调用、跨进程共享数据等
+  - 支持在多个线程中并发访问和操作数据，使得Android应用程序在不同进程中的组件可以协同工作，实现更为丰富和灵活的功能
+- AIDL 使用步骤
+  - 定义AIDL接口
+  - 实现AIDL接口
+  - 注册服务：AndroidManifest.xml文件 中配置
+  - 连接服务：通过bindService方法 
+  - 调用服务：客户端通过已连接的Binder对象来调用远程服务的接口方法，从而实现进程间通信
+  - 断开连接：当不再需要服务时，客户端应该调用unbindService()方法来断开与服务的连接，以释放资源
+- AIDL支持哪些数据类型
+  - 基本数据类型：byte、char、int、long、float、double、boolean
+  - String类型
+  - List类型：其中T可以是任何基本数据类型或自定义Parcelable类型
+  - Array类型
+  - Map类型
+  - Parcelable类型
+  - Binder对象
+
+
+
+#### 11.webview 和 js 的调用方法
+
+- android端调用 js的方法
+  - 通过webview的loadUrl()
+  - 通过webview的evaluatejavascript()
+- js 调用 android的方法
+  - 通过webview的addjavascriptInterface()进行映射
+  - 通过webviewClient的shouldoverrideUrlLoading()回调拦截url
+  - 通过webChromeClient的onJsAlert、onJsConfirm、onJsPrompt拦截js的对话框
+
+
+
+#### 12.ANR
+
+- ANR全名Application Not Responding, 也就是"应用无响应"。
+- 产生原因
+  - 5s内无法响应用户输入事件(例如键盘输入, 触摸屏幕等).
+  - BroadcastReceiver在10s内无法结束
+  - Service 20s内无法结束（低概率）
+- 解决方案
+  - 不要在主线程中做耗时的操作，而应放在子线程中来实现。如onCreate()和onResume()里尽可能少的去做创建操作
+  - 应用程序应该避免在BroadcastReceiver里做耗时的操作或计算
+  - service是运行在主线程的，所以在service中做耗时操作，必须要放在子线程中
+
+
+
+#### 13.view的绘制流程
+
+- ![](./reference_graph/hf6e6jt80h.png)
+
+  - 每个`Activity`都会创建一个`Window`用于承载View视图的显示，Window`是一个抽象类存在了一个唯一实现类`PhoneWindow
+  - DecorView：最顶层的View，是一个`FrameLayout`子类，最终会被加载到Window当中，它内部只有一个垂直方向的`LinearLayout`分为两部分
+    - TitleBar：屏幕顶部的状态栏
+    - ContentView：`Activity`对应的XML布局
+  - 
+
+- 绘制过程
+
+  - View的绘制是从`ViewRootImpl`的`performTraversals()`方法开始，从最顶层的`View(ViewGroup)`开始逐层对每个`View`进行绘制操作
+
+  - ```java
+    private void performTraversals() {
+         ...............
+        //measur过程
+        performMeasure(childWidthMeasureSpec, childHeightMeasureSpec);
+         ...............
+        //layout过程
+        performLayout(lp, desiredWindowWidth, desiredWindowHeight);
+         ...............
+        //draw过程
+        performDraw();
+    }
+    ```
+
+  - onMeasure：为测量宽高过程，如果是ViewGroup还要在onMeasure中对所有子View进行measure操作
+
+    - MeasureSpac 
+
+      - **UNSPECIFIED ：**父布局不会对子View做任何限制，例如我们常用的`ScrollView`就是这种测量模式
+      - **EXACTLY ：**精确数值，比如使用了`match_parent`或者xxxdp，表示父布局已经决定了子`View`的大小，通常在这种情况下`View`的尺寸就是`SpacSize`
+      - **AT_MOST ：**自适应，对应`wrap_content`子View可以根据内容设置自己的大小，但前提是不能超出父`ViewGroup`的宽高
+
+      ```java
+          @Override
+          protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+              super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+              int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+              int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+              int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+              int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+      
+              //处理wrap_content的情况
+              if (widthMode == MeasureSpec.AT_MOST && heightMode == MeasureSpec.AT_MOST) {
+                  setMeasuredDimension(300, 300);
+              } else if (widthMode == MeasureSpec.AT_MOST) {
+                  setMeasuredDimension(300, heightSize);
+              } else if (heightMode == MeasureSpec.AT_MOST) {
+                  setMeasuredDimension(widthSize, 300);
+              }
+          }
+      ```
+
+      
+
+  - onLayout：用于摆放View在ViewGroup中的位置，如果是ViewGroup要在onLayout方法中对所有子View进行layout操作。
+
+  - onDraw: 往View上绘制图像。
+
+  - ![](./reference_graph/w7rt5euzw7.png)
+
+
+
+#### 14.android事件分发
+
+- 事件分发本质
+
+  将点击事件（MotionEvent）传递到某个具体的`View` & 处理的整个过程
+
+- 事件在哪些对象之间进行传递
+
+  Activity、ViewGroup、View
+
+- 哪些方法协作完成
+
+  - dispatchTouchEvent:分发传递点击事件
+  - onTouchEvent:处理点击事件
+  - onInterceptTouchEvent:拦截某个事件
+
+- Activity事件分发
+
+  ![](./reference_graph/b0af9a1ac00739ba8b3d0c3f1fa2b1ff.png)
+
+- ViewGroup事件分发
+
+  ![](./reference_graph/c74ff7657fd7db9234a0e257f5a50b8c.png)
+
+- View事件分发
+
+  ![](./reference_graph/0db5d1d4a719acd9955225a7881c9825.png)
+
+- requestDisallowInterceptTouchEvent(Boolean)   告诉父类View是否拦截
 
 ------
+
+### 面试复习-网络篇
+
+#### 1.计算机的网络体系结构
+
+- OSI体系机构
+  - （概念清楚 & 理念完整，但复杂 & 不实用）应用层，表示层，会话层，传输层，网络层，链路层，物理层
+- tcp/ip体系结构
+  - （含了一系列构成互联网基础的网络协议，是Internet的核心协议 & 被广泛应用于局域网 和 广域网）应用层，传输层，网络层，网络接口层
+- 五层体系机构
+  - 融合了OSI 与 TCP / IP的体系结构，目的是为了学习 & 讲解计算机原理）应用层，传输层，网络层，链路层，物理层
+- ![](./reference_graph/1728872411-cea86bf421d3f8ac.jfif)
+
+
+
+#### 2.Tcp协议
+
+- transmissinon control protocol  传输控制协议
+
+  - 基于tcp的应用层协议有
+    - http：万维网
+    - ftp：文件传输
+    - telent：远程终端
+    - smtp：电子邮件
+  - 特点：面向连接，全双工通信，面向字节流，可靠
+  - 缺点：效率慢（因为需要建立连接，发送确认等）
+  - 应用场景：要求数据传输可靠，准确无误的传达给对方
+
+- tcp传输的数据单元=报文段
+
+  - 报文段=首部+数据
+  - 首部：最小长度为20个字节
+    - 序号：本报文段发送数据的第一个字节的序号,4个字节
+    - 确认号（ACK）：期望收到对方下一个报文段的第一个数据字节的序号，4字节，若确认号为N表示序号N-1为止的所有数据都已经正确接受
+    - 同步位（SYN）：连接建立时用于同步序号， SYN=1/ACK=0(连接请求报文段)；SYN=1/ACK=1(连接请求响应报文段)
+    - 终止控制位（FIN）：释放连接， FIN=1 表示此报文段的发送方已经发送完数据，要求释放
+  - ![](./reference_graph/1614350-20201209214135907-692951274.png)
+    - `端口号`：端口号，用于多路复用或者分解来自（送到）上层的数据；
+    - `序列号`：在连接建立时由计算机计算出的初始值，通过 SYN 包传给对端主机，每发送一次新的数据包，就**累加**一次该序列号的大小。用来解决网络包乱序问题
+    - `确认应答号`：指下次期望收到的数据的序列号，发送端收到这个确认应答以后可以确认`确认应答号-1`的数据包已经被正常接收。主要用来解决不丢包的问；
+    - `ACK` 用以指示确认字段中的值是有效的，即该报文段包括一个对已被成功接收的报文段的确认
+    - `RST` 用以指示连接的强制拆除，当接收到错误连接时会发送RST位置为1的报文
+    - `SYN` 用以指示连接的建立，该位为1的报文表示希望建立连接
+    - `FIN` 用以指示连接的终止，该位为1的报文表示希望断开连接
+
+- TCP的建立连接（三次握手）
+
+  - ![](./reference_graph/1614350-20201209214154676-1864706572.png)
+  - 一开始客户端和服务端都处于CLOSED的状态。然后先是服务端主动监听某个端口，处于LISTEN状态
+  - 客户端会随机初始化序列号（client_isn），将此序列号置于TCP首部的**序列号**字段中，同时将**SYN**标志位置为1，表示该报文为**SYN**报文。接下来就将第一个SYN报文发送给服务端，表示向服务端发起连接，该报文不包含应用层数据，之后客户端处于 SYN-SENT (等待服务器确认) 状态
+  - 服务端收到客户端的SYN报文后，首先服务端也随机初始化自己的序列号（server_isn），将此序号填入TCP首部的**序号**字段中，其次把TCP首部的确认应答号字段填入 `client_isn + 1`，接着把 SYN 和 ACK 标志位置为1。最后把该报文发给客户端，该报文也不包含应用层数据，之后服务端处于 SYN-RCVD 状态（服务器进入同步已发送状态）
+  - 客户端收到服务端报文后，还要向服务端回应最后一个报文，首先应答报文 TCP 首部 ACK 标志位置为1，其次**确认应答号**字段填入 `server_isn + 1`，最后把报文发送给服务端，**这次报文可以携带客户端到服务器的数据**，之后客户端处于 **ESTABLISHED** 状态（进入创建状态，可以开始发送数据）。
+
+- TCP建立连接为什么是三次握手？
+
+  - 防止服务器因收到早已失效的连接请求报文，而一直等待客户端请求，最终导致死锁、浪费资源
+  - 同步双方初始序列号
+  - `两次握手` 无法防止历史连接的建立，会造成双方资源的浪费，也无法可靠的同步双方序列号
+  - `四次握手` 三次握手就已经理论上最少可靠连接建立，所以不需要使用更多的通信次数
+
+- TCP是无差错传输
+
+  - 发送窗口：任意时刻，发送方维持一组连续的、允许发送帧的帧序号，对发送方进行流量控制
+  - 接收窗口：任意时刻，接收方维持一组连续的、允许接收帧的帧序号，控制哪些数据帧可以接收哪些不行
+
+- TCP终止连接（四次挥手）
+
+  - 
+
+  ![](./reference_graph/1614350-20201209214542927-1015763805.png)
+
+  - TCP连接中的双方都可以主要断开连接，断开连接后的主机中的资源将被释放
+  - 现在客户端与服务端都处在连接建立的状态，假设此时客户端想要关闭连接
+  - 客户端发送一个 FIN 报文，用来关闭客户端到服务端的数据传送，也就是客户端告诉被服务端：我已经不会再给你发数据了(当然，在 FIN 包之前发送出去的数据，如果没有收到对应的 ACK 报文，客户端依旧会重发这些数据)，但此时客户端还可以接受数据；
+  - 服务端收到 FIN 报文后，发送一个 ACK 给对方，确认序号为收到序号 + 1，此时服务端进入 CLOSED_WAIT 状态。客户端接收到 ACK 报文后，进入 FIN_WAIT_2 状态
+  - 服务端发送一个 FIN 报文，用来关闭被动关闭方到主动关闭方的数据传送，也就是告诉主动关闭方，我的数据也发送完了，不会再给你发数据了，接下来服务端进入 LAST_ACK 状态
+  - 客户端收到 FIN 报文之后，发送一个 ACK 给服务端，确认应答号为收到序号 + 1，此时客户端进入 TIME_WAIT 状态
+
+- 为什么是四次挥手？
+
+  - 关闭连接时，客户端向服务端发送 FIN 时，仅仅表示客户端不再发送数据了但是还能接收数据
+  - 服务器收到客户端的 FIN 报文时，先回一个 ACK 应答报文，而服务端可能还有数据需要处理和发送，等服务端不再发送数据时，才发送 FIN 报文给客户端来表示同意现在关闭连接
+
+- 与UPD协议的区别
+
+  - `TCP`: 面向连接，传输可靠，字节流，传输效率慢，所需资源多，应用场景（文件传输，邮件传输），首部字节20-60
+  - `UDP`: 无连接，传输不可靠，数据报文段，传输快，所需要资源少，要求通信速度高（域名转换），首部字节8
+
+
+
+#### 3.UPD协议
+
+- User Datagram Protocol 用户数据协议
+
+  - 基于UDP应用层协议
+    - TFTP
+    - SNMP：网络管理
+    - DNS：域名转换
+  - 特点：无连接的，不可靠的，面向报文，无拥塞控制
+    - 无连接的：使用udp传输数据前，不需要建立udp连接
+    - 不可靠：UDP的数据包发送后，不管其是否会到达接收方
+    - 面向报文：数据以数据报文（包）的形式传输
+    - 无拥塞控制：由于是不可靠传输，即不管是否到达接收方，故不需要拥塞控制
+  - 优点：速度快
+  - 缺点：消息易丢失（特别是网络较差时）
+
+- UDP数据组成
+
+  - 首部字段+数据字段
+
+  - 
+
+  ![](./reference_graph/v2-75f9254b1870ff8f45dd614e91e2fa49_r.jpg)
+
+  - 首部：8个字节，4个字段组成
+    - `源端口` 源端口号。在需要对方回信时。不需要时可用全0
+    - `目的端口` 目的端口号。这在终点交付报文时必须使用
+    - `长度` UDP 用户数据报的长度，其最小值是8(仅有首部)
+    - `检验和` 检测 UDP 用户数据报在传输中是否有错。有错就丢弃
+    - `伪首部`  计算检验和(不向下传送，也不向上递交)，实际上不属于udp首部
+
+
+
+#### 4.http协议
+
+- Hyper Text Transfer Protocol 超文本传输协议
+
+- 基于TCP/IP通信协议来传递数据（HTML 文件, 图片文件, 查询结果等）,应用层协议
+
+- 工作方式：采用 请求/响应的工作方式
+
+- 交互方式：报文
+
+  - 请求报文
+  - 响应报文
+  
+- 请求报文
+  - 请求行
+    - 请求方法:8种，get、post、head、delete、put、trace、connect、option
+    - 请求路径:url中的请求地址部分
+    - 协议版本:定义http的版本号
+  - 请求头
+    - 采用”header（字段名）：value（值）“的方式
+  - 请求体
+    - 存放 需发送给服务器的数据信息
+  
+- 响应报文
+  
+  - 状态行
+    - 协议版本
+    - 状态码
+    - 状态信息
+  - 响应头：采用”header（字段名）：value（值）“的方式
+  - 响应体：存放 需发送给客户端的数据信息
+  
+- GET 请求例子
+  
+  ```html
+  GET /562f25980001b1b106000338.jpg HTTP/1.1
+  Host    img.mukewang.com
+  User-Agent    Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36
+  Accept    image/webp,image/*,*/*;q=0.8
+  Referer    http://www.imooc.com/
+  Accept-Encoding    gzip, deflate, sdch
+  Accept-Language    zh-CN,zh;q=0.8
+  ```
+  
+- POST 请求例子
+  
+  ```html
+  POST / HTTP1.1
+  Host:www.wrox.com
+  User-Agent:Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 2.0.50727; .NET CLR 3.0.04506.648; .NET CLR 3.5.21022)
+  Content-Type:application/x-www-form-urlencoded
+  Content-Length:40
+  Connection: Keep-Alive
+  
+  name=Professional%20Ajax&publisher=Wiley
+  ```
+  
+- 响应消息格式
+  
+  ```html
+  HTTP/1.1 200 OK
+  Date: Fri, 22 May 2009 06:07:21 GMT
+  Content-Type: text/html; charset=UTF-8
+  
+  <html>
+        <head></head>
+        <body>
+              <!--body goes here-->
+        </body>
+  </html>
+  ```
+  
+- http1.1比http1.0的优点
+  
+  - 引入持久连接，在同一个tcp的连接中可以传送多个http请求和响应
+  - 多个请求&响应可以同时进行、可重叠
+  - 引入更多的请求头&响应头
+
+- http和https的区别
+  
+  - http：应用层，不加密，不安全，80端口，ca申请证书不需要，http：开头
+  - https：传输层，加密，安全，433端口，ca申请证书需要，https：开头
+  
+#### 5.Socket
+
+- 套接字，是应用层与TCP/IP协议族通信的中间软件抽象层，表现为一个封装了TCP/IP协议族的编程接口
+
+  - socket不是一种协议，而是一个编程调用接口（api），属于传输层（主要解决数据如何在网络中传输）
+  - 通过socket,我们才能再android平台上面通过tcp/ip协议进行开发
+  - 对于用户来说，只需要调用socket去组织数据，以符合指定的协议，即可以通信
+
+  ![](./reference_graph/944365-1a92e10c6c694d0f.webp)
+
+- 套接字成对出现
+
+  Socket ={(IP地址1:PORT端口号)，(IP地址2:PORT端口号)}
+
+- 建立Socket连接过程
+
+  - 客户端
+    - 创建一个socket实例
+    - 操作系统将为该socket实例分配一个未被使用的本地端口号
+    - 操作系统创建一个含本地、远程地址、端口号的套接字数据结构（系统将一直保存该数据结构直到连接关闭）
+    - 在创建的socket实例的构造函数正确返回前，进行tcp的三次握手协议
+    - tcp握手协议完成后，socket实例对象创建完成
+  - 服务端
+    - 创建一个serversocket实例
+    - 操作系统为该serversocket实例创建一个底层数据结构（包含指定监听的端口号、包含监听地址的通配符，通常是"*"，即监听所有地址）
+    - 调用accept()方法时，将进入阻塞状态，等待客户端的请求
+    - 当一个新的请求到来时，将为该连接创建一个新的套接字数据结构（含请求源地址和端口&关联到serversocket实例的一个未完成的连接数据结构列表中）
+    - 等三次握手完成后，该服务端的socket实例才会返回&将该socket实例对应的数据结构从未完成列表中移到已完成列表中（所以serversocket所关联的列表中的每个数据结构，都代表与一个客户端的建立的tcp连接）
+
+- Socket的使用类型有两种
+
+  - 流套接字（streamsocket）：基于tcp协议，采用流的方式提供可靠的字节流服务
+  - 数据报套接字（datagramsocket）：基于UDP协议，采用数据报文提供数据打包发送的服务
+
+- Socket与Http对比
+
+  - Socket属于传输层，因为 TCP / IP协议属于传输层，解决的是数据如何在网络中传输的问题
+  - HTTP协议 属于 应用层，解决的是如何包装数据
+
+
+
+
+
+  
+
+  
+
+  
 
 
 
