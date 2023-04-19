@@ -249,11 +249,51 @@
 #### 13.哪些情况下的对象会被垃圾回收机制处理
 
 - `对象没有被引用：`如果一个对象没有任何引用指向它，那么它就可以被垃圾回收机制处理掉
+
 - `对象的引用被赋值为null：`如果一个对象的引用被赋值为null，那么它就可以被垃圾回收机制处理掉
+
 - `对象的作用域结束`：如果一个对象在方法或代码块的作用域结束后，它就可以被垃圾回收机制处理掉。
+
 - `对象被标记为可回收：`如果一个对象被标记为可回收，那么它就可以被垃圾回收机制处理掉。这个过程由垃圾回收器负责，当内存不足时，垃圾回收器会扫描堆内存中不再被引用的对象，并将它们标记为可回收，然后释放这些对象占用的内存空间
+
 - 垃圾回收机制的处理时间是不确定的，它会根据具体情况来自动回收内存，而且Java虚拟机提供了`System.gc()`方法(容易造成内存泄漏)，可以显式地调用垃圾回收机制。
 
+- 判断对象是否存活的方法
+
+  - 引用计数法：对象添加一个引用计数器，每当一个地方引用它object时技术加1，引用失去以后就减1，计数为0说明不再引用
+
+    - 优点：实现简单，判定效率高
+    - 缺点：无法解决对象相互循环引用的问题，对象A中引用了对象B，对象B中引用对象A
+
+  - 可达性分析法：当一个对象到`GC Roots`没有引用链相连，即就是`GC Roots`到这个对象不可达时，证明对象不可用
+
+
+
+#### 13-1.JVM垃圾回收器
+
+- 堆内存详解
+
+  - ![](./reference_graph/2806822728-5f8983ab894e7.png)
+  - 新生代和老年代
+  - 新生代分为 `Eden`和`survivor`。他俩空间大小比例默认为8:2
+  - 幸存区分为 `s0` 和 `s1` ，空间大小比例1:1
+
+- 垃圾回收过程
+
+  - 新生成的对象首先放到Eden区，当Eden区满了，就会触发Minor GC
+  - 第一步GC活下来的对象，会被移动到`survivor`区中的S0区，S0区满了之后会触发Minor GC，S0区存活下来的对象会被移动到S1区，S0区空闲
+  - S1满了之后在GC，存活下来的再次移动到S0区，S1区空闲，这样反反复复GC，每GC一次，对象的年龄就`涨一岁`，达到某个值后（15），就会进入`老年代`
+  - 在发生一次`Minor GC`后（前提条件），老年代可能会出现`Major GC`，这个视垃圾回收器而定
+  
+- 回收哪些区域的对象
+
+  - 只回收`堆内存`和`方法区内`的对象。而`栈内存`的数据，在超出作用域后会被JVM自动释放掉
+
+- 新生代可配置的回收器：Serial、ParNew、Parallel Scavenge
+
+- 老年代配置的回收器：CMS、Serial Old、Parallel Old，G1
+
+  
 
 
 #### 14.静态代理和动态代理的区别，什么场景使用？
@@ -709,18 +749,6 @@
 
   - ThreadLocal机制 来实现的
 
-    ```java
-    private ThreadLocal myThreadLocal = new ThreadLocal<String>() {
-        @Override
-        protected String initialValue() {
-            return "This is the initial value";
-        }
-    };
-    
-    //myThreadLocal.set("初始值”); 保存值
-    //String threadLocalValue = (String) myThreadLocal.get(); 获取值
-    ```
-  
   - 多线程并发情况下，线程共享的变量改为方法局部级变量
 
 
@@ -746,9 +774,29 @@
 #### 32.谈谈对Synchronized关键字，类锁，方法锁，重入锁的理解
 
 - `Synchronized`是Java中的一个关键字，可以用来实现线程的同步。其作用是对一个对象或方法加锁，使得同一时刻只能有一个线程访问该对象或方法，从而保证线程安全
+
 - 类锁：对类的所有实例对象进行同步，实现方式是在静态方法或代码块前加上synchronized关键字
+
 - 方法锁：方法锁是指对某个方法进行同步，实现方式是在方法前加上synchronized关键字。由于每个实例对象都有一个锁，因此不同实例对象的方法之间是不互斥的
+
 - 重入锁：ReentrantLock 的使用
+
+  - 默认采用非公平锁，除非在构造方法中传入参数true
+
+  - ```java
+    //默认
+    public ReentrantLock() {
+        sync = new NonfairSync();
+    }
+    //传入true or false
+    public ReentrantLock(boolean fair) {
+        sync = fair ? new FairSync() : new NonfairSync();
+    }
+    ```
+
+  - 公平锁：每个线程获取锁的顺序是按照线程访问锁的先后顺序获取的，最前面的线程总是最先获取到锁
+
+  - 非公平锁：每个线程获取锁的顺序是随机的，并不会遵循先来先得的规则，所有线程会竞争获取锁。
 
 
 
@@ -759,6 +807,121 @@
 - 栈 (Stack):栈是 Java 中的局部变量区和方法返回地址区，它用于存储临时数据和函数调用时的局部变量和返回地址等信息。栈是静态分配的内存区域，也就是说，栈中的内存对象是在程序编译时就已经分配好了的。栈中的对象通常是静态的，例如，全局变量和静态变量
 
 
+
+#### 34.java中引用分类
+
+- 强引用
+
+  - java中的引用默认就是强引用，任何一个对象的赋值操作就产生了对这个对象的强引用
+
+  - 
+
+    ```java
+    public class StrongReferenceUsage {
+    
+        @Test
+        public void stringReference(){
+            Object obj = new Object();
+        }}
+    
+    //这个obj就是new Object()的强引用
+    ```
+
+  - 特性是只要有强引用存在，被引用的对象就不会被垃圾回收
+
+- 软引用
+
+  - 软引用在java中有个专门的SoftReference类型，软引用的意思是只有在内存不足的情况下，被引用的对象才会被回收
+
+  - ```java
+       public void softReference(){
+            Object obj = new Object();
+            SoftReference<Object> soft = new SoftReference<>(obj);
+            obj = null;
+            log.info("{}",soft.get());
+            System.gc();
+            log.info("{}",soft.get());
+        }
+    //内存不足的时候，引用对象会被回收
+    ```
+
+  - 使用场景
+
+    - 创建缓存的时候，创建的对象放进缓存中，当内存不足时，JVM就会回收早先创建的对象
+    - 图片编辑器，视频编辑器之类的软件
+
+- 弱引用
+
+  - weakReference和softReference很类似，不同的是weekReference引用的对象只要垃圾回收执行，就会被回收，而不管是否内存不足
+
+  - ```java
+       public void weakReference() throws InterruptedException {
+            Object obj = new Object();
+            WeakReference<Object> weak = new WeakReference<>(obj);
+            obj = null;
+            log.info("{}",weak.get());
+            System.gc();
+            log.info("{}",weak.get());
+        }
+    ```
+
+  - 使用场景
+
+    - 防止handler内存泄漏
+    - WeakHashMap的使用
+
+- 虚引用
+
+  - PhantomReference的作用是跟踪垃圾回收器收集对象的活动，在GC的过程中，如果发现有PhantomReference，GC则会将引用放到ReferenceQueue中，由程序员自己处理，当程序员调用ReferenceQueue.pull()方法，将引用出ReferenceQueue移除之后，Reference对象会变成Inactive状态，意味着被引用的对象可以被回收了
+
+  - ```java
+    public class PhantomReferenceUsage {
+    
+        @Test
+        public void usePhantomReference(){
+            ReferenceQueue<Object> rq = new ReferenceQueue<>();
+            Object obj = new Object();
+            PhantomReference<Object> phantomReference = new PhantomReference<>(obj,rq);
+            obj = null;
+            log.info("{}",phantomReference.get());
+            System.gc();
+            Reference<Object> r = (Reference<Object>)rq.poll();
+            log.info("{}",r);
+        }}
+    ```
+
+  - 使用场景
+
+    - 大多被用于引用销毁前的处理工作，比如释放资源
+
+
+
+#### 35.Java的类加载过程
+
+- 编译
+
+  - 即把我们写好的java文件，通过javac命令编译成字节码，也就是我们常说的.class文件
+
+- 运行
+
+  - 则是把编译生成的.class文件交给Java虚拟机(JVM)执行
+
+- 过程
+
+  - JVM虚拟机把.class文件中类信息加载进内存，并进行解析生成对应的class对象的过程
+  - JVM不是一开始就把所有的类都加载进内存中，而是只有第一次遇到某个需要运行的类时才会加载，且只加载一次
+
+- 类加载
+
+  ![](./reference_graph/v2-ecf6c3d0f5146029e9693d6223d23afb_r.jpg)
+
+  - 加载：指的是把class字节码文件从各个来源通过类加载器装载入内存中
+    - **字节码来源**。一般的加载来源包括从本地路径下编译生成的.class文件，从jar包中的.class文件，从远程网络，以及动态代理实时编译
+    - **类加载器**。一般包括**启动类加载器**，**扩展类加载器**，**应用类加载器**，以及用户的**自定义类加载器**。
+  - 验证：主要是为了保证加载进来的字节流符合虚拟机规范，不会造成安全错误
+  - 准备：主要是为类变量（注意，不是实例变量）分配内存，并且赋予**初值**
+  - 解析：将常量池内的符号引用替换为直接引用的过程
+  - 初始化：这个阶段主要是对**类变量**初始化，是执行类构造器的过程
 
 
 
@@ -818,7 +981,22 @@
 #### 5.HandlerThread
 
 - 它是个具有消息队列的线程，可以方便我们在子线程中处理不同的事务
+
 - 我们不再需要HandlerThread时，我们通过调用quit/Safely方法来结束线程的轮询并结束该线程
+
+- 在子线程中创建handler，需要有looper，所以可以轻松的创建子线程handler
+
+  ```java
+  HandlerThread handlerThread=new HandlerThread("xuan");
+  handlerThread.start();//创建HandlerThread后一定要记得start();
+  //通过HandlerThread的getLooper方法可以获取Looper
+  Looper looper=handlerThread.getLooper();
+  //通过Looper我们就可以创建子线程的handler了
+  Handlr handler=new Handler(looper);
+  //通过该handler发送消息，就会在子线程执行;
+  ```
+
+  
 
 
 
@@ -1087,9 +1265,18 @@
 
     
 
+#### 10.进程间的通信方式
+
+- 文件
+- AIDL（基于Binder）
+- Binder
+- Messenger (基于Binder)
+- ContentProvider（基于Binder）
+- Socket
 
 
-#### 10.AIDL
+
+#### 10-1.AIDL
 
 - 什么是AIDL？
   - Android Interface Definition Language 用于描述Android应用程序组件间通信接口的语言。AIDL被广泛用于客户端和服务端之间的进程间通信（IPC），包括远程调用、跨进程共享数据等
@@ -1109,6 +1296,19 @@
   - Map类型
   - Parcelable类型
   - Binder对象
+
+
+
+#### 10-2.Messenger
+
+- 什么是Messenger
+  - 信使，作为进程间通信之一，内部原理是AIDL,可以在不同进程之间传递Message对象，从而实现进程间通信
+- 使用步骤
+  - 该 Service 实现了一个 Handler，该 Handler 接收来自客户端的每次调用的回调
+  - 该服务使用 Handler 创建一个 Messenger 对象（它是对 Handler 的引用）
+  - Messenger 创建一个 IBinder，该服务从 onBind() 返回给客户端
+  - 客户端使用 IBinder 来实例化 Messenger（引用服务的Handler），客户端使用 Handler 来向服务发送 Message 对象
+  - 服务在其 Handler 的 handleMessage() 中接收每个消息
 
 
 
@@ -1233,6 +1433,370 @@
   ![](./reference_graph/0db5d1d4a719acd9955225a7881c9825.png)
 
 - requestDisallowInterceptTouchEvent(Boolean)   告诉父类View是否拦截
+
+
+
+#### 15.热修复原理
+
+- java虚拟机（jvm）加载的类class，android虚拟机（dalvik/art vm）加载的是dex文件
+- 它们加载类的时候都要用到一个类classloader,classloader有一个子类basedexclassloader中有个数组dexpathlist用来存放dex文件
+- basedexclassloader通过调用findclass，实际上就是遍历数组，找对应的dex文件然后return
+- 热修复的方法就是将新的dex添加到数组中去，在旧的dex之前，优先返回
+
+
+
+#### 16.Android内存泄露及管理
+
+- 内存溢出（oom）：是指程序在申请内存时，没有足够的内存空间供其使用，出现out of memory。内存溢出通俗的讲就是内存不够用
+- 内存泄漏（memory leak）：是指程序在申请内存后，无法释放已申请的内存空间，一次内存泄露危害可以忽略，但内存泄露堆积后果很严重，无论多少内存,迟早会被占光
+- 内存泄漏的原因：
+  - hanlder引起的内存泄漏，解决将hanlder声明为静态内部类，如果hanlder需要引用context，通过弱引用的方式
+  - 单利模式引起的内存泄漏，context使用applicationcontext
+  - 非静态内部类创建静态实例引起内存泄漏，将内部类修改成静态的
+  - 非静态匿名内部类引起的内存泄漏，将匿名内部类修改成静态的
+  - 注册/反注册未成对使用引起内存泄漏，记得解绑
+  - 资源对象没有关闭引起的内存泄漏
+  - 集合对象没有及时清理引起的内存泄漏
+- 内存泄露检测工具：LeakCanary
+
+
+
+#### 17.APP优化
+
+- 启动优化
+
+  - 冷启动：系统中不存在该app的进程，此时启动app
+  - 热启动：该app进程存在，只是处于后台，这个时候启动到前台来
+  - 介于冷启动和热启动之间：back退出app，进程可能还在，但是activity需要重新创建
+  - 优化方案：在application的onCreate中不要加载过多的sdk，activity渲染不要进行耗时操作，如果有放入线程中
+
+- 布局优化
+
+  尽量不要过于复杂的嵌套。可以使用<include>，<merge>，<ViewStub>，现在基本使用constrainlayout
+
+- 响应优化
+
+  - 页面布局过于复杂
+  - UI线程过于复杂
+  - 频繁的GC，大量的对象被创建又在短时间内被销毁
+
+- 内存优化
+
+- 电池使用优化
+
+- 网络优化
+
+  - api接口设计，不要频繁的去请求api接口
+  - 用gzip压缩数据
+  - 图片优化
+    - 最好不要使用setImageBitmap、setImageResource、BitmapFactory.decodeResource（如果要用使用BitmapFactory.decodeStream）设置一张大图，因为这些方法在完成decode后，最终都是通过java层的createBitmap来完成的，需要消耗更多内存，多使用drawable
+    - 不用的图片记得recycle()
+    - 图片压缩：质量压缩，采样率压缩，缩放压缩，RGB_565(ALPHA_8,ARGB_4444,ARGB_8888,RGB_565)
+  - 网络缓存
+
+
+
+#### 18.handler机制---Looper、Handler、消息队列如何理解
+
+- ![](./reference_graph/24957777-841c41ac6d629ac6.webp)
+- 我们通过Looper.prepare()方法在当前线程创建了一个Looper对象，实际上创建了一个MessageQueue消息队列，所有的handler发送的消息都要进入这个队列
+- 线程内部负责处理业务逻辑，looper负责消息的存取查阅，其中messagequeue是消息的存储结构，单链表形式，looper负责消息的轮询，handler负责发送和处理消息
+- looper,线程,messagequeue是一一对应的，在不同的线程中它们各自有着对应的模块
+- 主线程中系统已经默认的给它创建了一个Looper对象
+
+
+
+#### 19.handler机制---ThreadLocal
+
+- ThreadLocal
+
+  并不是线程，它的作用是可以在每个线程中存储数据
+
+- 基本使用
+
+  当某些数据是以线程为作用域并且不同线程具有不同的数据副本的时候，就可以考虑采用ThreadLocal
+
+- ```java
+  private ThreadLocal myThreadLocal = new ThreadLocal<String>() {
+      @Override
+      protected String initialValue() {
+          return "This is the initial value";
+      }
+  };
+  //myThreadLocal.set("初始值”); 保存值
+  //String threadLocalValue = (String) myThreadLocal.get(); 获取值
+  ```
+
+- 内存泄漏问题
+
+  - ThreadLocalMap中的Entry中，ThreadLocal作为key，是作为弱引用进行存储的。当ThreadLocal不再被作为强引用持有时，会被GC回收，这时ThreadLocalMap对应的ThreadLocal就变成了null
+  - value值是强引用，可能就存在内存泄漏的隐患了，推荐使用ThreadLocal.remove() 清除
+
+
+
+#### 20.handler机制---Message的发送与取出
+
+- 流程
+
+  - 新建handler，发送消息sendMessage
+  - 此时消息的创建obtain复用模式，后面可能会造成正在使用的异常，所以，需要加锁同步一下
+  - 然后，消息进队，target(目的地的handler)和when(执行的时间系统开机时间+延时时间)
+  - 判断的三个条件，是放进队首(队列中是空的，时间是0，时间在队列消息时间的前面)，还是队中(需要循环判断队列中是否还有消息和时间)
+  - 通过loop方法取出来消息，通过这个消息的target发送消息
+
+- Handler 发送消息的时候，不管是调用 `sendMessage`、`sendEmptyMessage`、`sendMessageDelayed` 还是其他发送一系列方法。最终都会调用 `sendMessageDelayed(Message msg, long delayMillis)` 方法
+
+- 消息加入
+
+  - 调用MessageQueue的enqueueMessage()方法，当消息进入到MessageQueue(消息队列)中时，已经按照等待时间进行了排序
+  
+- 获取消息
+
+  - 调用MessageQueue中的next()方法
+
+- 异步，屏蔽消息
+
+  ```java
+  //普通消息
+  Message msg1 = Message.obtain(handler,new Runnable(){
+  
+      @Override
+      public void run() {
+          Log.v("hcy","这是一条延时3秒的消息");
+      }
+  });
+  handler.sendMessageDelayed(msg1,3*1000);
+  
+  //异步屏蔽消息
+  Message msg = Message.obtain(handler, new Runnable() {
+      @Override
+      public void run() {
+          Log.v("hcy","这是一条延时5秒的异步消息");
+          //异步消息处理完移除消息屏障
+          try {
+              Class<?> msgQueue = Class.forName("android.os.MessageQueue");
+              Method removeSyncBarrier = msgQueue.getDeclaredMethod("removeSyncBarrier", int.class);
+              removeSyncBarrier.invoke(Looper.myQueue(),token);
+          }catch (Exception e){
+              e.printStackTrace();
+          }
+  
+      }
+  });
+  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+      //异步消息
+      msg.setAsynchronous(true);
+  }
+  handler.sendMessageDelayed(msg,5*1000);
+  try {
+      //启动消息屏障
+      Class<?> msgQueue = Class.forName("android.os.MessageQueue");
+      Method postSyncBarrier = msgQueue.getDeclaredMethod("postSyncBarrier");
+      token = (int) postSyncBarrier.invoke(Looper.myQueue());
+  }catch (Exception e){
+      e.printStackTrace();
+  }
+  Log.v("hcy","两条消息都发送完了");
+  ```
+
+  ```java
+  //执行消息屏障
+  try {
+      Class<?> msgQueue = Class.forName("android.os.MessageQueue");
+      Method postSyncBarrier = msgQueue.getDeclaredMethod("postSyncBarrier");
+      token = (int) postSyncBarrier.invoke(Looper.myQueue());
+  }catch (Exception e){
+      e.printStackTrace();
+  }
+  
+  //移除消息屏障
+  try {
+      Class<?> msgQueue = Class.forName("android.os.MessageQueue");
+      Method removeSyncBarrier = msgQueue.getDeclaredMethod("removeSyncBarrier", int.class);
+      removeSyncBarrier.invoke(Looper.myQueue(),token);
+  }catch (Exception e){
+      e.printStackTrace();
+  }
+  ```
+
+
+
+#### 21.handler机制---Message的回收机制
+
+- Handler指定删除单条消息，或所有消息的时候
+
+  ```java
+  removeMessages(Handler h, int what, Object object)
+  removeCallbacksAndMessages(Handler h, Object object)
+  removeMessages(Handler h, Runnable r, Object object)
+  ```
+
+- 2次循环
+
+  - 第一次循环会将MessageQueue中，当前Handler发送的所有消息移除
+  - MessageQueue中可能任然会残留没有移除掉的消息，所以需要第二次循环
+
+
+
+#### 22.handler机制---循环消息队列的退出
+
+- Looper.quitSafely()
+  - MessageQueue.quit(true)->removeAllFutureMessagesLocked()
+  - 会判断当前消息队列中的头消息的时间是否大于当前时间，如果大于当前时间就会removeAllMessagesLocked（）方法（也就是回收全部消息），反之，则回收部分消息，同时没有被回收的消息任然可以被取出执行
+- Looper.quit()
+  - MessageQueue.quit(flase)->removeAllMessagesLocked()
+  - 非安全退出其实很简单，就是将所有消息队列中的消息全部回收
+
+
+
+#### 23.handler机制---IdleHandler的理解和作用
+
+- IdleHandler 的作用是 , 当消息队列 MessageQueue 中没有消息处理时 , 处于闲置状态时 , 此时就会回调一次用户注册的 IdleHandler 
+
+- IdleHandler 的 queueIdle 方法返回 false , 那么该 IdleHandler 只会 执行一次
+
+- IdleHandler 的 queueIdle 方法返回 true , 则 每次空闲 , 都要执行一次该 IdleHandler
+
+- ```java
+  import android.os.Looper;
+  import android.os.MessageQueue;
+   
+  import java.util.LinkedList;
+  import java.util.Queue;
+   
+  public class DelayTaskDispatcher {
+      private Queue<Task> delayTasks = new LinkedList<>();
+   
+      private MessageQueue.IdleHandler idleHandler = new MessageQueue.IdleHandler() {
+          @Override
+          public boolean queueIdle() {
+              if (delayTasks.size() > 0) {
+                  Task task = delayTasks.poll();
+                  if (task != null) {
+                      task.run();
+                  }
+              }
+              return !delayTasks.isEmpty(); //delayTasks非空时返回ture表示下次继续执行，为空时返回false系统会移除该IdleHandler不再执行
+          }
+      };
+   
+      public DelayTaskDispatcher addTask(Task task) {
+          delayTasks.add(task);
+          return this;
+      }
+   
+      public void start() {
+          Looper.myQueue().addIdleHandler(idleHandler);
+      }
+  }
+  
+  
+  //使用系统Runnable接口自定义Task接口
+  public interface Task extends Runnable {
+   
+  }
+  
+  
+  //使用方法
+  new DelayTaskDispatcher().addTask(new Task() {
+              @Override
+              public void run() {
+                  Log.d(TAG, "DelayTaskDispatcher one task");
+              }
+          }).addTask(new Task() {
+              @Override
+              public void run() {
+                  Log.d(TAG, "DelayTaskDispatcher two task");
+              }
+          }).start();
+  ```
+
+- 当 mIdleHanders 一直不为空时，为什么不会进入死循环？
+
+  - 只有在 pendingIdleHandlerCount 为 -1 时，才会尝试执行 mIdleHander
+  - pendingIdlehanderCount 在 next() 中初始时为 -1，执行一遍后被置为 0，所以不会重复执行
+
+
+
+
+#### 24.Looper
+
+- 通过Looper.loop()开启looper轮询，此时looper会不停的轮询消息队列中的数据，一有消息通过handler发出时，Looper就能捕获到这个消息
+- handler调用dispatchMessage(msg)函数来最终处理这个消息
+- 每个线程都有自己的Looper,非主线程我们是不可预期的。主线程永远只有一个，所以我们可以通过Looper.getMainLooper()随时获取主线程的Looper
+- 当我们确定不再有消息的时候，调用Looper.quite()（立马退出）或Looper.quiteSately()（消息处理完后退出）方法退出Looper
+
+
+
+#### 25.handler延迟原理
+
+- handler每次发送消息最终都会调用`sendMessageDelayed(Message msg, long delayMillis)`
+
+- MessageQueue中enqueueMessage方法主要负责将从handler发送过来的message根据when的大小来添加到单向链表中，when的数据越大在链表中的位置越靠后
+
+- 消息获取到之后会检测当前时间与msg执行时间when，如果小于when，则通过nativePollOnce设置一个阻塞延迟唤醒，如果不是，则将该异步消息返回给handler去执行消费掉
+
+- 如果正在等待超时时间过程中，又有新的消息发送过来呢 ？如何处理
+
+  next方法中如果在阻塞等待后，mBlocked为true，在添加消息到链表之后，如果是添加在链表前面，则会调用唤醒方法停止阻塞，正常的去执行发送不需要延迟的消息
+
+
+
+#### 26.Handler导致的内存泄露原因及其解决方案
+
+- 创建handler的时候，是用的非静态内部类或者是匿名内部类。默认持有外部类的引用
+- 当前Activity关闭的时候，会导致GC无法回收Activity
+- 解决方案
+  - 在Activity的onDestroy()中调用mHandler.**removeCallbacksAndMessages**(null)
+  - 静态内部类+弱引用
+
+
+
+#### 27.Android之点击Home键后再次打开导致APP重启问题
+
+- 桌面的intent和创建Intent完全一致（完全一致定位为：启动类，action、category等等全部一样，不可多项也不可缺少），那么该Intent并不会触发Activity的新建启动，而只会将已经存在的对应Task移到前台
+
+- 文件管理器使用的intent安装的APP，启动的intent没有和桌面的intent完全一致
+
+- 解决办法
+
+  - ```java
+    //在启动页的onCreate方法中添加
+    protected void onCreate(@Nullable Bundle savedInstanceState) { 
+           super.onCreate(savedInstanceState);                
+           // 避免从桌面启动程序后，会重新实例化入口类的activity        
+           if (!this.isTaskRoot()) {            
+               Intent intent = getIntent();            
+               if (intent != null) {                
+                  String action = intent.getAction();                
+                  if (intent.hasCategory(Intent.CATEGORY_LAUNCHER) && 
+                       Intent.ACTION_MAIN.equals(action)) {                   
+                       finish();                   
+                       return;                
+                  }           
+               }       
+           }    
+    }
+    
+    ```
+
+
+
+#### 28.RecyclerView
+
+- 布局管理器 LinearLayoutManager,GridLayoutManager,StaggeredGridLayoutManager
+- 设置方向setOrientation(OrientationHelper. VERTICAL)
+- 添加分割线addItemDecoration( new DividerGridItemDecoration(this ))
+- 设置增加或删除条目 动画 setItemAnimator( new DefaultItemAnimator());
+- 适配器继承RecyclerView.Adapter<VH>
+  - 自定义ViewHolder继承RecyclerView.ViewHolder
+  - onCreateViewHolder() 生成为每个Item inflater出一个View，但是该方法返回的是一个ViewHolder
+  - onBindViewHolder() 渲染数据到View中
+  - getItemCount()共有多少个条目
+
+
+
+
 
 ------
 
