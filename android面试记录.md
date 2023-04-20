@@ -1268,11 +1268,29 @@
 #### 10.进程间的通信方式
 
 - 文件
+  - 优点：简单易用
+  - 缺点：不适合高并发场景，并且无法做到进程间的即时通信
+  - 适用场景：无并发访问情形，交换简单的数据实时性不高的场景
 - AIDL（基于Binder）
-- Binder
+  - 优点：功能强大，支持一对多并发通信，支持实时通信
+  - 缺点：使用稍复杂，需要处理好线程同步
+  - 适用场景：一对多且有 RPC（Remote Procedure Call）需求
 - Messenger (基于Binder)
+  - 优点：功能一般，支持一对多串行通信，支持实时通信
+  - 缺点：不能很好处理高并发情形，不支持 RPC，数据通过 Message 进行传输，因此只能传输 Bundle 支持的数据类型
+  - 适用场景：低并发的一对多即时通信，无 RPC 需求，或者无须要返回结果的 RPC 需求
 - ContentProvider（基于Binder）
+  - 优点：在数据源访问方面功能强大，支持一对多并发数据共享，可通过 Call 方法扩展其他操作
+  - 缺点：可以理解为受约束的 AIDL，主要提供数据源的 CRUD 操作
+  - 适用场景：一对多的进程间数据共享
 - Socket
+  - 优点：功能强大，可以通过网络传输字节流，支持一对多并发实时通信
+  - 缺点：实现细节稍微有些繁琐，不支持直接的 RPC
+  - 适用场景：网络数据交换
+- bundle
+  - 优点：简单易用
+  - 缺点：只能传输 Bundle 支持的数据类型
+  - 适用场景：四大组件间的进程间通信
 
 
 
@@ -1309,6 +1327,78 @@
   - Messenger 创建一个 IBinder，该服务从 onBind() 返回给客户端
   - 客户端使用 IBinder 来实例化 Messenger（引用服务的Handler），客户端使用 Handler 来向服务发送 Message 对象
   - 服务在其 Handler 的 handleMessage() 中接收每个消息
+
+
+
+#### 10-3.Binder
+
+- IPC基础及概念?
+
+  - Inter Process Communication 跨进程通信:指两个进程之间进行数据交换的过程
+
+- IPC的使用场景
+
+  - 应用自身需要采用多进程模式来实现
+
+- 多进程模式会出现以下问题
+
+  - 静态成员和单例模式完全失效
+  - 线程同步机制完全失效
+  - SharedPreferences的可靠性下降
+  - Application多次创建
+
+- 为什么采用Binder
+
+  - Linux现有的所有进程间IPC方式
+
+    - 共享内存：无须复制，共享缓冲区直接付附加到进程虚拟地址空间，速度快；但进程间的同步问题操作系统无法实现，必须各进程利用同步工具解决
+
+      ![](./reference_graph/76d108ccfec649b3b509dcdae559b3d0.png)
+
+    - 管道：创建时分配一个page大小的内存，缓存区大小比较有限
+
+      ![](./reference_graph/7c171582e14042ac86a1a1387dcba043.png)
+
+    - 消息队列：信息复制两次，额外的CPU消耗；不合适频繁或信息量大的通信
+
+      ![](./reference_graph/2241859d30994eb2a856b97b5674121d.png)
+
+    - 套接字：作为更通用的接口，传输效率低，主要用于不通机器或跨网络的通信
+
+    - 信号量：常作为一种锁机制，防止某进程正在访问共享资源时，其他进程也访问该资源。因此，主要作为进程间以及同一进程内不同线程之间的同步手段
+
+    - 信号：不适用于信息交换，更适用于进程中断控制，比如非法内存访问，杀死某个进程等
+
+  - 使用Binder的优势
+
+    - `从性能的角度数据拷贝次数`：Binder数据拷贝只需要一次，而管道、消息队列、Socket都需要2次，但共享内存方式一次内存拷贝都不需要；从性能角度看，Binder性能仅次于共享内存
+    - `从稳定性的角度`：Binder是基于C/S架构的，C端和S端相对独立，稳定性较好;共享内存需要考虑同步问题。
+    - ` 从安全角度`：传统Linux IPC的接收方无法获得对方进程可靠的UID/PID，从而无法鉴别对方身份
+    - `从语言层面`：Binder更适合基于面向对象语言的Android系统，面向对象
+
+- Binder是什么？
+
+  - Android中一个进程空间分为`用户空间`和`内核空间`，其中用户空间数据不可共享，内核空间数据可共享
+  - 通过内存映射实现跨进程通信
+  - 内存映射简单的讲，就是将用户空间的一块内存区域映射到内核空间。映射关系建立后，用户对这块内存区域的修改可以直接反映到内核空间，反之内核空间对这段区域的修改也能直接反映到用户空间
+
+- Binder通信流程
+
+  - 首先Binder驱动在内核空间创建一个数据接收缓存区
+  - 接着在内核空间开辟一块内核缓存区，建立内核缓存区和内核中数据接收缓存区间的映射关系，并且建立内核中数据接收缓存区和接收进程用户空间地址的映射关系
+  - 发送方通过`copy_from_user()`将数据拷贝到内核空间中的内核缓存区，由于建立了内存映射，就相当于把数据拷贝给了接收进程的用户空间，这样就完成了一次进程间的数据通信
+  - ![](./reference_graph/20210706163616282.png)
+
+- Binder通讯模型
+  - Binder的整个设计是C/S结构，定义了4个模型：Client、Server、Binder驱动、ServiceManager
+    - `Binder驱动`:负责将Client请求转发到具体的Server中处理，并将Server返回数据发送给Client，是Client、Server、serviceManager的中间人
+    - `ServiceManager`:管理Server的注册与查询，负责将Client请求的Binder描述符转化为具体的Server地址，以便Binder驱动能转发给具体的Server
+    - Server向serviceManager注册，Server通过Binder驱动向serviceManager申请注册，声明可以对外提供的服务；serviceManager中保留一份映射表
+    - Client向ServiceManager请求Server的Binder引用；Client想要请求Server数据时，先要通过Binder驱动向serviceManager请求server的Binder引用
+    - 向具体的server发送请求；Client拿到Binder的代理对象后，就可以通过Binder驱动，和具体的Server进行通信了
+    - Server返回结果；Server响应请求后，需要通过Binder驱动再次将结果返回给Client
+  - ![](./reference_graph/20210706174946693.png)
+  - 
 
 
 
@@ -1401,6 +1491,22 @@
   - onDraw: 往View上绘制图像。
 
   - ![](./reference_graph/w7rt5euzw7.png)
+
+
+
+#### 13-2.自定义View注意事项
+
+- 自定义view分类
+  - 继承View
+  - 继承ViewGroup派生的特殊Layout
+  - 继承特定的view，比如TextView
+  - 继承特定的ViewGroup，比如LinearLayout
+- `onMeasure`中处理wrap_content
+- 直接继承view的需要`onDraw`中处理padding，直接继承ViewGroup的需要在`onMeasure`和`onLayout`中考虑padding和子元素的margin
+- 尽量不在view中使用Handler,用post方法
+- View中如果有线程或者动画，需要及时停止，`onDetachedFromWindow`方法中去停止，不处理会导致内存泄漏
+- View带有滑动嵌套时，需要处理好滑动冲突问题
+- 在View的`onDraw`方法中不要创建太多的临时对象，也就是new出来的对象。因为`onDraw`方法会被频繁调用，如果有大量的临时对象，就会引起内存抖动，影响View的效果
 
 
 
@@ -1795,6 +1901,168 @@
   - getItemCount()共有多少个条目
 
 
+
+#### 29.Fragment
+
+- 生命周期：详情见第6条 `Activity与Fragment之间生命周期比较`
+
+- Fragment 懒加载
+
+  - AndroidX之前，懒加载
+
+    - ViewPager+Fragment
+      - 对于第一个可见的Fragment，在`onResume`方法中执行懒加载请求数据
+      - 对于缓存的Fragment由不可见到可见时，通过`setUserVisibleHint`方法中执行懒加载请求数据
+    - FragmentTransaction控制模式的懒加载
+      - 第一个可见Fragment通过`onResume`方法和`isHidden`变量进行判断进行懒加载
+      - 其它由不可见到可见的Fragment，因为已经执行了onResume方法，所以通过`onHiddenChanged`方法进行懒加载
+
+  - AndroidX之后，懒加载
+
+    - ViewPager2+Fragment
+
+      - ViewPager2的适配器 FragmentStateAdapter 本身就是支持懒加载的
+
+    - ViewPager+Fragment
+
+      - ```kotlin
+        FragmentStatePagerAdapter(manager, FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT)
+        //调用setMaxLifecycle()方法，将上一个Fragment的状态设置为STARTED，将当前要显示的Fragment的状态设置为RESUMED
+        ```
+
+    - FragmentTransaction模式的懒加载
+
+      - 对是否可见的Fragment进行设置`setMaxLifecycle`方法
+  
+- Fragment之间的通信
+  
+  - 直接在一个Fragment中调用另外一个Fragment中的方法
+  - 使用接口
+  - 使用广播
+  - EventBus，项目太大的话不推荐使用，不太方便管理
+  
+- FragmentPagerAdapter与FragmentStatePagerAdapter的区别
+  
+  - FragmentPagerAdapter 中每一个Fragment都长存在与内存中，适用于比较固定的少量的Fragment，切换Fragment过程中不会销毁Fragment
+  - FragmentStatePagerAdapter中实现将只保留当前页面，当页面离开视线后，就会被消除，释放其资源
+
+
+
+#### 30.OkHttp
+
+- 优点
+
+  - 网络优化方面
+    - 内置连接池，支持连接复用
+    - 支持gzip压缩响应体
+    - 通过缓存避免重复的请求
+    - 支持http2，对一台机器的所有请求共享同一个[socket](https://so.csdn.net/so/search?q=socket&spm=1001.2101.3001.7020)
+  - 功能方面
+    - 功能全面，满足了网络请求的大部分需求
+  - 扩展性方面
+    - 责任链模式使得很容易添加一个自定义拦截器对请求和返回结果进行处理
+
+- 工作原理
+
+  - ![](reference_graph/20200314163950882.png)
+
+  - 通过OkhttpClient创建一个Call，并发起同步或异步请求时
+
+  - okhttp会通过Dispatcher对我们所有的**RealCall**（Call的具体实现类）进行统一管理，并通过 execute()及enqueue()方法对同步或异步请求进行处理
+
+  - execute()及enqueue()这两个方法会最终调用RealCall中的`getResponseWithInterceptorChain()`（重点）方法，从拦截器链中获取返回结果
+
+  - 拦截器链中
+
+    - `RetryAndFollowUpInterceptor`（重定向拦截器）:负责重试或重定向
+    - `BridgeInterceptor`（桥接拦截器）：对请求头以及返回结果处理
+    - `CacheInterceptor`（缓存拦截器）：负责读取缓存以及更新缓存
+    - `ConnectInterceptor`（连接拦截器）：负责与服务器建立连接
+    - `CallServerInterceptor`（网络拦截器）：负责从服务器读取响应的数据
+
+  - ```java
+     //  构建okHttpClient，相当于请求的客户端
+    OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
+    // 构建一个请求体
+    Request request = new Request.Builder()
+                    .url(url)
+                    .build();
+    //  生成一个Call对象，该对象是接口类型
+    Call call = okHttpClient.newCall(request);    
+    // 同步
+    Response response = call.execute();
+    // 异步
+    call.enqueue(new Callback() {
+        @Override
+        public void onFailure(Call call, IOException e) {
+        }
+    
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+        }
+    });
+    ```
+
+- 同步请求和异步请求     [OkHttpClient 同步、异步请求的执行流程和源码分析](https://developer.aliyun.com/article/619490)
+
+  - 同步请求
+    - call.execute()
+    - 同步请求中，Dispatcher分发器做的工作非常简单，就两个操作，保存同步请求和移除同步请求
+  - 异步请求
+    - call.enqueue()
+    - 异步请求数超过最大请求数或同个主机最大请求数超过设置的值的时候，该请求就会添加到readyAsyncCalls(异步请求准备队列)中,
+    - 当执行完runningAsyncCalls（异步请求执行队列）的请求后，将会调用Dispatcher的finished()三个参数的方法，第三个参数传入true，会调用promoteCalls()方法，遍历准备队列readyAsyncCalls，将该队列的中的请求添加到执行队列runningAsyncCalls中,调用 executorService().execute(call)进行处理
+
+- 涉及到的设计模式
+
+  - 责任链模式：拦截器链
+  - 单例模式：线程池
+  - 观察者模式：各种回调监听
+  - 策略模式：缓存策略
+  - Builder模式：OkHttpClient的构建过程
+  - 外观模式：OkHttpClient封装了很对类对象
+  - 工厂模式：Socket的生产
+
+    
+
+#### 31.Retrofit
+
+- 创建过程  [从使用过程分析Retrofit的执行流程](https://juejin.cn/post/6993255619721429006)
+
+  ```kotlin
+  // 1，创建retrofit
+  val retrofit = Retrofit.Builder().baseUrl("https://api.github.com/")
+      .addConverterFactory(GsonConverterFactory.create())
+  //.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+      .build()
+      
+  // 2，创建代理对象
+  val service = retrofit.create(ApiService::class.java)
+  
+  // 3,调用请求方法
+  val repos = service.listRepos("octocat")
+  
+  // 4,发起请求并获取回调
+  repos.enqueue(object : Callback<List<Repo>> {
+      override fun onResponse(call: Call<List<Repo>>, response: Response<List<Repo>>) {
+          LogUtil.e("result: " + response.body())
+      }
+  
+      override fun onFailure(call: Call<List<Repo>>, t: Throwable) {
+          LogUtil.e("onFailure: " + t.toString())
+      }
+  })
+  ```
+
+  - 创建retrofit
+  - 创建代理对象，核心思想就是动态代理
+  - 调用请求方法
+  - 发起请求获取回调
+
+- ConverterFactory和CallAdapterFactory
+
+  - `ConverterFactory` 对返回的数据类型的自动转换，把一种数据对象转换为另一种数据对象
+  - `CallAdapterFactory` 对网络工作对象callWorker的自动转换，把Retrofit中执行网络请求的Call对象，转换为接口中定义的Call对象
 
 
 
