@@ -2066,13 +2066,345 @@
 
 
 
+#### 32.Rxjava2
+
+- 观察者模式
+
+  - Observable ( 被观察者 ) / Observer ( 观察者 )：不支持背压
+
+  - Flowable （被观察者）/ Subscriber （观察者）：支持背压
+
+    -  默认队列大小128，并且其所有的操作符都强制支持背压
+    - 背压策略
+      - BackpressureStrategy.MISSING 不支持背压
+      - BackpressureStrategy.ERROR  出现背压就抛出异常
+      - BackpressureStrategy.BUFFER  指定无限大小的缓存池，此时不会出现异常，但无限制大量发送会发生OOM
+      - BackpressureStrategy.DROP  如果缓存池满了就丢弃掉之后发出的事件
+      - BackpressureStrategy.LATEST 在DROP的基础上，强制将最后一条数据加入到缓存池中
+    - 背压产生的条件：必须是异步的场景下才会出现，即被观察者和观察者处于不同的线程中
+
+  - ```kotlin
+        fun testrxjava2() {
+            Observable.create(ObservableOnSubscribe<Int> { e ->
+                LogUtils.i(ConfigConstants.TAG_ALL, "Observable emit 1")
+                e.onNext(1)
+                LogUtils.i(ConfigConstants.TAG_ALL, "Observable emit 2")
+                e.onNext(2)
+                LogUtils.i(ConfigConstants.TAG_ALL, "Observable emit 3")
+                e.onNext(3)
+                LogUtils.i(ConfigConstants.TAG_ALL, "Observable emit 4")
+                e.onNext(4)
+            }).subscribe(object : Observer<Int> {
+                lateinit var mDisposable: Disposable
+    
+                override fun onSubscribe(d: Disposable) {
+                    this.mDisposable = d
+                    LogUtils.i(ConfigConstants.TAG_ALL, "onSubscribe : " + d.isDisposed)
+                }
+    
+                override fun onNext(value: Int) {
+                    LogUtils.i(ConfigConstants.TAG_ALL, "onNext : value的值为-> $value")
+                    if (value == 2) {
+                        // 在RxJava 2.x 中，新增的Disposable可以做到切断的操作，让Observer观察者不再接收上游事件
+                        mDisposable.dispose()
+                        onComplete()
+                    }
+                }
+    
+                override fun onComplete() {
+                    LogUtils.i(ConfigConstants.TAG_ALL, "onComplete : 事件完成")
+                }
+    
+    
+                override fun onError(e: Throwable) {
+                    LogUtils.i(ConfigConstants.TAG_ALL, "onError : ${e.message}")
+                }
+            })
+        }
+    ```
+
+    
+
+- 四种线程模式
+
+  - `Schedulers.io()`:代表io操作的线程, 通常用于网络,读写文件等io密集型的操作
+  - `Schedulers.computation()`:代表CPU计算密集型的操作, 例如需要大量计算的操作
+  - `Schedulers.newThread()`:代表一个常规的新线程
+  - `AndroidSchedulers.mainThread()`:代表Android的主线程
+
+- 操作符
+
+  - `create`  ObservableEmitter是事件的发送器，可以发送多个onNext()方法；一旦发送onComplete（），onError（）事件之后，后续的事件将不会再发送
+
+  - `just`  快速创建1个被观察者对象（`Observable`）
+
+  - `from`  操作符是把其他类型（数组）的对象和数据类型转化成Observable
+
+  - `interval`  
+
+    - 间隔时间执行某个操作
+    - 默认在新线程
+    - 取消间隔任务使用 disposable.dispose()方法
+
+  - `range`  根据出入的初始值n和数目m发射一系列大于等于n的m个值
+
+  - `zip` 
+
+    - 组合事件的过程就是分别从发射器 A 和发射器 B 各取出一个事件来组合，并且一个事件只能被使用一次，组合的顺序是严格按照事件发送的顺序来进行的
+    - 最终接收器收到的事件数量是和发送器发送事件最少的那个发送器的发送事件数目相同
+
+  - `merge` 
+
+    - 把多个 Observable 结合起来，接受可变参数，也支持迭代器集合
+    - 和 concat 的区别在于，不用等到 发射器 A 发送完所有的事件再进行发射器 B 的发送
+
+  - `map`  基本作用就是将一个 Observable 通过某种函数关系，转换为另一种 Observable ,例如 int转String
+
+  - `concat`  发射器B把自己的元素传递给了发射器A
+
+  - `flatMap` 
+
+    - 把一个发射器 Observable 通过某种方法转换为多个 Observables，然后再把这些分散的 Observables装进一个单一的发射器 Observable
+
+    - 并不能保证事件的顺序
+
+  - `concatMap`  与 FlatMap 的唯一区别就是 concatMap 保证了顺序
+
+  - `distinct` 去重
+
+  - `filter` 过滤
+
+  - `buffer ` 操作符接受两个参数，buffer(count,skip)，作用是将 Observable 中的数据按 skip (步长) 分成最大不超过 count 的 buffer ，然后生成一个 Observable
+
+  - `timer` 
+
+    - 相当于一个定时任务
+    - 默认在新线程
+
+  - `doOnNext` 
+
+    - 让订阅者在接收到数据之前干点有意思的事情
+
+  - `skip` 接受一个 long 型参数 count ，代表跳过 count 个数目开始接收
+
+  - `take` 接受一个 long 型参数 count ，代表至多接收 count 个数据
+
+  - `Single` 只会接收一个参数，而 SingleObserver 只会调用 onError() 或者 onSuccess()
+
+  - `debounce` 去除发送频率过快的项
+
+  - `defer` 每次订阅都会创建一个新的 Observable，并且如果没有被订阅，就不会产生新的 Observable。
+
+  - `last` 仅取出可观察到的最后一个值，或者是满足某些条件的最后一项
+
+  - `reduce` 每次用一个方法处理一个值，可以有一个 seed 作为初始值
+
+  - `scan`  操作符作用和上面的 reduce 一致,会始终如一地把每一个步骤都输出
+
+  - `window` 按照实际划分窗口，将数据发送给不同的 Observable
+
+
+
+#### 33.屏幕适配
+
+- 为什么要做屏幕适配？
+
+  某一元素在Android不同尺寸、不同分辨率的手机上具备相同的显示效果
+
+- 相关重要概念
+
+  - 屏幕尺寸
+    - 手机对角线的物理尺寸
+    - 单位是英寸  1英寸=2.54cm
+  - 屏幕分辨率
+    - 机在横向、纵向上的像素点数总和。
+    - 1080x1920，即宽度方向上有1080个像素点，在高度方向上有1920个像素点，单位px
+  - 屏幕像素密度
+    - 每英寸的像素点数
+    - 单位：dpi
+  - 屏幕尺寸、分辨率、像素密度三者关系
+    - ![](./reference_graph/944365-2b5dc928ab334440.webp)
+  - android 开发中 使用的是 dp，
+    - 可以保证在不同屏幕像素密度的设备上显示相同的效果
+    - 规定以160dpi（即屏幕分辨率为320x480）为基准：1dp=1p
+
+- 最小宽度限定符适配
+
+  - 通过指定某个最小宽度（以 dp 为单位）来精确定位屏幕从而加载不同的UI资源
+  - 使用了layout-sw600dp的最小宽度限定符，即无论是宽度还是高度，只要大于600dp，就采用layout-sw 600dp目录下的布局
+
+- 宽高限定符适配方式
+
+  - values-360X640
+
+- 今日头条适配方案
+
+  修改手机的densityDpi值，跟开发者设置定保持一致
+
+
+
+#### 34.Gradle多渠道打包
+
+- 在主模块（app）的 build.gradle 下配置
+
+  ```java
+      productFlavors {
+  
+          // 标准通用
+          normal {
+              applicationId "com.talkcloud.networkshcool"
+              versionName cfg.versionName
+              versionCode cfg.versionCode
+  
+              buildConfigField "String", "company_id", '""'
+              buildConfigField "String", "company_domain", '"www"'
+  
+              buildConfigField "String", "home_ext_url", '""'
+  //            buildConfigField "boolean", "is_show_home_ext_btn", "false"
+  
+              buildConfigField "String", "user_agreement_ext_url", '"menke"'
+  
+  
+              // app_logo
+              manifestPlaceholders = [
+                      app_logo        : "@mipmap/ic_launcher",
+                      app_name        : "@string/app_name",
+                      start_logo      : "@mipmap/start_logo",
+                      app_scheme      : "menke",
+                      JPUSH_APPKEY    : "b859237de554b67e71fdf5ac", //JPush上注册的包名对应的appkey. efe1fee9486a15e2cc89d289  b859237de554b67e71fdf5ac
+                      JPUSH_CHANNEL   : "developer-default",
+                      HUAWEI_HMS_APPID: "104384601",
+                      HUAWEI_HMS_CPID : "890086000300399144",
+                      XIAOMI_APPKEY   : "MI-5131995595542",
+                      XIAOMI_APPID    : "MI-2882303761519955542",
+              ]
+  
+          }
+  
+          //艺口才
+          yikoucai {
+              applicationId "com.talkcloud.yikoucai"
+              versionName cfg.versionName
+              versionCode cfg.versionCode
+  
+              //企业id,指定企业
+              buildConfigField "String", "company_id", '"1001365"'
+              buildConfigField "String", "company_domain", '"yikoucai"'
+  
+              buildConfigField "String", "home_ext_url", '"https://www.baidu.com"'
+  //            buildConfigField "boolean", "is_show_home_ext_btn", "true"
+  
+              buildConfigField "String", "user_agreement_ext_url", '"https://www.baidu.com"'
+  
+              manifestPlaceholders = [
+                      app_logo        : "@mipmap/ic_launcher",
+                      app_name        : "@string/app_name",
+                      start_logo      : "@mipmap/start_logo",
+                      app_scheme      : "yikoucai",
+                      JPUSH_APPKEY    : "", //JPush上注册的包名对应的appkey.
+                      JPUSH_CHANNEL   : "developer-default",
+                      HUAWEI_HMS_APPID: "104384601",
+                      HUAWEI_HMS_CPID : "890086000300399144",
+                      XIAOMI_APPKEY   : "MI-5131995595542",
+                      XIAOMI_APPID    : "MI-2882303761519955542",
+              ]
+          }
+  
+          //17talki
+          talki {
+              applicationId "com.talkcloud.talki"
+              versionName cfg.versionName + ".118224"
+              versionCode cfg.versionCode
+  
+              buildConfigField "String", "company_id", '"118224"'//   118238（测试）
+              buildConfigField "String", "company_domain", '"fke9nhm3"'
+  
+              buildConfigField "String", "home_ext_url", '""'
+              buildConfigField "String", "user_agreement_ext_url", '"17talki"'
+  //            buildConfigField "boolean", "is_show_home_ext_btn", "true"
+              manifestPlaceholders = [
+                      app_logo        : "@mipmap/ic_launcher",
+                      app_name        : "@string/app_name",
+                      start_logo      : "@mipmap/start_logo",
+                      app_scheme      : "talki",
+                      JPUSH_APPKEY    : "b21a8beffb163ac4b108e706", //JPush上注册的包名对应的appkey.
+                      JPUSH_CHANNEL   : "developer-default",
+                      HUAWEI_HMS_APPID: "104384601",
+                      HUAWEI_HMS_CPID : "890086000300399144",
+                      XIAOMI_APPKEY   : "MI-5131995595542",
+                      XIAOMI_APPID    : "MI-2882303761519955542",
+              ]
+          }
+  
+          //通技
+          tongji {
+              applicationId "com.talkcloud.tongji"
+              versionName cfg.versionName + ".116748"
+              versionCode cfg.versionCode
+  
+              buildConfigField "String", "company_id", '"116748"' // 10045730（测试）
+              buildConfigField "String", "company_domain", '"8613912256452"'
+  
+              buildConfigField "String", "home_ext_url", '""'
+  //            buildConfigField "boolean", "is_show_home_ext_btn", "false"
+              buildConfigField "String", "user_agreement_ext_url", '"tongji"'
+  
+              manifestPlaceholders = [
+                      app_logo        : "@mipmap/ic_launcher",
+                      app_name        : "@string/app_name",
+                      start_logo      : "@mipmap/start_logo",
+                      app_scheme      : "tongji",
+                      JPUSH_APPKEY    : "dd99dfaf3eaa57560afebcc2", //JPush上注册的包名对应的appkey.
+                      JPUSH_CHANNEL   : "developer-default",
+                      HUAWEI_HMS_APPID: "104384601",
+                      HUAWEI_HMS_CPID : "890086000300399144",
+                      XIAOMI_APPKEY   : "MI-5131995595542",
+                      XIAOMI_APPID    : "MI-2882303761519955542",
+              ]
+          }
+      }
+  ```
+
+
+
+#### 35.MVC/MVP/MVVM架构设计模式
+
+- MVC
+  - 定义
+    - M：业务逻辑处理。【业务MODEL】
+    - V：处理数据显示的部分。【如xml布局文件】
+    - C：Activity处理用户交互的问题。【也就是Activity在MVC中扮演着C的角色】
+  - 特点
+    - 耦合性低。
+    - 可扩展性好。
+    - 模块职责划分明确。
+- MVP
+  - 定义
+    - M：依然是业务逻辑和实体模型
+    - V：对应于Activity，负责View的绘制以及与用户交互
+    - P： 负责完成View与Model之间的交互。【这是与MVC最大的区别】
+  - 特点
+    - 中间多了一个P层，避免了Activity直接和M进行交互
+    - Activity中去实现这些接口
+- MVVM
+  - 定义
+    - View：对应于Activity和XML，负责View的绘制以及与用户交互，它是不能做任何与业务相关的操作。
+    - Model：实体模型，这跟咱们平常定义的Model层是不一样的。
+    - ViewModel：负责完成View与Model之间的交互，负责业务逻辑。它不能做任何与UI相关的操作，也就是不能持有任何View的引用
+  - ![](./reference_graph/10163520_61b31148b3c0340822.webp)
+
+
+
+36.设计模式
+
+
 ------
 
 ### 面试复习-网络篇
 
 #### 1.计算机的网络体系结构
 
-- OSI体系机构
+- 
   - （概念清楚 & 理念完整，但复杂 & 不实用）应用层，表示层，会话层，传输层，网络层，链路层，物理层
 - tcp/ip体系结构
   - （含了一系列构成互联网基础的网络协议，是Internet的核心协议 & 被广泛应用于局域网 和 广域网）应用层，传输层，网络层，网络接口层

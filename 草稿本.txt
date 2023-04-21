@@ -4436,6 +4436,9 @@ SplashActivity Info: isBaseOnWidth = true, designWidthInDp = 375.000000, designW
 
 
 
+MainActivity Info: isBaseOnWidth = true, designWidthInDp = 360.000000, designWidthInSubunits = 360.000000, targetDensity = 2.000000, targetScaledDensity = 2.000000, targetDensityDpi = 320, targetXdpi = 2.000000, targetScreenWidthDp = 360, targetScreenHeightDp = 640
+
+
 http://localhost:3000/banner
 
 opv_notification_setting
