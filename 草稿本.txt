@@ -4535,3 +4535,6 @@ C:\Users\joker\AppData\Roaming\Google\AndroidStudio4.2\settings.zip
 GsonFormat
 wifi adb
 camelcaseplugin
+
+
+zoom
