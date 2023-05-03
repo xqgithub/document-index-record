@@ -59,8 +59,16 @@
 #### 5.String、StringBuffer、StringBuilder区别
 
 - String:字符串常量 不适用于经常要改变值得情况，每次改变相当于生成一个新的对象
-- StringBuffer:字符串变量 （线程安全）
-- StringBuilder:字符串变量（线程不安全） 确保单线程下可用，效率略高于StringBuffer
+
+- StringBuffer:字符串变量
+
+  - 支持并发操作，适合多线程中使用
+
+- StringBuilder:字符串变量（线程不安全）
+
+  - 不支持并发操作，适合单线程中使用
+
+  -  确保单线程下可用，效率略高于StringBuffer
 
 
 
@@ -384,11 +392,20 @@
 
 - 反射机制是在运行状态中，对于任意一个类，都可以知道这个类的所有属性和方法，对于任意一个对象都可以调用它的属性和方法
 
-  ```java
-  Class testClass = myClassLoader.loadClass("com.github.hcsp.MyTestClass");
-  Object testClassInstance = testClass.getConstructor().newInstance();
-  String message = (String) testClass.getMethod("sayHello").invoke(testClassInstance);
-  ```
+- 类加载方式
+
+  - Class.forName()
+    - 将类的.class文件加载到jvm中之外，还会对类进行解释，执行类中的static块
+    - `Class.forName(name, initialize, loader)`带参函数也可控制是否加载static块。并且只有调用了newInstance()方法采用调用构造函数，创建类的对象
+  - ClassLoader.loadClass()
+    - 只干一件事情，就是将.class文件加载到jvm中，不会执行static中的内容,只有在newInstance才会去执行static块
+  
+  - ```java
+    Class<?> aClass=Class.forName("com.github.hcsp.MyTestClass");
+    Constructor[] constructors = aClass.getDeclaredConstructors();
+    Object testClassInstance=constructors.newInstance()
+    String message = (String) aClass.getMethod("sayHello").invoke(testClassInstance);
+    ```
 
 
 
@@ -520,7 +537,7 @@
       - List list = Collections.synchronizedList(new ArrayList()) 线程安全的
     - LinkedList是一种基于链表实现的双向链表，插入和删除性能较好
     - Vector与ArrayList类似，但是线程安全，性能较差
-- `Set` 无序集合，不允许包含重复的原色
+- `Set` 无序集合，不允许包含重复的角色
   - 实现类 `HashSet`、`TreeSet`、`LinkedHashSet`
     - HashSet是一种基于hash表实现的集合，查询性能较好
     - TreeSet是一种基于红黑树实现的有序集合，插入和删除性能比较好
@@ -563,6 +580,8 @@
 - `hashmap` 有  containsValue 和 containsKey,`hashtable` 包含 contains
 - `hashmap`是Map interface 的一个实现，`hashtable` 是继承Dictionary 类
 - `Hashtable`和`HashMap`采用的hash/rehash算法都大概一样，所以性能不会有很大的差异
+- `ConcurrentHashMap` 在java1.5 以后可以替代`hashtable`
+- `Collections.synchronizedMap` 也是线程安全的，性能和`hashtable` 差不多
 
 
 
@@ -919,12 +938,134 @@
   ![](./reference_graph/v2-ecf6c3d0f5146029e9693d6223d23afb_r.jpg)
 
   - 加载：指的是把class字节码文件从各个来源通过类加载器装载入内存中
-    - **字节码来源**。一般的加载来源包括从本地路径下编译生成的.class文件，从jar包中的.class文件，从远程网络，以及动态代理实时编译
-    - **类加载器**。一般包括**启动类加载器**，**扩展类加载器**，**应用类加载器**，以及用户的**自定义类加载器**。
+    - **字节码来源**。
+    
+      - 本地路径下编译生成的.class文件，
+    
+      - 从jar包中的.class文件，
+      - 从远程网络，
+      - 以及动态代理实时编译
+    
+    - **类加载器**:
+      
+      - `启动类加载器(bootstrap ClassLoader)`
+      
+        - 嵌套在JVM内部，java程序无法直接操作这个类
+        - 它加载`扩展类加载器`和`应用程序类加载器`，并成为他们的父类加载器
+      
+      - `扩展类加载器(Extension ClassLoader)`
+      
+        - Java语言编写,我们可以用Java程序操作这个加载器
+        - 派生继承自java.lang.ClassLoader，父类加载器为`启动类加载器`
+        - `java.ext.dirs`目录中加载类库 或 从JDK安装目录：`jre/lib/ext`目录下加载类库。我们就可以将我们自己的包放在以上目录下，就会自动加载进来了
+      
+      - `应用类加载器(Application ClassLoader)`
+      
+        - Java语言编写，
+        - 派生继承自java.lang.ClassLoader，父类加载器为`启动类加载器`
+        - 它是程序中默认的类加载器，我们Java程序中的类，都是由它加载完成的
+        - 我们可以通过`ClassLoader#getSystemClassLoader()`获取并操作这个加载器
+      
+      - `自定义类加载器`：核心 `对字节码文件的获取`，如果是加密的字节码则需要在该类中对文件进行解密
+      
+        - ```java
+          package com.github.hcsp.classloader;
+          
+          import java.io.ByteArrayOutputStream;
+          import java.io.File;
+          import java.io.FileInputStream;
+          import java.io.FileNotFoundException;
+          import java.io.IOException;
+          
+          public class MyClassLoader extends ClassLoader {
+              // 存放字节码文件的目录
+              private final File bytecodeFileDirectory;
+          
+              public MyClassLoader(File bytecodeFileDirectory) {
+                  this.bytecodeFileDirectory = bytecodeFileDirectory;
+              }
+          
+              // 还记得类加载器是做什么的么？
+              // "从外部系统中，加载一个类的定义（即Class对象）"
+              // 请实现一个自定义的类加载器，将当前目录中的字节码文件加载成为Class对象
+              // 提示，一般来说，要实现自定义的类加载器，你需要覆盖以下方法，完成：
+              //
+              // 1.如果类名对应的字节码文件存在，则将它读取成为字节数组
+              //   1.1 调用ClassLoader.defineClass()方法将字节数组转化为Class对象
+              // 2.如果类名对应的字节码文件不存在，则抛出ClassNotFoundException
+              //
+              @Override
+              protected Class<?> findClass(String name) throws ClassNotFoundException {
+                  byte[] classData = getByteArrayFromFile(name);
+                  if (classData == null) {
+                      throw new ClassNotFoundException();
+                  }
+                  return defineClass(name, classData, 0, classData.length);
+              }
+          
+              byte[] getByteArrayFromFile(String className) throws ClassNotFoundException {
+                  ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                  File file = new File(bytecodeFileDirectory, className + ".class");
+                  int len = 0;
+                  try {
+                      byte[] bufferSize = new byte[1024];
+                      FileInputStream fis = new FileInputStream(file);
+                      while ((len = fis.read(bufferSize)) != -1) {
+                          bos.write(bufferSize, 0, len);
+                      }
+                  } catch (FileNotFoundException e) {
+                      throw new ClassNotFoundException();
+                  } catch (IOException e) {
+                      e.printStackTrace();
+                  }
+                  return bos.toByteArray();
+              }
+          
+              public static void main(String[] args) throws Exception {
+                  File projectRoot = new File(System.getProperty("basedir", System.getProperty("user.dir")));
+                  MyClassLoader myClassLoader = new MyClassLoader(projectRoot);
+          
+                  Class testClass = myClassLoader.loadClass("com.github.hcsp.MyTestClass");
+                  Object testClassInstance = testClass.getConstructor().newInstance();
+                  String message = (String) testClass.getMethod("sayHello").invoke(testClassInstance);
+                  System.out.println(message);
+              }
+          }
+          ```
+      
+          
+    
   - 验证：主要是为了保证加载进来的字节流符合虚拟机规范，不会造成安全错误
-  - 准备：主要是为类变量（注意，不是实例变量）分配内存，并且赋予**初值**
-  - 解析：将常量池内的符号引用替换为直接引用的过程
+    - **文件格式的验证**：比如常量中是否有不被支持的常量？文件中是否有不规范的或者附加的其他信息？
+    - **元数据的验证**：比如该类是否继承了被final修饰的类？类中的字段，方法是否与父类冲突？是否出现了不合理的重载？
+    - **字节码的验证**：保证程序语义的合理性，比如要保证类型转换的合理性
+    - **符号引用的验证**：比如校验符号引用中通过全限定名是否能够找到对应的类？校验符号引用中的访问性（private，public等）是否可被当前类访问
+    
+  - 准备：
+    - 为类变量（static修饰的字段变量）分配内存并且设置该类变量的初始值，（如static int i = 5 这里只是将 i 赋值为0，在初始化的阶段再把 i 赋值为5)，这里不包含final修饰的static ，因为final在编译的时候就已经分配了。这里不会为实例变量分配初始化，类变量会分配在方法区中，实例变量会随着对象分配到Java堆中
+    
+  - 解析：将常量池内的符号引用替换为直接引用的过程，虚拟机会把所有的类名，方法名，字段名这些符号引用替换为具体的内存地址或偏移量
+  
   - 初始化：这个阶段主要是对**类变量**初始化，是执行类构造器的过程
+    - 只对static修饰的变量或语句进行初始化
+    - 初始化一个类的时候，其父类尚未初始化，则优先初始化其父类
+    - 同时包含多个静态变量和静态代码块，则按照自上而下的顺序依次执行
+  
+- 类加载机制
+
+  - `全盘负责` ：当一个类加载器负责加载某个Class时，该Class所依赖的和引用的其他Class也将由该类加载器负责载入，除非显示使用另外一个类加载器来载入
+  - `父类委托`：先让父类加载器试图加载该类，只有在父类加载器无法加载该类时才尝试从自己的类路径中加载该类
+  - `缓存机制`：缓存机制将会保证所有加载过的Class都会被缓存，当程序中需要使用某个Class时，类加载器先从缓存区寻找该Class，只有缓存区不存在，系统才会读取该类对应的二进制数据，并将其转换成Class对象，存入缓存区。这就是为什么修改了Class后，必须重启JVM，程序的修改才会生效
+
+- 双亲委派模型
+
+  - 一个类加载器收到了类加载的请求，它首先不会自己去尝试加载这个类，而是把请求委托给父加载器去完成，依次向上
+  - 所有的类加载请求最终都应该被传递到顶层的启动类加载器中
+  - 只有当父加载器在它的搜索范围中没有找到所需的类时，即无法完成该加载，子加载器才会尝试自己去加载该类
+  - 存在意义 
+  
+    - 系统类防止内存中出现多份同样的字节码
+    - 保证Java程序安全稳定运行
 
 
 
@@ -1273,13 +1414,92 @@
     - handler，拒绝策略
     
   - 分类
-    - FixedThreadPool:线程数量固定的线程池，该线程池的线程全部为核心线程，它们没有超时机制且排队任务队列无限制
+    - newFixedThreadPool:线程数量固定的线程池，该线程池的线程全部为核心线程，它们没有超时机制且排队任务队列无限制
     - cachedThreadPool：数量无限多的线程池，它所有的线程都是非核心线程，当有新任务来时如果没有空闲的线程则直接创建新的线程不会去排队而直接执行，并且超时时间都是60s，所以此线程池适合执行大量耗时小的任务
     - ScheduledTreadPool:有数量固定的核心线程，且有数量无限多的非核心线程，但是它的非核心线程超时时间是0s，所以非核心线程一旦空闲立马就会被回收
     - SingleThreadExecutor:内部只有一个核心线程，它确保所有任务进来都要排队按顺序执行。它的意义在于，统一所有的外界任务到同一线程中，让调用者可以忽略线程同步问题
     
   - ```java
+    //SDK 预置线程池 创建方式
     ExecutorService executorService = Executors.newFixedThreadPool( 10 ) 
+    ```
+    
+  - ```java
+    //自定义线程池
+    public class ThreadTest {
+    
+        public static void main(String[] args) throws InterruptedException, IOException {
+            int corePoolSize = 2;
+            int maximumPoolSize = 4;
+            long keepAliveTime = 10;
+            TimeUnit unit = TimeUnit.SECONDS;
+            BlockingQueue<Runnable> workQueue = new ArrayBlockingQueue<>(2);
+            ThreadFactory threadFactory = new NameTreadFactory();
+            RejectedExecutionHandler handler = new MyIgnorePolicy();
+            ThreadPoolExecutor executor = new ThreadPoolExecutor(corePoolSize, maximumPoolSize, keepAliveTime, unit,
+                    workQueue, threadFactory, handler);
+            executor.prestartAllCoreThreads(); // 预启动所有核心线程
+            
+            for (int i = 1; i <= 10; i++) {
+                MyTask task = new MyTask(String.valueOf(i));
+                executor.execute(task);
+            }
+    
+            System.in.read(); //阻塞主线程
+        }
+    
+        static class NameTreadFactory implements ThreadFactory {
+    
+            private final AtomicInteger mThreadNum = new AtomicInteger(1);
+    
+            @Override
+            public Thread newThread(Runnable r) {
+                Thread t = new Thread(r, "my-thread-" + mThreadNum.getAndIncrement());
+                System.out.println(t.getName() + " has been created");
+                return t;
+            }
+        }
+    
+        public static class MyIgnorePolicy implements RejectedExecutionHandler {
+    
+            public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
+                doLog(r, e);
+            }
+    
+            private void doLog(Runnable r, ThreadPoolExecutor e) {
+                // 可做日志记录等
+                System.err.println( r.toString() + " rejected");
+    //          System.out.println("completedTaskCount: " + e.getCompletedTaskCount());
+            }
+        }
+    
+        static class MyTask implements Runnable {
+            private String name;
+    
+            public MyTask(String name) {
+                this.name = name;
+            }
+    
+            @Override
+            public void run() {
+                try {
+                    System.out.println(this.toString() + " is running!");
+                    Thread.sleep(3000); //让任务执行慢点
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+    
+            public String getName() {
+                return name;
+            }
+    
+            @Override
+            public String toString() {
+                return "MyTask [name=" + name + "]";
+            }
+        }
+    }
     ```
   
     
@@ -1870,6 +2090,8 @@
 - View事件分发
 
   ![](./reference_graph/0db5d1d4a719acd9955225a7881c9825.png)
+
+- ![](./reference_graph/2df21f9eaf4955077ade73e76419a09b.png)
 
 - requestDisallowInterceptTouchEvent(Boolean)   告诉父类View是否拦截
 
@@ -3189,6 +3411,32 @@
 
 
 
+#### 39.Android 架构
+
+- 架构图
+
+  ![](./reference_graph/e4986d8c96a243218ea13c1e99c93e0f~tplv-k3u1fbpfcp-zoom-in-crop-mark_4536_0_0_0.webp)
+
+- 应用层(Application)
+
+  - 各种上层运行的的app，包括系统内置app和第三方app，例如Launcher、Settings等
+
+- 框架层(Java Framework)
+
+  - 提供给应用层使用的Java库，例如WMS，AMS，PMS，各种View等
+
+- Native层/Android运行环境
+
+  - 提供给Java Framework层使用的C/C++库，例如OpenGL
+
+- HAL层(硬件抽象层)
+
+  - 为Java Framework层提供硬件功能，例如相机、蓝牙、各种传感器等
+
+- 内核层
+
+  - 支撑Android系统运行的Linux内核
+
 
 
 
@@ -4503,7 +4751,26 @@ fun testFunction2(vararg strings: String): String {
 
 
 
+------
 
+### 面试复习-jetpack
+
+- Navigation
+  - 一个个用于管理`Fragment`切换的工具类，可视化、可绑定控件、支持动画等是其优点
+- Data Binding
+  - 加速`MVVM`的创建
+- Lifecycle
+  - 我们能够处理`Activity`和`Fragment`的生命周期的重要原因，在`AndroidX`的`Fragment`和`Activity`已经对`Lifecycle`提供了默认支持
+- ViewModel
+  - 当做`MVVM`的`ViewModel层`，并具有声明周期意识的处理和UI相关的数据
+- LiveData
+  - 同`RxJava`的作用一样，对数据进行监听，优点就是无需处理生命周期、无内存泄漏等
+- Room
+  - 强大的ORM数据库框架
+- Paging
+  - 易于使用的数据分页库，支持`RecyclerView`。
+- WorkManager
+  - 灵活、简单、延迟和保证执行的后台任务处理库
 
 ------
 
