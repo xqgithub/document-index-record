@@ -2091,7 +2091,7 @@
 
   ![](./reference_graph/0db5d1d4a719acd9955225a7881c9825.png)
 
-- ![](./reference_graph/2df21f9eaf4955077ade73e76419a09b.png)
+- <img src="./reference_graph/2df21f9eaf4955077ade73e76419a09b.png"  />
 
 - requestDisallowInterceptTouchEvent(Boolean)   告诉父类View是否拦截
 
@@ -3436,6 +3436,28 @@
 - 内核层
 
   - 支撑Android系统运行的Linux内核
+
+
+
+#### 40.进程保活
+
+- 黑色保活
+  - 接入第三方SDK也会唤醒相应的app进程，如微信sdk会唤醒微信，支付宝sdk会唤醒支付宝
+- 白色保活
+  - 调用系统api启动一个前台的Service进程，这样会在系统的通知栏生成一个Notification，用来让用户知道有这样一个app在运行着，哪怕当前的app退到了后台
+- 灰色保活
+  - 利用系统的漏洞来启动一个前台的Service进程
+  - 它不会在系统通知栏处出现一个Notification，看起来就如同运行着一个后台Service进程一样
+  - API < 18，启动前台Service时直接传入new Notification()
+  - API >= 18，同时启动两个id相同的前台Service，然后再将后启动的Service做stop处理
+- 进程按照优先级排序
+  - `Foreground process` : 前台进程
+  - `Visible process`: 可视进程
+  - `Service process`：服务进程
+  - `Background process`:服务进程
+  - `Empty process`：空进程
+
+
 
 
 
@@ -5017,6 +5039,25 @@ fun testFunction2(vararg strings: String): String {
 
   - Socket属于传输层，因为 TCP / IP协议属于传输层，解决的是数据如何在网络中传输的问题
   - HTTP协议 属于 应用层，解决的是如何包装数据
+
+
+
+#### 6.webSocket协议   [Android中 使用 WebSocket 实现消息通信](https://developer.aliyun.com/article/873635)
+
+- websocket和HTTP一样都是基于TCP的协议，经历了三次TCP握手之后，利用HTTP协议升级为websocket协议
+- ![](./reference_graph/v2-9d13f599f4ddf276469d9f355e3bbb64_r.jpg)
+- websocket的消息格式
+  - 数据包在websocket中被叫做帧
+  - ![](./reference_graph/v2-32490fc6a9777ba135e27b700c53c0b1_r.jpg)
+  - `opcode`字段：用来标志这是个**什么类型**的[数据帧]
+    - 1时是指text类型（`string`）的数据包
+    - 等于2是二进制数据类型（`[]byte`）的数据包
+    - 等于8是关闭连接的信号
+  - `payload`字段：存放的是我们**真正想要传输的数据的长度**，单位是**字节**
+  - `payload data`字段：这里存放的就是真正要传输的数据，在知道了上面的payload长度后，就可以根据这个值去截取对应的数据
+- 使用场景
+  - 适用于**需要服务器和客户端（浏览器）频繁交互**的大部分场景
+  - 网页/小程序游戏，网页聊天室，以及一些类似飞书这样的网页协同办公软件
 
 
 
