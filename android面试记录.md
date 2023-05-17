@@ -1060,12 +1060,55 @@
 - 双亲委派模型
 
   - 一个类加载器收到了类加载的请求，它首先不会自己去尝试加载这个类，而是把请求委托给父加载器去完成，依次向上
+  
   - 所有的类加载请求最终都应该被传递到顶层的启动类加载器中
+  
   - 只有当父加载器在它的搜索范围中没有找到所需的类时，即无法完成该加载，子加载器才会尝试自己去加载该类
+  
   - 存在意义 
   
     - 系统类防止内存中出现多份同样的字节码
     - 保证Java程序安全稳定运行
+    
+  - ClassLoader加载机制
+  
+    - ```java
+          protected Class<?> loadClass(String name, boolean resolve)
+              throws ClassNotFoundException
+          {
+                  // First, check if the class has already been loaded
+                  Class<?> c = findLoadedClass(name);
+                  if (c == null) {
+                      try {
+                          if (parent != null) {
+                              c = parent.loadClass(name, false);
+                          } else {
+                              c = findBootstrapClassOrNull(name);
+                          }
+                      } catch (ClassNotFoundException e) {
+                          // ClassNotFoundException thrown if class not found
+                          // from the non-null parent class loader
+                      }
+      
+                      if (c == null) {
+                          // If still not found, then invoke findClass in order
+                          // to find the class.
+                          c = findClass(name);
+                      }
+                  }
+                  return c;
+          }
+      
+      1.检查当前的 classLoader 是否已经加载琮这个 class ，有则直接返回，没有则进行第2步。
+      2.调用父 classLoader 的 loadClass() 方法，检查父 classLoader 是否有加载过这个 class ，有则直
+      接返回，没有就继续检查上上个父 classLoader ，直到顶层 classLoader 。
+      3.如果所有的父 classLoader 都没有加载过这个 class ，则最终由当前 classLoader 调用
+      findClass() 方法，去dex文件中找出并加载这个 class 。
+      ```
+    
+      
+    
+    
 
 
 
@@ -1955,17 +1998,835 @@
 
 
 
-#### 11.webview 和 js 的调用方法
+#### 11.webview 使用
 
-- android端调用 js的方法
+- webview和js的交互
+
+  1. android端调用 js的方法
+
+  - ![](./reference_graph/944365-30f095d4c9e638fd.webp)
+
   - 通过webview的loadUrl()
+
+    - ```html
+      // 文本名：javascript
+      <!DOCTYPE html>
+      <html>
+      
+         <head>
+            <meta charset="utf-8">
+            <title>Carson_Ho</title>
+            
+      // JS代码
+           <script>
+      // Android需要调用的方法
+         function callJS(){
+            alert("Android调用了JS的callJS方法");
+         }
+      </script>
+      
+         </head>
+      
+      </html>
+      
+      ```
+
+    - ```java
+              // 先载入JS代码
+              // 格式规定为:file:///android_asset/文件名.html
+              mWebView.loadUrl("file:///android_asset/javascript.html");
+            
+              button.setOnClickListener(new View.OnClickListener() {
+                  @Override
+                  public void onClick(View v) {
+                      // 通过Handler发送消息
+                      mWebView.post(new Runnable() {
+                          @Override
+                          public void run() {
+            
+                              // 注意调用的JS方法名要对应上
+                              // 调用javascript的callJS()方法
+                              mWebView.loadUrl("javascript:callJS()");
+                          }
+                      });
+                      
+                  }
+              });
+      ```
+
+      - **JS代码调用一定要在 `onPageFinished（）` 回调之后才能调用，否则不会调用**
+
   - 通过webview的evaluatejavascript()
-- js 调用 android的方法
-  - 通过webview的addjavascriptInterface()进行映射
-  - 通过webviewClient的shouldoverrideUrlLoading()回调拦截url
-  - 通过webChromeClient的onJsAlert、onJsConfirm、onJsPrompt拦截js的对话框
 
+    - 优点
 
+      - 该方法比第一种方法效率更高、使用更简洁
+      - 该方法的执行不会使页面刷新，而第一种方法（loadUrl ）的执行则会
+      - Android 4.4 后才可使用
+
+    - ```java
+      // 只需要将第一种方法的loadUrl()换成下面该方法即可
+          mWebView.evaluateJavascript（"javascript:callJS()", new ValueCallback<String>() {
+              @Override
+              public void onReceiveValue(String value) {
+                  //此处为 js 返回的结果
+              }
+          });
+      }
+      ```
+
+  2. js 调用 android的方法
+
+     - ![](./reference_graph/944365-8c91481325a5253e.webp)
+
+     - 通过webview的addjavascriptInterface()进行映射
+
+       - ```java
+         // 继承自Object类
+         public class AndroidtoJs extends Object {
+         
+             // 定义JS需要调用的方法
+             // 被JS调用的方法必须加入@JavascriptInterface注解
+             @JavascriptInterface
+             public void hello(String msg) {
+                 System.out.println("JS调用了Android的hello方法");
+             }
+         }
+         
+         
+                // 通过addJavascriptInterface()将Java对象映射到JS对象
+                 //参数1：Javascript对象名
+                 //参数2：Java对象名
+                 mWebView.addJavascriptInterface(new AndroidtoJs(), "test");//AndroidtoJS类对象映射到js的test对象
+         ```
+
+       - ```html
+         <!DOCTYPE html>
+         <html>
+            <head>
+               <meta charset="utf-8">
+               <title>Carson</title>  
+               <script>
+                  
+                 
+                  function callAndroid(){
+                 // 由于对象映射，所以调用test对象等于调用Android映射的对象
+                     test.hello("js调用了android中的hello方法");
+                  }
+               </script>
+            </head>
+            <body>
+               //点击按钮则调用callAndroid函数
+               <button type="button" id="button1" onclick="callAndroid()"></button>
+            </body>
+         </html>
+         ```
+
+     - 通过webviewClient的shouldoverrideUrlLoading()回调拦截url
+
+       - Android通过 `WebViewClient` 的回调方法`shouldOverrideUrlLoading ()`拦截 url
+
+       - 解析该 url 的协议
+
+       - 如果检测到是预先约定好的协议，就调用相应方法
+
+       - ```html
+         <!DOCTYPE html>
+         <html>
+         
+            <head>
+               <meta charset="utf-8">
+               <title>Carson_Ho</title>
+               
+              <script>
+                  function callAndroid(){
+                     /*约定的url协议为：js://webview?arg1=111&arg2=222*/
+                     document.location = "js://webview?arg1=111&arg2=222";
+                  }
+               </script>
+         </head>
+         
+         <!-- 点击按钮则调用callAndroid（）方法  -->
+            <body>
+              <button type="button" id="button1" onclick="callAndroid()">点击调用Android代码</button>
+            </body>
+         </html>
+         ```
+
+       - ```java
+         public class MainActivity extends AppCompatActivity {
+         
+             WebView mWebView;
+         //    Button button;
+         
+             @Override
+             protected void onCreate(Bundle savedInstanceState) {
+                 super.onCreate(savedInstanceState);
+                 setContentView(R.layout.activity_main);
+         
+                 mWebView = (WebView) findViewById(R.id.webview);
+         
+                 WebSettings webSettings = mWebView.getSettings();
+         
+                 // 设置与Js交互的权限
+                 webSettings.setJavaScriptEnabled(true);
+                 // 设置允许JS弹窗
+                 webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
+         
+                 // 步骤1：加载JS代码
+                 // 格式规定为:file:///android_asset/文件名.html
+                 mWebView.loadUrl("file:///android_asset/javascript.html");
+         
+         
+         // 复写WebViewClient类的shouldOverrideUrlLoading方法
+         mWebView.setWebViewClient(new WebViewClient() {
+                                               @Override
+                                               public boolean shouldOverrideUrlLoading(WebView view, String url) {
+         
+                                                   // 步骤2：根据协议的参数，判断是否是所需要的url
+                                                   // 一般根据scheme（协议格式） & authority（协议名）判断（前两个参数）
+                                                   //假定传入进来的 url = "js://webview?arg1=111&arg2=222"（同时也是约定好的需要拦截的）
+         
+                                                   Uri uri = Uri.parse(url);                                 
+                                                   // 如果url的协议 = 预先约定的 js 协议
+                                                   // 就解析往下解析参数
+                                                   if ( uri.getScheme().equals("js")) {
+         
+                                                       // 如果 authority  = 预先约定协议里的 webview，即代表都符合约定的协议
+                                                       // 所以拦截url,下面JS开始调用Android需要的方法
+                                                       if (uri.getAuthority().equals("webview")) {
+         
+                                                          //  步骤3：
+                                                           // 执行JS所需要调用的逻辑
+                                                           System.out.println("js调用了Android的方法");
+                                                           // 可以在协议上带有参数并传递到Android上
+                                                           HashMap<String, String> params = new HashMap<>();
+                                                           Set<String> collection = uri.getQueryParameterNames();
+         
+                                                       }
+         
+                                                       return true;
+                                                   }
+                                                   return super.shouldOverrideUrlLoading(view, url);
+                                               }
+                                           }
+                 );
+            }
+                 }
+         
+         ```
+
+     - 通过`webChromeClient`的onJsAlert、onJsConfirm、onJsPrompt拦截js的对话框
+
+       - ```html
+         <!DOCTYPE html>
+         <html>
+            <head>
+               <meta charset="utf-8">
+               <title>Carson_Ho</title>
+               
+              <script>
+                 
+             function clickprompt(){
+             // 调用prompt（）
+             var result=prompt("js://demo?arg1=111&arg2=222");
+             alert("demo " + result);
+         }
+         
+               </script>
+         </head>
+         
+         <!-- 点击按钮则调用clickprompt()  -->
+            <body>
+              <button type="button" id="button1" onclick="clickprompt()">点击调用Android代码</button>
+            </body>
+         </html>
+         ```
+
+       - ```java
+         public class MainActivity extends AppCompatActivity {
+         
+             WebView mWebView;
+         //    Button button;
+         
+             @Override
+             protected void onCreate(Bundle savedInstanceState) {
+                 super.onCreate(savedInstanceState);
+                 setContentView(R.layout.activity_main);
+         
+                 mWebView = (WebView) findViewById(R.id.webview);
+         
+                 WebSettings webSettings = mWebView.getSettings();
+         
+                 // 设置与Js交互的权限
+                 webSettings.setJavaScriptEnabled(true);
+                 // 设置允许JS弹窗
+                 webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
+         
+         // 先加载JS代码
+                 // 格式规定为:file:///android_asset/文件名.html
+                 mWebView.loadUrl("file:///android_asset/javascript.html");
+         
+         
+                 mWebView.setWebChromeClient(new WebChromeClient() {
+                                                 // 拦截输入框(原理同方式2)
+                                                 // 参数message:代表promt（）的内容（不是url）
+                                                 // 参数result:代表输入框的返回值
+                                                 @Override
+                                                 public boolean onJsPrompt(WebView view, String url, String message, String defaultValue, JsPromptResult result) {
+                                                     // 根据协议的参数，判断是否是所需要的url(原理同方式2)
+                                                     // 一般根据scheme（协议格式） & authority（协议名）判断（前两个参数）
+                                                     //假定传入进来的 url = "js://webview?arg1=111&arg2=222"（同时也是约定好的需要拦截的）
+         
+                                                     Uri uri = Uri.parse(message);
+                                                     // 如果url的协议 = 预先约定的 js 协议
+                                                     // 就解析往下解析参数
+                                                     if ( uri.getScheme().equals("js")) {
+         
+                                                         // 如果 authority  = 预先约定协议里的 webview，即代表都符合约定的协议
+                                                         // 所以拦截url,下面JS开始调用Android需要的方法
+                                                         if (uri.getAuthority().equals("webview")) {
+         
+                                                             //
+                                                             // 执行JS所需要调用的逻辑
+                                                             System.out.println("js调用了Android的方法");
+                                                             // 可以在协议上带有参数并传递到Android上
+                                                             HashMap<String, String> params = new HashMap<>();
+                                                             Set<String> collection = uri.getQueryParameterNames();
+         
+                                                             //参数result:代表消息框的返回值(输入值)
+                                                             result.confirm("js调用了Android的方法成功啦");
+                                                         }
+                                                         return true;
+                                                     }
+                                                     return super.onJsPrompt(view, url, message, defaultValue, result);
+                                                 }
+         
+         // 通过alert()和confirm()拦截的原理相同，此处不作过多讲述
+         
+                                                 // 拦截JS的警告框
+                                                 @Override
+                                                 public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
+                                                     return super.onJsAlert(view, url, message, result);
+                                                 }
+         
+                                                 // 拦截JS的确认框
+                                                 @Override
+                                                 public boolean onJsConfirm(WebView view, String url, String message, JsResult result) {
+                                                     return super.onJsConfirm(view, url, message, result);
+                                                 }
+                                             }
+                 );
+         
+         
+                     }
+         
+                 }
+         ```
+
+- webview的漏洞
+
+  1. 类型
+
+     - 任意代码执行漏洞
+     - 密码明文存储漏洞
+     - 域控制不严格漏洞
+
+  2. 任意代码执行漏洞
+
+     - WebView 中 `addJavascriptInterface（）` 接口
+       - 拿到android的对象后，通过反射对安卓**对象中所有的方法，包括系统类（java.lang.Runtime 类），从而进行任意代码执行**
+       - android4.4以后规定对被调用的函数以 `@JavascriptInterface`进行注解从而避免漏洞攻击
+       - Android 4.2版本之前采用**拦截prompt（）**进行漏洞修复
+         - 继承 WebView ，重写 `addJavascriptInterface` 方法，然后在内部自己维护一个对象映射关系的 Map，将需要添加的 JS 接口放入该Map中
+         - 每次当 WebView 加载页面前加载一段本地的 JS 代码
+           - 让JS调用一Javascript方法：该方法是通过调用prompt（）把JS中的信息（含特定标识，方法名称等）传递到Android端
+           - 在Android的onJsPrompt（）中 ，解析传递过来的信息，再通过反射机制调用Java对象的方法，这样实现安全的JS调用Android代码
+     - searchBoxJavaBridge_接口引起远程代码执行漏洞
+       - 在Android 3.0以下，Android系统会默认通过`searchBoxJavaBridge_`的Js接口给 WebView 添加一个JS映射对象：`searchBoxJavaBridge_`对象
+       - 该接口可能被利用，实现远程任意代码
+       - 删除`searchBoxJavaBridge_`接口
+     - `accessibility`和 `accessibilityTraversal`接口引起远程代码执行漏洞
+
+  3. 密码明文存储漏洞
+
+     - WebView默认开启密码保存功能，密码会被明文保到 /data/data/com.package.name/databases/webview.db 中，这样就有被盗取密码的危险
+     - 关闭密码保存提醒
+
+  4. 域控制不严格漏洞
+
+     - ```java
+       public class WebViewActivity extends Activity {
+           private WebView webView;
+           public void onCreate(Bundle savedInstanceState) {
+               super.onCreate(savedInstanceState);
+               setContentView(R.layout.activity_webview);
+               webView = (WebView) findViewById(R.id.webView);
+       
+               //webView.getSettings().setAllowFileAccess(false);                    (1)
+               //webView.getSettings().setAllowFileAccessFromFileURLs(true);         (2)
+               //webView.getSettings().setAllowUniversalAccessFromFileURLs(true);    (3)
+               Intent i = getIntent();
+               String url = i.getData().toString(); //url = file:///data/local/tmp/attack.html 
+               webView.loadUrl(url);
+           }
+        }
+       
+       /**Mainifest.xml**/
+       // 将该 WebViewActivity 在Mainifest.xml设置exported属性
+       // 表示：当前Activity是否可以被另一个Application的组件启动
+       android:exported="true"
+       ```
+
+     - setAllowFileAccess（）
+
+       - ```java
+         // 设置是否允许 WebView 使用 File 协议
+         webView.getSettings().setAllowFileAccess(true);     
+         // 默认设置为true，即允许在 File 域下执行任意 JavaScript 代码
+         ```
+
+       - 使用 file 域加载的 js代码能够使用进行**同源策略跨域访问**，从而导致隐私信息泄露
+
+         - 同源策略跨域访问：对私有目录文件进行访问
+         - 针对 IM 类产品，泄露的是聊天信息、联系人等等
+         - 针对浏览器类软件，泄露的是cookie 信息泄露
+
+       - 对于不需要使用 file 协议的应用，禁用 file 协议
+
+         ```java
+         setAllowFileAccess(true); 
+         
+         // 禁止 file 协议加载 JavaScript
+         if (url.startsWith("file://") {
+             setJavaScriptEnabled(false);
+         } else {
+             setJavaScriptEnabled(true);
+         }
+         ```
+
+     - setAllowFileAccessFromFileURLs（）
+
+       - ```java
+         // 设置是否允许通过 file url 加载的 Js代码读取其他的本地文件
+         webView.getSettings().setAllowFileAccessFromFileURLs(true);
+         // 在Android 4.1前默认允许
+         // 在Android 4.1后默认禁止
+         ```
+
+     - setAllowUniversalAccessFromFileURLs（）
+
+       - ```java
+         // 设置是否允许通过 file url 加载的 Javascript 可以访问其他的源(包括http、https等源)
+         webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
+         
+         // 在Android 4.1前默认允许（setAllowFileAccessFromFileURLs（）不起作用）
+         // 在Android 4.1后默认禁止
+         ```
+
+     - setJavaScriptEnabled（）
+
+       - ```java
+         // 设置是否允许 WebView 使用 JavaScript（默认是不允许）
+         webView.getSettings().setJavaScriptEnabled(true);  
+         
+         // 但很多应用（包括移动浏览器）为了让 WebView 执行 http 协议中的 JavaScript，都会主动设置为true，不区别对待是非常危险的。
+         ```
+
+  5. 最终解决方案
+
+     - 对于不需要使用 file 协议的应用，禁用 file 协议
+
+       ```java
+       // 禁用 file 协议；
+       setAllowFileAccess(false); 
+       setAllowFileAccessFromFileURLs(false);
+       setAllowUniversalAccessFromFileURLs(false);
+       ```
+
+     - 对于需要使用 file 协议的应用，禁止 file 协议加载 JavaScript
+
+       ```java
+       // 需要使用 file 协议
+       setAllowFileAccess(true); 
+       setAllowFileAccessFromFileURLs(false);
+       setAllowUniversalAccessFromFileURLs(false);
+       
+       // 禁止 file 协议加载 JavaScript
+       if (url.startsWith("file://") {
+           setJavaScriptEnabled(false);
+       } else {
+           setJavaScriptEnabled(true);
+       }
+       ```
+
+- webview缓存机制及资源预加载方案
+
+  1. H5页面加载速度慢
+
+     - 渲染速度慢
+       - `Js` 本身的解析过程复杂、解析速度不快 & 前端页面涉及较多 `JS` 代码文件，所以叠加起来会导致 `Js` 解析效率非常低
+       - 由于`Android`机型碎片化，这导致手机硬件设备的性能不可控，而大多数的Android手机硬件设备无法达到很好很好的硬件性能
+     - 资源加载的慢
+       - `H5` 页面从服务器获得，并存储在 `Android`手机内存里
+       - `H5`页面一般会比较多
+       - 每加载一个 `H5`页面，都会产生较多网络请求
+         - `HTML` 主 `URL` 自身的请求
+         - `HTML`外部引用的`JS、CSS`、字体文件，图片也是一个独立的 `HTTP` 请求
+
+  2. 耗费流量
+
+     - 每次使用 `H5`页面时，用户都需要重新加载 `Android WebView`的`H5` 页面
+     - 每加载一个 `H5`页面，都会产生较多网络请求（上面提到）
+     - 每一个请求都串行的，这么多请求串起来，这导致消耗的流量也会越多
+
+  3. 解决方案
+
+     - 前端`H5`的缓存机制（`WebView` 自带）
+
+       - 缓存机制
+
+         - 如何将加载过的网页数据保存到本地
+
+         - webview自带5种
+
+           - ![](./reference_graph/944365-5f9648d34bc73b18.webp)
+           - ![](./reference_graph/944365-3d023c81c7b43053.webp)
+
+           - 浏览器 缓存机制
+
+             - 根据 `HTTP` 协议头里的 `Cache-Control`（或 `Expires`）和 `Last-Modified`（或 `Etag`）等字段来控制文件缓存的机制
+
+               - `Cache-Control`：用于控制文件在本地缓存有效时长
+
+                 ```
+                 如服务器回包：Cache-Control:max-age=600，则表示文件在本地应该缓存，且有效时长是600秒（从发出请求算起）。在接下来600秒内，如果有请求这个资源，浏览器不会发出 HTTP 请求，而是直接使用本地缓存的文件。
+                 ```
+
+               - `Expires`：与`Cache-Control`功能相同，即控制缓存的有效时间
+
+                 ```
+                 Expires是 HTTP1.0 标准中的字段，Cache-Control 是 HTTP1.1 标准中新加的字段
+                 当这两个字段同时出现时，Cache-Control 优先级较高
+                 ```
+
+               - `Last-Modified`：标识文件在服务器上的最新更新时间
+
+                 ```
+                 下次请求时，如果文件缓存过期，浏览器通过 If-Modified-Since 字段带上这个时间，发送给服务器，由服务器比较时间戳来判断文件是否有修改。如果没有修改，服务器返回304告诉浏览器继续使用缓存；如果有修改，则返回200，同时返回最新的文件。
+                 ```
+
+               - `Etag`：功能同`Last-Modified` ，即标识文件在服务器上的最新更新时间
+
+                 ```
+                 不同的是，Etag 的取值是一个对文件进行标识的特征字串。
+                 在向服务器查询文件是否有更新时，浏览器通过If-None-Match 字段把特征字串发送给服务器，由服务器和文件最新特征字串进行匹配，来判断文件是否有更新：没有更新回包304，有更新回包200
+                 Etag 和 Last-Modified 可根据需求使用一个或两个同时使用。两个同时使用时，只要满足基中一个条件，就认为文件没有更新。
+                 ```
+
+             - 应用场景
+
+               - 静态资源文件的存储，如`JS、CSS`、字体、图片等
+               - `Android WebView`内置自动实现，即不需要设置即实现
+
+           - `Application Cache` 缓存机制
+
+             (1). 原理
+
+             - 以文件为单位进行缓存，且文件有一定更新机制（类似于浏览器缓存机制）
+
+             - `AppCache` 原理有两个关键点：manifest 属性和 manifest 文件
+
+             - ```html
+               <!DOCTYPE html>
+               <html manifest="demo_html.appcache">
+               // HTML 在头中通过 manifest 属性引用 manifest 文件
+               // manifest 文件：就是上面以 appcache 结尾的文件，是一个普通文件文件，列出了需要缓存的文件
+               // 浏览器在首次加载 HTML 文件时，会解析 manifest 属性，并读取 manifest 文件，获取 Section：CACHE MANIFEST 下要缓存的文件列表，再对文件缓存
+               <body>
+               ...
+               </body>
+               </html>
+               
+               // 原理说明如下：
+               // AppCache 在首次加载生成后，也有更新机制。被缓存的文件如果要更新，需要更新 manifest 文件
+               // 因为浏览器在下次加载时，除了会默认使用缓存外，还会在后台检查 manifest 文件有没有修改（byte by byte)
+               发现有修改，就会重新获取 manifest 文件，对 Section：CACHE MANIFEST 下文件列表检查更新
+               // manifest 文件与缓存文件的检查更新也遵守浏览器缓存机制
+               // 如用户手动清了 AppCache 缓存，下次加载时，浏览器会重新生成缓存，也可算是一种缓存的更新
+               // AppCache 的缓存文件，与浏览器的缓存文件分开存储的，因为 AppCache 在本地有 5MB（分 HOST）的空间限制
+               ```
+
+             (2). 特点
+
+             - 专门为 `Web App`离线使用而开发的缓存机制
+
+             (3). 应用场景
+
+             - 存储静态文件（如`JS`、`CSS`、字体文件）
+             - 应用场景 同 浏览器缓存机制
+             - 但AppCache 是对 浏览器缓存机制 的补充，不是替代
+
+             (4).具体实现
+
+             - ```java
+                       // 通过设置WebView的settings来实现
+                       WebSettings settings = getSettings();
+                     
+                       String cacheDirPath = context.getFilesDir().getAbsolutePath()+"cache/";
+                       settings.setAppCachePath(cacheDirPath);
+                       // 1. 设置缓存路径
+                     
+                        settings.setAppCacheMaxSize(20*1024*1024);
+                       // 2. 设置缓存大小
+                     
+                       settings.setAppCacheEnabled(true);
+                       // 3. 开启Application Cache存储机制
+                   
+               // 特别注意
+               // 每个 Application 只调用一次 WebSettings.setAppCachePath() 和
+                WebSettings.setAppCacheMaxSize()
+               ```
+
+           - `Dom Storage` 缓存机制
+
+             (1). 原理
+
+             - 通过存储字符串的 `Key - Value` 对来提供
+             - `DOM Storage` 分为 `sessionStorage` & `localStorage`； 二者使用方法基本相同，区别在于作用范围不同
+             - `sessionStorage`：具备临时性，即存储与页面相关的数据，它在页面关闭后无法使用
+             - `localStorage`：具备持久性，即保存的数据在页面关闭后也可以使用
+
+             (2). 特点
+
+             - 存储空间大（ 5MB）：存储空间对于不同浏览器不同，如Cookies 才 4KB
+             - 存储安全、便捷： `Dom Storage` 存储的数据在本地，不需要经常和服务器进行交互
+
+             (3). 应用场景
+
+             - 存储临时、简单的数据
+             - `Dom Storage` 机制类似于 `Android` 的 `SharedPreference`机制
+
+             (4). 具体实现
+
+             - ```java
+                       // 通过设置 `WebView`的`Settings`类实现
+                       WebSettings settings = getSettings();
+                     
+                       settings.setDomStorageEnabled(true);
+                       // 开启DOM storage
+               ```
+
+           - `Web SQL Database` 缓存机制（不在维护，不推荐使用）
+
+             (1).原理
+
+             - 基于 `SQL` 的数据库存储机制
+
+             (2).特点
+
+             - 充分利用数据库的优势，可方便对数据进行增加、删除、修改、查询
+
+             (3).特点
+
+             - 存储适合数据库的结构化数据
+
+             (4).具体实现
+
+             - ```java
+                       // 通过设置WebView的settings实现
+                       WebSettings settings = getSettings();
+                     
+                       String cacheDirPath = context.getFilesDir().getAbsolutePath()+"cache/";
+                       settings.setDatabasePath(cacheDirPath);
+                       // 设置缓存路径
+                     
+                       settings.setDatabaseEnabled(true);
+                       // 开启 数据库存储机制
+                     
+               ```
+
+           - `Indexed Database` 缓存机制
+
+             (1).原理
+
+             - 属于 `NoSQL` 数据库，通过存储字符串的 `Key - Value` 对来提供
+             - 类似于 `Dom Storage 存储机制` 的`key-value`存储方式
+
+             (2).特点
+
+             - ![](./reference_graph/944365-0237085ddd823faa.webp)
+
+             (3).应用场景
+
+             - 存储 复杂、数据量大的结构化数据
+
+             (4).具体实现
+
+             - ```java
+               // 通过设置WebView的settings实现
+                       WebSettings settings = getSettings();
+               
+                       settings.setJavaScriptEnabled(true);
+                       // 只需设置支持JS就自动打开IndexedDB存储机制
+                       // Android 在4.4开始加入对 IndexedDB 的支持，只需打开允许 JS 执行的开关就好了。
+               ```
+
+               
+
+           - `File System` 缓存机制（`H5`页面新加入的缓存机制，虽然`Android WebView`暂时不支持，但会进行简单介绍）
+
+             (1).原理
+
+             - 为 `H5`页面的数据 提供一个虚拟的文件系统
+             - 可进行文件（夹）的创建、读、写、删除、遍历等操作，就像 `Native App` 访问本地文件系统一样
+             - 虚拟的文件系统是运行在沙盒中
+               - 临时的存储空间：由浏览器自动分配，但可能被浏览器回收
+               - 持久性的存储空间：需要显式申请；自己管理（浏览器不会回收，也不会清除内容）；存储空间大小通过配额管理，首次申请时会一个初始的配额，配额用完需要再次申请
+             - 不同 `WebApp` 的虚拟文件系统是互相隔离的，虚拟文件系统与本地文件系统也是互相隔离的。
+
+             (2).特点
+
+             - 可存储数据体积较大的二进制数据
+             - 可预加载资源文件
+             - 可直接编辑文件
+
+             (3).应用场景
+
+             - 通过文件系统 管理数据
+
+             (4).具体使用
+
+       - 缓存模式
+
+         - 加载网页时如何读取之前保存到本地的网页缓存
+
+         - webview自带4中缓存模式
+
+           (1).LOAD_CACHE_ONLY: 不使用网络，只读取本地缓存数据
+
+           (2).LOAD_NO_CACHE: 不使用缓存，只从网络获取数据.
+
+           (3).LOAD_DEFAULT: （默认）根据cache-control决定是否从网络上取数据。
+
+           (4).LOAD_CACHE_ELSE_NETWORK，只要本地有，无论是否过期，或者no-cache，都使用缓存中的数据。
+
+         - 具体使用
+
+           ```java
+           WebView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+           // 设置参数即可
+           ```
+
+     - 资源预加载
+
+       (1).定义
+
+       - 提早加载将需使用的H5页面，即 **提前构建缓存**
+
+       (2).具体实现
+
+       - [预加载`WebView`对象](https://www.jianshu.com/p/09ae5367e53b) & 预加载`H5`资源 
+       - ![](./reference_graph/944365-c14d7fef491bb587.webp)
+       - 在应用启动、初始化第一个`WebView`对象时，直接开始网络请求加载`H5`页面
+
+     - 资源拦截
+
+       (1).事先将更新频率较低、常用 & 固定的`H5`静态资源 文件（如`JS`、`CSS`文件、图片等） 放到本地
+
+       (2).拦截`H5`页面的资源网络请求 并进行检测
+
+       (3).如果检测到本地具有相同的静态资源 就 直接从本地读取进行替换 而 不发送该资源的网络请求 到 服务器获取
+
+       ```java
+       // 假设现在需要拦截一个图片的资源并用本地资源进行替代
+       
+               mWebview.setWebViewClient(new WebViewClient() {
+                   // 重写 WebViewClient  的  shouldInterceptRequest （）
+                   // API 21 以下用shouldInterceptRequest(WebView view, String url)
+                   // API 21 以上用shouldInterceptRequest(WebView view, WebResourceRequest request)
+                   // 下面会详细说明
+       
+                    // API 21 以下用shouldInterceptRequest(WebView view, String url)
+                   @Override
+                   public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
+       
+                       // 步骤1:判断拦截资源的条件，即判断url里的图片资源的文件名
+                       if (url.contains("logo.gif")) {
+                       // 假设网页里该图片资源的地址为：http://abc.com/imgage/logo.gif
+                       // 图片的资源文件名为:logo.gif
+       
+                           InputStream is = null;
+                           // 步骤2:创建一个输入流
+       
+                           try {
+                               is =getApplicationContext().getAssets().open("images/abc.png");
+                               // 步骤3:获得需要替换的资源(存放在assets文件夹里)
+                               // a. 先在app/src/main下创建一个assets文件夹
+                               // b. 在assets文件夹里再创建一个images文件夹
+                               // c. 在images文件夹放上需要替换的资源（此处替换的是abc.png图片）
+       
+                           } catch (IOException e) {
+                               e.printStackTrace();
+                           }
+       
+                           // 步骤4:替换资源
+                           WebResourceResponse response = new WebResourceResponse("image/png",
+                                   "utf-8", is);
+                           // 参数1：http请求里该图片的Content-Type,此处图片为image/png
+                           // 参数2：编码类型
+                           // 参数3：存放着替换资源的输入流（上面创建的那个）
+                           return response;
+                       }
+       
+                       return super.shouldInterceptRequest(view, url);
+                   }
+       
+                   
+                  // API 21 以上用shouldInterceptRequest(WebView view, WebResourceRequest request)
+                   @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+                   @Override
+                   public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+       
+                      // 步骤1:判断拦截资源的条件，即判断url里的图片资源的文件名
+                       if (request.getUrl().toString().contains("logo.gif")) {
+                       // 假设网页里该图片资源的地址为：http://abc.com/imgage/logo.gif
+                       // 图片的资源文件名为:logo.gif
+       
+                           InputStream is = null;
+                           // 步骤2:创建一个输入流
+       
+                           try {
+                               is = getApplicationContext().getAssets().open("images/abc.png");
+                                // 步骤3:获得需要替换的资源(存放在assets文件夹里)
+                               // a. 先在app/src/main下创建一个assets文件夹
+                               // b. 在assets文件夹里再创建一个images文件夹
+                               // c. 在images文件夹放上需要替换的资源（此处替换的是abc.png图片
+       
+                           } catch (IOException e) {
+                               e.printStackTrace();
+                           }
+       
+                           // 步骤4:替换资源
+                           WebResourceResponse response = new WebResourceResponse("image/png",
+                                   "utf-8", is);
+                           // 参数1：http请求里该图片的Content-Type,此处图片为image/png
+                           // 参数2：编码类型
+                           // 参数3：存放着替换资源的输入流（上面创建的那个）
+                           return response;
+                       }
+                       return super.shouldInterceptRequest(view, request);
+                   }
+       
+           });
+       
+       }
+       
+       ```
+
+       
+
+     
 
 #### 12.ANR
 
@@ -2044,8 +2905,80 @@
   - onDraw: 往View上绘制图像。
 
   - ![](./reference_graph/w7rt5euzw7.png)
+  
+- View控件获取宽高为0 处理
 
+  - 原因
 
+    - View 的 measure 过程和 Activity 的生命周期方法不是同步执行的，因此无法保证 Activity 执行了onCreate、onStart、onResume时某个 View 已经测量完毕
+
+  - 解决方案
+
+    1. Activity/View#onWindowFocusChanged
+
+       - ```java
+         @Override
+             public void onWindowFocusChanged(boolean hasFocus) {
+                 super.onWindowFocusChanged(hasFocus);
+                 if (hasFocus){
+                     int width = btn_weak.getMeasuredWidth();
+                     int height = btn_weak.getMeasuredHeight();
+                 }
+             }
+         ```
+
+       - 需要注意的是当Activity失去焦点和获得焦点的时候  `onWindowFocusChanged()`方法是会被多次调用的。
+
+    2. 监听Draw/Layout事件：ViewTreeObserver
+
+       - ```java
+         ViewTreeObserver observer = view.getViewTreeObserver();
+           observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+             @Override
+             public void onGlobalLayout() {
+                         btn_weak.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                 int width = view.getWidth();
+                 int height = view.getHeight();
+                  }
+                 });
+         ```
+
+       - 伴随着 View 树的状态改变等，onGlobalLayout会被调用多次
+
+    3. View.post(runnable)，推荐使用
+
+       - ```java
+         view.post(new Runnable() {
+                     @Override
+                     public void run() {
+                         int width = view.getWidth();
+                        int height = view.getHeight();
+                     }
+                 });
+         ```
+
+    4. 重写View的onlayout方法
+
+       - ```java
+         view = new View(this) {
+             @Override
+             protected void onLayout(boolean changed, int l, int t, int r, int b) {
+                 super.onLayout(changed, l, t, r, b);
+                 view.getHeight(); //height is ready
+             }
+         };
+         ```
+
+       - 只在某些场景中实用，比如当你所要执行的东西应该作为他的内在逻辑被内聚、模块化在view中，否者这个解决方案就显得十分冗长和笨重
+
+    5. 获取View固定宽高
+
+       - ```java
+         View.getMeasureWidth()
+         View.getMeasureHeight()    
+         //view想要在父View中占用多少width和height和绘制完成后的实际大小可能有所区别
+             
+         ```
 
 #### 13-2.自定义View注意事项
 
@@ -2060,6 +2993,122 @@
 - View中如果有线程或者动画，需要及时停止，`onDetachedFromWindow`方法中去停止，不处理会导致内存泄漏
 - View带有滑动嵌套时，需要处理好滑动冲突问题
 - 在View的`onDraw`方法中不要创建太多的临时对象，也就是new出来的对象。因为`onDraw`方法会被频繁调用，如果有大量的临时对象，就会引起内存抖动，影响View的效果
+
+#### 13-3.SurfaceView和View
+
+##### (1).它们之间的不同
+
+- 普通View都是共享一个Surface的，所有的绘制也都在UI线程中进行，因为UI线程还要处理其他逻辑，因此对View的更新速度和绘制帧率无法保证
+- SurfaceView持有一个单独的Surface，它负责管理这个Surface的格式、尺寸以及显示位置，它的Surface绘制也在单独的线程中进行，因而拥有更高 的绘制效率和帧率
+
+##### (2).SurfaceView应用场景
+
+- 那些资源敏感的操作，或者那些要求快速更新或者高速帧率的地方
+- 使用3D图形，创建游戏，或者实时预览摄像头
+
+##### (3).SurfaceView创建
+
+- 创建一个新的扩展了SurfaceView的类，并实现SurfaceHolder.Callback
+
+- SurfaceHolder回调可以在底层的Surface被创建和销毁的时候通知View，并传递给它对SurfaceHolder对象的引用，其中包含了当前有效的Surface
+
+- ```java
+  import android.content.Context;  
+  import android.graphics.Canvas;  
+  import android.view.SurfaceHolder;  
+  import android.view.SurfaceView;  
+   
+  public class MySurfaceView extends SurfaceView implements SurfaceHolder. Callback {  
+   
+    private SurfaceHolder holder;  
+    private MySurfaceViewThread mySurfaceViewThread;  
+    private boolean hasSurface;  
+   
+    MySurfaceView(Context context) {  
+      super(context);  
+      init();  
+    }  
+     
+    private void init() {  
+      //创建一个新的SurfaceHolder， 并分配这个类作为它的回调(callback)  
+      holder = getHolder();  
+      holder.addCallback(this);  
+      hasSurface = false;  
+    }  
+   
+    public void resume() {  
+      //创建和启动图像更新线程  
+      if (mySurfaceViewThread == null) {  
+        mySurfaceViewThread = new MySurfaceViewThread();  
+        if (hasSurface == true)  
+          mySurfaceViewThread.start();  
+      }  
+    }  
+   
+    public void pause() {  
+      // 杀死图像更新线程  
+      if (mySurfaceViewThread != null) {  
+        mySurfaceViewThread.requestExitAndWait();  
+        mySurfaceViewThread = null;  
+      }  
+    }  
+   
+    public void surfaceCreated(SurfaceHolder holder) {  
+      hasSurface = true;  
+      if (mySurfaceViewThread != null)  
+        mySurfaceViewThread.start();  
+    }  
+   
+    public void surfaceDestroyed(SurfaceHolder holder) {  
+      hasSurface = false;  
+      pause();  
+    }  
+   
+    public void surfaceChanged(SurfaceHolder holder,int format,int w,int h) {  
+      if (mySurfaceViewThread != null)  
+        mySurfaceViewThread.onWindowResize(w, h);  
+    }  
+   
+    class MySurfaceViewThread extends Thread {  
+      private boolean done;  
+   
+      MySurfaceViewThread() {  
+        super();  
+        done = false;  
+      }  
+   
+      @Override  
+      public void run() {  
+        SurfaceHolder surfaceHolder = holder;  
+   
+        // 重复绘图循环，直到线程停止  
+        while (!done) {  
+          // 锁定surface，并返回到要绘图的Canvas  
+          Canvas canvas = surfaceHolder.lockCanvas();  
+   
+          // 待实现：在Canvas上绘图  
+   
+          // 解锁Canvas，并渲染当前图像  
+          surfaceHolder.unlockCanvasAndPost(canvas);  
+        }  
+      }  
+   
+      public void requestExitAndWait() {  
+        // 把这个线程标记为完成，并合并到主程序线程  
+        done = true;  
+        try {  
+          join();  
+        } catch (InterruptedException ex) { }  
+      }  
+   
+      public void onWindowResize(int w, int h) {  
+        // 处理可用的屏幕尺寸的改变  
+      }  
+    }  
+  }
+  ```
+
+  
 
 
 
@@ -2097,12 +3146,215 @@
 
 
 
-#### 15.热修复原理
+#### 15.热修复原理   
 
-- java虚拟机（jvm）加载的类class，android虚拟机（dalvik/art vm）加载的是dex文件
-- 它们加载类的时候都要用到一个类classloader,classloader有一个子类basedexclassloader中有个数组dexpathlist用来存放dex文件
-- basedexclassloader通过调用findclass，实际上就是遍历数组，找对应的dex文件然后return
-- 热修复的方法就是将新的dex添加到数组中去，在旧的dex之前，优先返回
+##### (1).[全面解析 Android 热修复原理](https://zhuanlan.zhihu.com/p/75465215)
+
+##### (2).热修复和插件化
+
+- 相同
+  - 都是动态加载 dex／apk 中的类／资源
+- 不同
+  - 两者的目的不同
+  - 插件化目标在于加载 activity 等组件，达到动态下发组件的功能
+  - 热修复目标在修复已有的问题
+  - 插件化重在解决组件的生命周期，以及资源的问题
+  - 热修复重在解决替换已有的有问题的类／方法／资源等
+
+##### (3).ClassLoader
+
+- java中的ClassLoader：就是类加载器
+
+- android中的ClassLoader：统称dex文件
+
+  - 包含 dex 的 apk 文件以及 jar 文件为 dex 文件PathClassLoader用来加载系统类和应用程序类
+
+  -  dex2oat 生成的 odex 文件只能放在系统的默认目录
+
+  - DexClassLoader 用来加载 dex 文件，可以从存储空间加载 dex 文件，可以指定 odex 文件的存放目录
+
+    
+
+##### (4).如何加载插件中的类
+
+- 首先要创建一个 DexClassLoader
+
+- ```java
+  public class DexClassLoader extends BaseDexClassLoader {
+      public DexClassLoader(String dexPath, String optimizedDirectory, String librarySearchPath, ClassLoader parent) {
+          // ...
+      }
+  }
+  
+  dexPath 是需要加载的 dex / apk / jar 文件路径
+  optimizedDirectory 是 dex 优化后存放的位置，在 ART 上，会执行 oat 对 dex 进行优化，生成机器码，这里就是存放优化后的 odex 文件的位置
+  ibrarySearchPath 是 native 依赖的位置
+  parent 就是父类加载器，默认会先从 parent 加载对应的类
+  
+  ```
+
+- 创建出 DexClassLaoder 实例以后，只要调用其 loadClass(className) 方法就可以加载插件中的类了
+
+- ```java
+  // 从 assets 中拿出插件 apk 放到内部存储空间
+      private fun extractPlugin() {
+          var inputStream = assets.open("plugin.apk")
+          File(filesDir.absolutePath, "plugin.apk").writeBytes(inputStream.readBytes())
+      }
+  
+      private fun init() {
+          extractPlugin()
+          pluginPath = File(filesDir.absolutePath, "plugin.apk").absolutePath
+          nativeLibDir = File(filesDir, "pluginlib").absolutePath
+          dexOutPath = File(filesDir, "dexout").absolutePath
+          // 生成 DexClassLoader 用来加载插件类
+          pluginClassLoader = DexClassLoader(pluginPath, dexOutPath, nativeLibDir, this::class.java.classLoader)
+      }
+  ```
+
+##### (5).热修复需要解决的难点
+
+- 需要考虑的就是如何能将问题的方法／类／资源／so 替换为补丁中的新方法／类／资源／so
+
+##### (6).热修复场景
+
+- 热修复就是在`APP`上线以后，如果突然发现有缺陷了，如果重新走发布流程可能时间比较长，热修复就是通过发布一个插件，使`APP`运行的时候加载插件里面的代码，从而解决缺陷
+
+##### (7).android类运行流程
+
+1. `Android`程序编译的时候，会将.`java`文件编译时.`class`文件
+2. 然后将.`class`文件打包为.`dex`文件
+3. 然后`Android`程序运行的时候，`Android`的`Dalvik/ART`虚拟机就加载.`dex`文件
+4. 加载其中的.`class`文件到内存中来使用
+
+##### (8).Android中的类加载器
+
+1. `BootClassLoader` ：加载`Android Framework`层中的`class`字节码文件（类似`java`的`Bootstrap`
+   `ClassLoader`）
+2. `PathClassLoader` ：加载已经安装到系统中的`Apk`的 `class` 字节码文件（类似`java`的 `App`
+   `ClassLoader` ）
+3. `DexClassLoader` ：加载制定目录的`class`字节码文件（类似`java`中的 `Custom ClassLoader` ）
+4. `BaseDexClassLoader` ： `PathClassLoader` 和 `DexClassLoader` 的父类
+
+##### (9).热修复原理
+
+1. 看看 `BaseDexClassLoader` 的 `findClass()` 方法都做了哪些操作
+
+   - ```java
+     private final DexPathList pathList;
+     @Override
+     protected Class<?> findClass(String name) throws ClassNotFoundException {
+      List<Throwable> suppressedExceptions = new ArrayList<Throwable>();
+      // 实质是通过pathList的对象findClass()方法来获取class
+      Class c = pathList.findClass(name, suppressedExceptions);
+      if (c == null) {
+      ClassNotFoundException cnfe = new ClassNotFoundException("Didn't find class \"" + name
+      for (Throwable t : suppressedExceptions) {
+      cnfe.addSuppressed(t);
+      }
+      throw cnfe;
+      }
+      return c;
+     }
+     
+     ```
+
+   - BaseDexClassLoader 的 findClass() 方法实际上是通过 DexPathList 的 findClass() 方法来
+     获取class的，而这个 DexPathList 对象恰好在之前的 BaseDexClassLoader 构造函数中就已经被创建
+     好了，里面解析了dex文件的路径，并将解析的dex文件都存在this.dexElements里面。所以，下面就来看看 DexPathList 类中都做了什么。
+
+2. **认识Element集合之DexPathList**
+
+   - ```java
+     
+     public DexPathList(ClassLoader definingContext, String dexPath, String libraryPath, File optimizedDirectory) {
+     …
+         //将解析的dex文件都存在this.dexElements里面
+         this.dexElements = makeDexElements(splitDexPath(dexPath), optimizedDirectory);
+         this.dexElements = makeDexElements(splitDexPath(dexPath), optimizedDirectory,suppressedExceptions)
+     }
+     
+      //解析dex文件
+     private static Element[] makeDexElements(ArrayList<File> files, File optimizedDirectory, ArrayList<I
+      // 1.创建Element集合
+      ArrayList<Element> elements = new ArrayList<Element>();
+      // 2.遍历所有dex文件（也可能是jar、apk或zip文件）
+      for (File file : files) {
+      ZipFile zip = null;
+      DexFile dex = null;
+      String name = file.getName();
+      ...
+      // 如果是dex文件
+      if (name.endsWith(DEX_SUFFIX)) {
+      dex = loadDexFile(file, optimizedDirectory);
+      // 如果是apk、jar、zip文件（这部分在不同的Android版本中，处理方式有细微差别）
+      } else {
+      zip = file;
+      dex = loadDexFile(file, optimizedDirectory);
+      }
+      ...
+      // 3.将dex文件或压缩文件包装成Element对象，并添加到Element集合中
+      if ((zip != null) || (dex != null)) {
+      elements.add(new Element(file, false, zip, dex));
+      }
+      }
+      // 4.将Element集合转成Element数组返回
+      return elements.toArray(new Element[elements.size()]);
+     }
+     
+     
+     ```
+
+   - 通过分析`DexPathList` 的`makeDexElements`方法，你会发现，`DexPathList` 的构造函数是将一个个的程序文件（可能是`dex、apk、jar、zip`）封装成一个个 `Element` 对象，最后添加到`Element`集合中
+
+   - ```java
+     DexPathList也是重写findClass()方法
+     
+      @Override
+         protected Class<?> findClass(String name) throws ClassNotFoundException {
+             List<Throwable> suppressedExceptions = new ArrayList<Throwable>();
+             // 使用pathList对象查找name类
+             Class c = pathList.findClass(name, suppressedExceptions);
+             return c;
+         }
+     
+     
+     public Class findClass(String name, List<Throwable> suppressed) {
+         // 遍历从dexPath查询到的dex和资源Element
+         for (Element element : dexElements) {
+             DexFile dex = element.dexFile;
+             // 如果当前的Element是dex文件元素
+             if (dex != null) {
+                 // 使用DexFile.loadClassBinaryName加载类
+                 Class clazz = dex.loadClassBinaryName(name, definingContext, suppressed);
+                 if (clazz != null) {
+                     return clazz;
+                 }
+             }
+         }
+         if (dexElementsSuppressedExceptions != null) {
+             suppressed.addAll(Arrays.asList(dexElementsSuppressedExceptions));
+         }
+         return null;
+     }
+     
+     
+     ```
+
+3. 总结
+
+   - 类加载器`BaseDexClassLoader`先将`dex`文件解析放到`pathList`到`dexElements`里面
+   - 加载类的时候从`dexElements`里面去遍历，看哪个`dex`里面有这个类就去加载，生成`class`对象
+   - 所以我们可以将自己的`dex`文件加载到`dexElements`里面，并且放在前面，加载的时候就可以加载我们插件中的类，不会加载后面的,从而替换掉原来的`class`
+
+##### (10). 常见的热修复组件
+
+1. Tinker：微信  （全量替换 dex）
+2. Robust：美团 （Dex插桩）
+3. Qzone：QQ空间
+4. 阿里的AndFix  （底层替换方案类似反射 ）
+
+
 
 
 
@@ -2138,7 +3390,28 @@
 - 响应优化
 
   - 页面布局过于复杂
+
   - UI线程过于复杂
+
+    (1).什么是UI卡顿？
+
+    - UI在更新期间，如果UI线程的执行时间超过16ms，则会产生丢帧的现象，而大量的丢帧就会造成卡顿，影响用户体验
+
+    (2).UI卡顿产生的原因
+
+    - UI线程中做了大量的耗时操作，导致了UI刷新工作的阻塞
+    - 系统CPU资源紧张，APP所能分配的时间片减少
+    - Ardroid虚拟机频繁的执行GC操作，导致占用了大量的系统资源，同时也会导致UI线程的短暂停顿，从而产生卡顿
+    - 代码编写不当，产生了过度绘制，导致CPU执行时间变长，造成卡顿
+
+    (3).UI卡顿解决方案
+
+    - 开发阶段
+      - [System Trace](https://blog.csdn.net/u011578734/article/details/109497064)  
+      - [Android Profiler](https://blog.csdn.net/Calvin_zhou/article/details/119681272)
+    - 线上UI卡顿检测方案
+      - BlockCanary
+
   - 频繁的GC，大量的对象被创建又在短时间内被销毁
 
 - 内存优化
@@ -2154,133 +3427,777 @@
     - 不用的图片记得recycle()
     - 图片压缩：质量压缩，采样率压缩，缩放压缩，RGB_565(ALPHA_8,ARGB_4444,ARGB_8888,RGB_565)
   - 网络缓存
+  
+- 性能分析工具
+
+  - **TraceView**
+    - 图形化的方式让我们了解我们要跟踪的程序的性能，并且能具体到方法。用来展示和分析方法的执行时间
+  - **StrictMode**
+    - 主要用来检测程序中违例情况的开发者工具
+    - 一般用来检测主线程中的耗 时操作和阻塞
+  - **Systrace**
+    - 分析卡顿掉帧问题核心工具，只要能提供卡顿现场，systrace就能很好定位问题
+  - **Hierarchy Viewer**
+    - 主要是来查看布局层级，减少不必要的冗余的View。
+  - **AndroidStudio Profiler**
+  - method trace 抓取线程中执行的方法栈和方法耗时
 
 
 
 #### 18.handler机制---Looper、Handler、消息队列如何理解
 
 - ![](./reference_graph/24957777-841c41ac6d629ac6.webp)
-- 我们通过Looper.prepare()方法在当前线程创建了一个Looper对象，实际上创建了一个MessageQueue消息队列，所有的handler发送的消息都要进入这个队列
-- 线程内部负责处理业务逻辑，looper负责消息的存取查阅，其中messagequeue是消息的存储结构，单链表形式，looper负责消息的轮询，handler负责发送和处理消息
-- looper,线程,messagequeue是一一对应的，在不同的线程中它们各自有着对应的模块
-- 主线程中系统已经默认的给它创建了一个Looper对象
 
+##### (1).MainLooper和普通Looper区别，主线程创建Looper
 
+- ```java
+  Handler handler = new Handler(Looper.getMainLooper())
+  这个handler是可以改变UI的,其他的looper创建的handler是不允许改变UI线程的    
+  ```
+
+- 主线程创建Looper
+
+  ```java
+  //ActivityThead的main方法
+  public static void main(String[] args) {
+          ...
+          //loop调用了一个准备MainLooper方法（按照方法的名字意思翻译的）
+          Looper.prepareMainLooper();
+  
+          ...
+          ActivityThread thread = new ActivityThread();
+          thread.attach(false, startSeq);
+  
+          if (sMainThreadHandler == null) {
+              sMainThreadHandler = thread.getHandler();
+          }
+  
+          ...
+          //Looper调用loop()方法进入了循环模式
+          Looper.loop();
+          //如果走到这里，那就没有进入循环模式，就抛出异常了，异常字面意思很好理解，主线程的loop意外的退出了
+          throw new RuntimeException("Main thread loop unexpectedly exited");
+      }
+  
+      @Deprecated
+      public static void prepareMainLooper() {
+          //调用prepare方法，传了一个false的Boolean值
+          prepare(false);
+          //锁
+          synchronized (Looper.class) {
+              //sMainLooper不等于null，就抛异常
+              if (sMainLooper != null) {
+                  throw new IllegalStateException("The main Looper has already been prepared.");
+              }
+              //等于null，就把myLooper()方法的返回值赋值给sMainLooper
+              sMainLooper = myLooper();
+          }
+      }
+  
+      //prepare，一个Boolean类型的参数，看名字意思应该是：是否允许退出
+      private static void prepare(boolean quitAllowed) {
+          //sThreadLocal.get()值不等于null，就抛异常
+          if (sThreadLocal.get() != null) {
+              throw new RuntimeException("Only one Looper may be created per thread");
+          }
+          //sThreadLocal.get()值等于null，就new一个Looper，放到sThreadLocal中
+          sThreadLocal.set(new Looper(quitAllowed));
+      }
+      
+  
+      //sThreadLocal.get()的值返回回去
+      public static @Nullable Looper myLooper() {
+          return sThreadLocal.get();
+      }
+  
+  
+      //Looper的构造方法，我们此时主线程new的时候传的是false
+      private Looper(boolean quitAllowed) {
+          //新建了一个消息队列，MsgQueue，并且把这个boolean传进去了，赋值给mQueue变量
+          mQueue = new MessageQueue(quitAllowed);
+          //把当前线程赋值给了mThread变量
+          mThread = Thread.currentThread();
+      }
+      //消息队列的构造方法，Boolean类型的参数，到这里就应该知道了，表示这个线程是否允许退出，true：允许退出。false：不允许退出
+      MessageQueue(boolean quitAllowed) {
+          mQuitAllowed = quitAllowed;
+          //nativeInit():native方法，不知道是啥，应该是一些需要的初始化
+          mPtr = nativeInit();
+      }
+  
+  ```
+
+  - main启动的时候，这个线程就UI线程，这是系统规定的，只有在这个线程里面才能改变UI
+  - 最开始调用的prepareMainLooper()方法，然后调用` prepare(quitAllowed)`方法准备去创建Looper 
+  - prepare(quitAllowed)中先判断sThreadLocal中是否为空，为空就抛异常，不为空就通过`sThreadLocal.set(new Looper(quitAllowed))` 保存Looper
+  - `Looper(quitAllowed)`方法中创建`MessageQueue` 主线程创建的MessageQueue是不允许主动退出的，如果消息队列退出了，退出app了
+  - Looper的`mQueue，mThread`也都赋值好了，一个是消息队列，一个是当前线程(这两个变量用的也比较多)
+  - 最后判断sMainLooper 为空的话，抛出异常，不为空 通过`sMainLooper = sThreadLocal.get()` 方法获取
+
+##### (2).handler发送的消息过程
+
+- Message类
+
+  - ```java
+    public final class Message implements Parcelable {
+        public int what;
+        public int arg1;
+        public int arg2;
+        public Object obj;
+        ...
+        public long when;
+        @UnsupportedAppUsage
+        /*package*/ Handler target;
+        ...
+        @UnsupportedAppUsage
+        /*package*/ Message next;
+        /** @hide */
+        public static final Object sPoolSync = new Object();
+        private static Message sPool;
+        private static int sPoolSize = 0;
+        private static final int MAX_POOL_SIZE = 50;
+        .......
+     }
+    ```
+
+  - what：用来区分不同的消息种类
+
+  - arg1,arg2：可以传递数据，当需要传递的数据仅仅是int类型时，可以用arg1和arg2，而不需要使用复杂的obj和data
+
+  - obj：可以传递数据，可以传递任意的Object对象
+
+  - when：很重要，是消息放在队列哪个位置的重要依据。是放在队头？还是队尾？
+
+  - target：保存发送消息的Handler对象，可以在创建Message时指定，在后面会有用到target这个参数
+
+  - next：Message对象
+
+  - sPool：用于保存回收的Message消息对象
+
+  - sPoolSync 消息加锁用
+
+  - MAX_POOL_SIZE，消息池中最大消息是50
+
+- 看下Message.obtain()方法
+
+  - ```java
+    public static Message obtain() {
+            //加锁
+            synchronized (sPoolSync) {
+                //判断sPool是否为空
+                if (sPool != null) {
+                    //sPool不为空，就复用sPool msg对象
+                    Message m = sPool;
+                    //然后，把m的next赋值给sPool
+                    sPool = m.next;
+                    //然后，把已经去出去的msg的额next置空
+                    m.next = null;
+                    m.flags = 0; // clear in-use flag
+                    //这时候，消息池已经去出去了一条消息，消息池大小就减一
+                    sPoolSize--;
+                    return m;
+                }
+            }
+            //sPool为空，就new一个msg对象
+            return new Message();
+        }
+    ```
+
+  - 不需要重新创建消息，从消息池里面取出一条消息，赋值给我们需要创建的msg对象
+
+- handler流程
+
+  - ```java
+    Message msg = Message.obtain();
+    msg.what =1;
+    msg1.arg1 = 20;
+    handler.sendMessage(msg);
+    
+    
+       public final boolean sendMessage(@NonNull Message msg) {
+            return sendMessageDelayed(msg, 0);
+        }
+    
+        public final boolean sendMessageDelayed(@NonNull Message msg, long delayMillis) {
+            if (delayMillis < 0) {
+                delayMillis = 0;
+            }
+            return sendMessageAtTime(msg, SystemClock.uptimeMillis() + delayMillis);
+        }
+    
+        public boolean sendMessageAtTime(@NonNull Message msg, long uptimeMillis) {
+            MessageQueue queue = mQueue;
+            if (queue == null) {
+                RuntimeException e = new RuntimeException(
+                        this + " sendMessageAtTime() called with no mQueue");
+                Log.w("Looper", e.getMessage(), e);
+                return false;
+            }
+            return enqueueMessage(queue, msg, uptimeMillis);
+        }
+    
+        private boolean enqueueMessage(@NonNull MessageQueue queue, @NonNull Message msg,
+                long uptimeMillis) {
+            msg.target = this;
+            msg.workSourceUid = ThreadLocalWorkSource.getUid();
+    
+            if (mAsynchronous) {
+                msg.setAsynchronous(true);
+            }
+            return queue.enqueueMessage(msg, uptimeMillis);
+        }
+    
+    
+    ```
+
+  - `sendMessage()`--->`sendMessageDelayed()`--->`sendMessageAtTime()`--->`enqueueMessage()`
+
+  - `target`赋值当前handler
+
+  - 判断下是不是异步消息，提升消息优先级
+
+  - 最后调用`queue.enqueueMessage(msg, uptimeMillis)` 进入消息队列
+
+##### (3).MessageQueue怎么把这条消息放进队列的
+
+- ```java
+  boolean enqueueMessage(Message msg, long when) {
+          //判断有没有目标handler，如果没有，直接就抛异常，都没有这个目的地，我最后取出这条消息，我发给谁？所以，直接就抛异常
+          if (msg.target == null) {
+              throw new IllegalArgumentException("Message must have a target.");
+          }
+          //加锁，不加锁，如果很多消息同时需要加紧队列就会出问题
+          synchronized (this) {
+          //判断这条消息是否正在使用，如果正在使用，那也抛异常。为什么消息会正在使用呢？
+          //我们前面说了obtain方式消息是复用的，发送消息会并发，所以，是吧？
+          if (msg.isInUse()) {
+              throw new IllegalStateException(msg + " This message is already in use.");
+          }
+              //如果，当前msgQueue正在退出，把消息回收了。
+              //比方说，你新建线程请求网络，网络请求完，线程一般就会死掉了，线程都没有了，MsgQueue当然要退出了。
+              if (mQuitting) {
+                  IllegalStateException e = new IllegalStateException(
+                          msg.target + " sending message to a Handler on a dead thread");
+                  Log.w(TAG, e.getMessage(), e);
+                  msg.recycle();
+                  return false;
+              }
+              
+              //走到这里，消息就准备放进消息队列了，就是放在那里的问题
+              //给消息加个标记，表示消息正在使用。跟前面那个判断正好对应
+              msg.markInUse();
+              //这个时间，还记不记得？系统开机时间+你延时的时间
+              msg.when = when;
+              //把消息队列的当前消息赋值给p
+              Message p = mMessages;
+              //是否需要唤醒线程，唤醒跟休眠都是native方法。
+              boolean needWake;
+              //当前消息是空，说明当前消息队列没有消息，就直接把我们传递的这条消息加进队列
+              //我加进来的这条消息的执行时间是0，时间是不会有负数的，如果传进来是负数，都被改成0了，所以，我加的这条消息应该是最先执行的，所以，要加进队列
+              //加进来的这条消息的执行时间小于当前线程的执行时间，我加进来的这条消息执行的时间，比你当前消息队列循环的时间小，说明，我要在它的前面执行，要加进队列
+              //上面这个时间小的问题，你可以理解成，消息队列循环的时间是延时10秒处理的，我新进的这条消息是要延时5秒，所以，要放在它的前面
+              if (p == null || when == 0 || when < p.when) {
+                 //走到这里，说明新加消息需要放在队首 //我新加的消息放进来了之后，要把当前消息的后面，也就是我新加消息的next
+                  //因为，我新加的消息要在它的前面执行
+                  msg.next = p;
+                  //然后，把我新加消息赋值给当前消息变量
+                  mMessages = msg;
+                  needWake = mBlocked;
+              } else {
+           //走到这个else里面，就说明当前消息不需要放到队首，就循环判断看它要被放在哪 
+                  needWake = mBlocked && p.target == null && msg.isAsynchronous();
+                  Message prev;
+                  //进入死循环
+                  for (;;) {
+                      prev = p;
+                      p = p.next;
+                      //如果当前msg的下一个消息是空，表示没有消息了，for循环就要中止了，需要把新加消息放进来了
+                      //如果当前消息的下一条消息的执行时间在新加的执行时间的后面，说明，新加消息要在这条消息的前面执行。所以，for循环就要中止了，需要把新加消息放进来了
+                      if (p == null || when < p.when) {
+                          break;
+                      }
+                      if (needWake && p.isAsynchronous()) {
+                          needWake = false;
+                      }
+                  }
+                  //把当前消息放在新加消息的后面
+                  msg.next = p; 
+                  //把新加消息，放在当前执行消息的后面。此时，消息就插件队列了
+                  prev.next = msg;
+              }
+  
+              // We can assume mPtr != 0 because mQuitting is false.
+              //是否需要唤醒消息队列开始循环获取消息，是native层面做的事情。
+              if (needWake) {
+                  nativeWake(mPtr);
+              }
+          }
+          return true;
+      }
+  
+  ```
+
+- `if (p == null || when == 0 || when < p.when)` 来判断是否需要将消息插入到队首
+
+- **SystemClock.uptimeMillis() + delayMillis**，系统开机时间+你传递的延时时间
+
+##### (4).Looper读取消息
+
+- ```java
+  public static void loop() {
+          //获取当前线程的looper
+          final Looper me = myLooper();
+          //如果，等于null，就抛异常，看异常的消息就应该看的出来，说没有在当前线程调用Looper.prepare()方法
+          //Looper.prepare()这个方法就是创建Looper的
+          if (me == null) {
+              throw new RuntimeException("No Looper; Looper.prepare() wasn't called on this thread.");
+          }
+          
+          ...
+          
+          //获取当前线程的消息队列
+          final MessageQueue queue = me.mQueue;
+  
+          ...
+  
+          //进入死循环读取消息
+          for (;;) {
+              //读取队列中的下一条消息，可能会阻塞线程
+              Message msg = queue.next(); 
+              //如果，没有消息了，就退出循环，进入休眠状态
+              if (msg == null) {
+                  // No message indicates that the message queue is quitting.
+                  return;
+              }
+  
+              
+              ...
+              
+              //获取观察者模式的对象
+              final Observer observer = sObserver;
+  
+              ...
+              
+              Object token = null;
+              if (observer != null) {
+                  //这里应该是这个观察者对象发送了一个消息正在分发的消息
+                  token = observer.messageDispatchStarting();
+              }
+              
+              ...
+              
+              try {
+              //msg.target：是不是很眼熟？就是需要接收这条消息的handler //通过这个handler调用dispatchMessage方法，发送消息
+                  msg.target.dispatchMessage(msg);
+                  if (observer != null) {
+                     //然后，观察者发送一个消息分发完成的消息 
+                      observer.messageDispatched(token, msg);
+                  }
+                  dispatchEnd = needEndTime ? SystemClock.uptimeMillis() : 0;
+              } catch (Exception exception) {
+                  if (observer != null) {
+                     //如果出现了异常，这个观察者就发送一个消息分发异常的消息 
+                      observer.dispatchingThrewException(token, msg, exception);
+                  }
+                  throw exception;
+              } finally {
+                  ThreadLocalWorkSource.restore(origWorkSource);
+                  if (traceTag != 0) {
+                      Trace.traceEnd(traceTag);
+                  }
+              }
+              
+              ...
+              
+              //眼熟不？就是前面说的，消息回收，重复利用，就是在消息分发完成之后触发
+              msg.recycleUnchecked();
+          }
+      }
+  
+  
+  
+  public void dispatchMessage(@NonNull Message msg) {
+          //这个Message的callback是什么时候赋值的呢？就是创建Message的时候，可以回过头去看一下
+          if (msg.callback != null) {
+              handleCallback(msg);
+          } else {
+              if (mCallback != null) {
+                  if (mCallback.handleMessage(msg)) {
+                      return;
+                  }
+              }
+              //这个方法，眼熟吗？看下面，我们新建handler的时候，不就重写了这个方法吗？
+              handleMessage(msg);
+          }
+      }
+      
+      Handler handler = new Handler(Looper.getMainLooper()){
+          @Override
+          public void handleMessage(@NonNull Message msg) {
+              super.handleMessage(msg);
+          }
+      };
+  
+  
+  
+  
+  ```
+
+- for(;;)死循环去取消息
+
+- 调用handler`dispatchMessage()`方法发送消息，最终调用`handleMessage()`方法，也就是我们需要重写的方法
+
+##### (5).MessageQueue next()取出消息
+
+- ```java
+      @UnsupportedAppUsage
+      Message next() {
+          //通过注释翻译过来就是：loop已经退出了，或者应用正在尝试重启一个looper，就直接return null
+          final long ptr = mPtr;
+          if (ptr == 0) {
+              return null;
+          }
+  
+          int pendingIdleHandlerCount = -1; // -1 only during first iteration
+          //下一次的循环时间，单位是秒
+          int nextPollTimeoutMillis = 0;
+          //进入死循环
+          for (;;) {
+              if (nextPollTimeoutMillis != 0) {
+                  Binder.flushPendingCommands();
+              }
+              //就是底层C/C++经过这么长时间之后，触发一次循环
+              nativePollOnce(ptr, nextPollTimeoutMillis);
+  
+              synchronized (this) {
+                  // Try to retrieve the next message.  Return if found.
+                  final long now = SystemClock.uptimeMillis();
+                  Message prevMsg = null;
+                  Message msg = mMessages;
+                  //屏障消息的实质就是创建一条target为null的消息
+                  //看这里的if条件，正常的消息target不等于null，这里的判断是不会进入的
+                  if (msg != null && msg.target == null) {
+                      // Stalled by a barrier.  Find the next asynchronous message in the queue.
+                      //再看这里的do...while循环，退出的条件是找到一条不为空的异步消息。
+                      //msg.isAsynchronous():异步消息返回true，取反之后就是false，更前面&&，就是false，就退出do..while循环了
+                      do {
+                          prevMsg = msg;
+                          msg = msg.next;
+                      } while (msg != null && !msg.isAsynchronous());
+                  }
+                  
+                  //消息不为空
+                  if (msg != null) {
+                      //当前时间小于消息需要执行的时间，说明是延时消息。
+                      if (now < msg.when) {
+                          // Next message is not ready.  Set a timeout to wake up when it is ready.
+                          //修改这个下次循环的时间，前面说的native调用的时间，就是根据这个变量判断的。
+                          nextPollTimeoutMillis = (int) Math.min(msg.when - now, Integer.MAX_VALUE);
+                      } else {
+                          // Got a message.
+                          //否则就是一条实时消息，就是正常的赋值流程，返回这条消息给looper，然后发送出去
+                          mBlocked = false;
+                          if (prevMsg != null) {
+                              prevMsg.next = msg.next;
+                          } else {
+                              mMessages = msg.next;
+                          }
+                          msg.next = null;
+                          if (DEBUG) Log.v(TAG, "Returning message: " + msg);
+                          msg.markInUse();
+                          return msg;
+                      }
+                  } else {
+                      // No more messages.
+                      nextPollTimeoutMillis = -1;
+                  }
+  
+                  // Process the quit message now that all pending messages have been handled.
+                  if (mQuitting) {
+                      dispose();
+                      return null;
+                  }
+  
+                  // If first time idle, then get the number of idlers to run.
+                  // Idle handles only run if the queue is empty or if the first message
+                  // in the queue (possibly a barrier) is due to be handled in the future.
+                  if (pendingIdleHandlerCount < 0
+                          && (mMessages == null || now < mMessages.when)) {
+                      pendingIdleHandlerCount = mIdleHandlers.size();
+                  }
+                  if (pendingIdleHandlerCount <= 0) {
+                      // No idle handlers to run.  Loop and wait some more.
+                      mBlocked = true;
+                      continue;
+                  }
+  
+                  if (mPendingIdleHandlers == null) {
+                      mPendingIdleHandlers = new IdleHandler[Math.max(pendingIdleHandlerCount, 4)];
+                  }
+                  mPendingIdleHandlers = mIdleHandlers.toArray(mPendingIdleHandlers);
+              }
+  
+              // Run the idle handlers.
+              // We only ever reach this code block during the first iteration.
+              for (int i = 0; i < pendingIdleHandlerCount; i++) {
+                  final IdleHandler idler = mPendingIdleHandlers[i];
+                  mPendingIdleHandlers[i] = null; // release the reference to the handler
+  
+                  boolean keep = false;
+                  try {
+                      keep = idler.queueIdle();
+                  } catch (Throwable t) {
+                      Log.wtf(TAG, "IdleHandler threw exception", t);
+                  }
+  
+                  if (!keep) {
+                      synchronized (this) {
+                          mIdleHandlers.remove(idler);
+                      }
+                  }
+              }
+  
+              // Reset the idle handler count to 0 so we do not run them again.
+              pendingIdleHandlerCount = 0;
+  
+              // While calling an idle handler, a new message could have been delivered
+              // so go back and look again for a pending message without waiting.
+              nextPollTimeoutMillis = 0;
+          }
+      }
+  
+  ```
+
+- 先判断looper有没有，系统有没有重启，如果重启了，looper没有，那就直接返回一个null对象，Looper接收到了一个null对象，会直接return
+
+- 然后，判断是不是屏障消息(屏障消息消息的target等于null)，如果是屏障消息，就进行do…while循环，直到取出一条异步消息为止
+
+- 正常的判断消息，是同步消息还是延时消息，同步消息立刻返回，延时消息，修改再调用`nextPollTimeoutMillis`的值
+
+##### (5).异步，屏障消息
+
+```java
+//普通消息
+Message msg1 = Message.obtain(handler,new Runnable(){
+
+    @Override
+    public void run() {
+        Log.v("hcy","这是一条延时3秒的消息");
+    }
+});
+handler.sendMessageDelayed(msg1,3*1000);
+
+//异步屏障消息
+Message msg = Message.obtain(handler, new Runnable() {
+    @Override
+    public void run() {
+        Log.v("hcy","这是一条延时5秒的异步消息");
+        //异步消息处理完移除消息屏障
+        try {
+            Class<?> msgQueue = Class.forName("android.os.MessageQueue");
+            Method removeSyncBarrier = msgQueue.getDeclaredMethod("removeSyncBarrier", int.class);
+            removeSyncBarrier.invoke(Looper.myQueue(),token);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+});
+if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+    //异步消息
+    msg.setAsynchronous(true);
+}
+handler.sendMessageDelayed(msg,5*1000);
+try {
+    //启动消息屏障
+    Class<?> msgQueue = Class.forName("android.os.MessageQueue");
+    Method postSyncBarrier = msgQueue.getDeclaredMethod("postSyncBarrier");
+    token = (int) postSyncBarrier.invoke(Looper.myQueue());
+}catch (Exception e){
+    e.printStackTrace();
+}
+Log.v("hcy","两条消息都发送完了");
+```
+
+```java
+//执行消息屏障
+try {
+    Class<?> msgQueue = Class.forName("android.os.MessageQueue");
+    Method postSyncBarrier = msgQueue.getDeclaredMethod("postSyncBarrier");
+    token = (int) postSyncBarrier.invoke(Looper.myQueue());
+}catch (Exception e){
+    e.printStackTrace();
+}
+
+//移除消息屏障
+try {
+    Class<?> msgQueue = Class.forName("android.os.MessageQueue");
+    Method removeSyncBarrier = msgQueue.getDeclaredMethod("removeSyncBarrier", int.class);
+    removeSyncBarrier.invoke(Looper.myQueue(),token);
+}catch (Exception e){
+    e.printStackTrace();
+}
+```
 
 #### 19.handler机制---ThreadLocal
 
-- ThreadLocal
+##### (1).简介
 
-  并不是线程，它的作用是可以在每个线程中存储数据
+- 是一个将在多线程中为每一个线程创建单独的变量副本的类
+- 当使用ThreadLocal来维护变量时, ThreadLocal会为每个线程创建单独的变量副本, 避免因多线程操作共享变量而导致的数据不一致的情况
 
-- 基本使用
+##### (2).ThreadLocal原理，如何实现线程隔离
 
-  当某些数据是以线程为作用域并且不同线程具有不同的数据副本的时候，就可以考虑采用ThreadLocal
+- 首先获取当前线程对象t, 然后从线程t中获取到ThreadLocalMap的成员属性threadLocals
+
+- 如果当前线程的threadLocals已经初始化(即不为null) 并且存在以当前ThreadLocal对象为Key的值, 则直接返回当前线程要获取的对象
+
+- 如果当前线程的threadLocals已经初始化(即不为null)但是不存在以当前ThreadLocal对象为Key的的对象, 那么重新创建一个对象, 并且添加到当前线程的threadLocals Map中,并返回
+
+- 能够实现变量的多线程隔离了; 其实就是用了Map的数据结构给当前线程缓存了, 要使用的时候就从本线程的threadLocals对象中获取就可以了, key就是当前线程
 
 - ```java
-  private ThreadLocal myThreadLocal = new ThreadLocal<String>() {
-      @Override
-      protected String initialValue() {
-          return "This is the initial value";
+  public T get() {
+      Thread t = Thread.currentThread();
+      ThreadLocalMap threadLocals = getMap(t);
+      if (threadLocals != null) {
+          ThreadLocalMap.Entry e = threadLocals.getEntry(this);
+          if (e != null) {
+              @SuppressWarnings("unchecked")
+              T result = (T)e.value;
+              return result;
+          }
       }
-  };
-  //myThreadLocal.set("初始值”); 保存值
-  //String threadLocalValue = (String) myThreadLocal.get(); 获取值
+      return setInitialValue();
+  }
+  
+  private T setInitialValue() {
+      T value = initialValue();
+      Thread t = Thread.currentThread();
+      ThreadLocalMap map = getMap(t);
+      if (map != null)
+          map.set(this, value);
+      else
+          createMap(t, value);
+      return value;
+  }
+  
+  
+  public void set(T value) {
+      Thread t = Thread.currentThread();
+      ThreadLocalMap map = getMap(t);
+      if (map != null)
+          map.set(this, value);
+      else
+          createMap(t, value);
+  }
   ```
 
-- 内存泄漏问题
+##### (3).ThreadLocalMap对象是什么
 
-  - ThreadLocalMap中的Entry中，ThreadLocal作为key，是作为弱引用进行存储的。当ThreadLocal不再被作为强引用持有时，会被GC回收，这时ThreadLocalMap对应的ThreadLocal就变成了null
-  - value值是强引用，可能就存在内存泄漏的隐患了，推荐使用ThreadLocal.remove() 清除
+- 它就是一个Map, 但是这个ThreadLocalMap与我们平时见到的Map有点不一样
 
+- 它没有实现Map接口
 
+- 它没有public的方法, 最多有一个default的构造方法, 因为这个ThreadLocalMap的方法仅仅在ThreadLocal类中调用, 属于静态内部类
 
-#### 20.handler机制---Message的发送与取出
+- ThreadLocalMap的Entry实现继承了WeakReference<ThreadLocal<?>>
 
-- 流程
+- 该方法仅仅用了一个Entry数组来存储Key, Value; Entry并不是链表形式, 而是每个bucket里面仅仅放一个Entry
 
-  - 新建handler，发送消息sendMessage
-  - 此时消息的创建obtain复用模式，后面可能会造成正在使用的异常，所以，需要加锁同步一下
-  - 然后，消息进队，target(目的地的handler)和when(执行的时间系统开机时间+延时时间)
-  - 判断的三个条件，是放进队首(队列中是空的，时间是0，时间在队列消息时间的前面)，还是队中(需要循环判断队列中是否还有消息和时间)
-  - 通过loop方法取出来消息，通过这个消息的target发送消息
-
-- Handler 发送消息的时候，不管是调用 `sendMessage`、`sendEmptyMessage`、`sendMessageDelayed` 还是其他发送一系列方法。最终都会调用 `sendMessageDelayed(Message msg, long delayMillis)` 方法
-
-- 消息加入
-
-  - 调用MessageQueue的enqueueMessage()方法，当消息进入到MessageQueue(消息队列)中时，已经按照等待时间进行了排序
+- ```java
+  private void set(ThreadLocal<?> key, Object value) {
   
-- 获取消息
-
-  - 调用MessageQueue中的next()方法
-
-- 异步，屏蔽消息
-
-  ```java
-  //普通消息
-  Message msg1 = Message.obtain(handler,new Runnable(){
+      // We don't use a fast path as with get() because it is at
+      // least as common to use set() to create new entries as
+      // it is to replace existing ones, in which case, a fast
+      // path would fail more often than not.
   
-      @Override
-      public void run() {
-          Log.v("hcy","这是一条延时3秒的消息");
-      }
-  });
-  handler.sendMessageDelayed(msg1,3*1000);
+      Entry[] tab = table;
+      int len = tab.length;
+      int i = key.threadLocalHashCode & (len-1);
   
-  //异步屏蔽消息
-  Message msg = Message.obtain(handler, new Runnable() {
-      @Override
-      public void run() {
-          Log.v("hcy","这是一条延时5秒的异步消息");
-          //异步消息处理完移除消息屏障
-          try {
-              Class<?> msgQueue = Class.forName("android.os.MessageQueue");
-              Method removeSyncBarrier = msgQueue.getDeclaredMethod("removeSyncBarrier", int.class);
-              removeSyncBarrier.invoke(Looper.myQueue(),token);
-          }catch (Exception e){
-              e.printStackTrace();
+      for (Entry e = tab[i];
+           e != null;
+           e = tab[i = nextIndex(i, len)]) {
+          ThreadLocal<?> k = e.get();
+  
+          if (k == key) {
+              e.value = value;
+              return;
           }
   
+          if (k == null) {
+              replaceStaleEntry(key, value, i);
+              return;
+          }
       }
-  });
-  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-      //异步消息
-      msg.setAsynchronous(true);
-  }
-  handler.sendMessageDelayed(msg,5*1000);
-  try {
-      //启动消息屏障
-      Class<?> msgQueue = Class.forName("android.os.MessageQueue");
-      Method postSyncBarrier = msgQueue.getDeclaredMethod("postSyncBarrier");
-      token = (int) postSyncBarrier.invoke(Looper.myQueue());
-  }catch (Exception e){
-      e.printStackTrace();
-  }
-  Log.v("hcy","两条消息都发送完了");
-  ```
-
-  ```java
-  //执行消息屏障
-  try {
-      Class<?> msgQueue = Class.forName("android.os.MessageQueue");
-      Method postSyncBarrier = msgQueue.getDeclaredMethod("postSyncBarrier");
-      token = (int) postSyncBarrier.invoke(Looper.myQueue());
-  }catch (Exception e){
-      e.printStackTrace();
+  
+      tab[i] = new Entry(key, value);
+      int sz = ++size;
+      if (!cleanSomeSlots(i, sz) && sz >= threshold)
+          rehash();
   }
   
-  //移除消息屏障
-  try {
-      Class<?> msgQueue = Class.forName("android.os.MessageQueue");
-      Method removeSyncBarrier = msgQueue.getDeclaredMethod("removeSyncBarrier", int.class);
-      removeSyncBarrier.invoke(Looper.myQueue(),token);
-  }catch (Exception e){
-      e.printStackTrace();
+  
+  
+  private Entry getEntry(ThreadLocal<?> key) {
+      int i = key.threadLocalHashCode & (table.length - 1);
+      Entry e = table[i];
+      if (e != null && e.get() == key)
+          return e;
+      else
+          return getEntryAfterMiss(key, i, e);
   }
   ```
 
+##### (4).ThreadLocal内存泄漏问题
 
+- ThreadLocalMap中的Entry中，ThreadLocal作为key，是作为弱引用进行存储的，如果value值是强引用，只有当thead线程退出以后,value的强引用链条才会断掉
+
+- 调用remove()方法清除
+
+- ```java
+  private void remove(ThreadLocal<?> key) {
+      //使用hash方式，计算当前ThreadLocal变量所在table数组位置
+      Entry[] tab = table;
+      int len = tab.length;
+      int i = key.threadLocalHashCode & (len-1);
+      //再次循环判断是否在为ThreadLocal变量所在table数组位置
+      for (Entry e = tab[i];
+           e != null;
+           e = tab[i = nextIndex(i, len)]) {
+          if (e.get() == key) {
+              //调用WeakReference的clear方法清除对ThreadLocal的弱引用
+              e.clear();
+              //清理key为null的元素
+              expungeStaleEntry(i);
+              return;
+          }
+      }
+  }
+  ```
+
+##### (5).使用方法
+
+- 每次使用完ThreadLocal都调用它的remove()方法清除数据
+
+- ```java
+    private ThreadLocal myThreadLocal = new ThreadLocal<String>() {
+        @Override
+        protected String initialValue() {
+            return "This is the initial value";
+        }
+    };
+    //myThreadLocal.set("初始值”); 保存值
+    //String threadLocalValue = (String) myThreadLocal.get(); 获取值
+  ```
+
+  
+
+
+
+#### 20.handler机制---Message的发送与取出 请看 18
 
 #### 21.handler机制---Message的回收机制
 
@@ -2454,6 +4371,8 @@
   - onCreateViewHolder() 生成为每个Item inflater出一个View，但是该方法返回的是一个ViewHolder
   - onBindViewHolder() 渲染数据到View中
   - getItemCount()共有多少个条目
+  - getItemViewType()方法是可以根据不同的*position*可以返回不同的类型;
+- [自己动手写RecyclerView的下拉刷新](https://juejin.cn/post/6844903518428479496)
 
 
 
@@ -2578,7 +4497,278 @@
   - 外观模式：OkHttpClient封装了很对类对象
   - 工厂模式：Socket的生产
 
-    
+##### (1).使用示例     [Okhttp 请求流程梳理 (超详细版)](https://www.cnblogs.com/huansky/p/11772402.html)
+
+1. 发起一个异步 GET 请求
+
+   - ```java
+     String url = "http://wwww.baidu.com";
+     OkHttpClient okHttpClient = new OkHttpClient();
+     final Request request = new Request.Builder()
+             .url(url)
+             .get()//默认就是GET请求，可以不写
+             .build();
+     Call call = okHttpClient.newCall(request);
+     call.enqueue(new Callback() {
+         @Override
+         public void onFailure(Call call, IOException e) {
+             Log.d(TAG, "onFailure: ");
+         }
+     
+         @Override
+         public void onResponse(Call call, Response response) throws IOException {
+             Log.d(TAG, "onResponse: " + response.body().string());
+         }
+     });
+     ```
+
+2. 发起一个同步 GET 请求
+
+   - ```java
+     String url = "http://wwww.baidu.com";
+     OkHttpClient okHttpClient = new OkHttpClient();
+     final Request request = new Request.Builder()
+             .url(url)
+             .build();
+     final Call call = okHttpClient.newCall(request);
+     new Thread(new Runnable() {
+         @Override
+         public void run() {
+             try {
+                 Response response = call.execute();
+                 Log.d(TAG, "run: " + response.body().string());
+             } catch (IOException e) {
+                 e.printStackTrace();
+             }
+         }
+     }).start();
+     ```
+
+3. 总结过程
+
+   - 先创建 OkHttpClient 实例
+   - 构造 Request 实例，传入 url 等相关参数
+   - 通过前两步中的实例对象构建 Call 对象
+   - 异步请求通过 Call#enqueue(Callback) 方法来提交异步请求，同步请求通过 Call#execute() 直接获取 Reponse
+
+4.  OkHttpClient
+
+   - ```java
+       public OkHttpClient() {
+         this(new Builder());
+       }
+     
+     public Builder() {
+           dispatcher = new Dispatcher();  // 调度器
+           protocols = DEFAULT_PROTOCOLS;  // 协议
+           connectionSpecs = DEFAULT_CONNECTION_SPECS; //传输层版本和连接协议
+           eventListenerFactory = EventListener.factory(EventListener.NONE);
+           proxySelector = ProxySelector.getDefault();
+           cookieJar = CookieJar.NO_COOKIES;    //cookie
+           socketFactory = SocketFactory.getDefault();
+           hostnameVerifier = OkHostnameVerifier.INSTANCE;
+           certificatePinner = CertificatePinner.DEFAULT;   //证书链
+           proxyAuthenticator = Authenticator.NONE;    //代理身份验证
+           authenticator = Authenticator.NONE;    //本地身份验证
+           connectionPool = new ConnectionPool();    //链接池 复用连接
+           dns = Dns.SYSTEM;   //域名
+           followSslRedirects = true;
+           followRedirects = true;   //本地重定向
+           retryOnConnectionFailure = true;
+           connectTimeout = 10_000;
+           readTimeout = 10_000;   //读取超时
+           writeTimeout = 10_000;  //写入超时
+           pingInterval = 0;
+     }
+     
+     ```
+
+5. Request
+
+   - ```java
+     Request(Builder builder) {
+         this.url = builder.url;
+         this.method = builder.method;
+         this.headers = builder.headers.build();
+         this.body = builder.body;
+         this.tag = builder.tag != null ? builder.tag : this;
+       }
+     ```
+
+##### (2).Call方法
+
+1. Call 接口内部提供了 Factory 工厂方法模式 (将对象的创建延迟到工厂类的子类去进行，从而实现动态配置)
+
+   - ```java
+     public interface Call extends Cloneable {
+       /** Returns the original request that initiated this call. */
+       Request request();
+     
+       /**
+        * Invokes the request immediately, and blocks until the response can be processed or is in
+        * error.*/
+       Response execute() throws IOException;
+     
+       /**
+        * Schedules the request to be executed at some point in the future.*/
+       void enqueue(Callback responseCallback);
+     
+       /** Cancels the request, if possible. Requests that are already complete cannot be canceled. */
+       void cancel();
+     
+       /**
+        * Returns true if this call has been either {@linkplain #execute() executed} or {@linkplain
+        * #enqueue(Callback) enqueued}. It is an error to execute a call more than once.
+        */
+       boolean isExecuted();
+     
+       boolean isCanceled();
+     
+       /**
+        * Create a new, identical call to this one which can be enqueued or executed even if this call
+        * has already been.
+        */
+       Call clone();
+     
+       interface Factory {
+         Call newCall(Request request);
+       }
+     }
+     ```
+
+##### (3).RealCall方法
+
+1. RealCall 继承自 Call，是真正发起请求的的实体类。RealCall 主要方法
+
+   - 同步请求 ：client.newCall(request).execute();
+   - 异步请求： client.newCall(request).enqueue();
+
+2. RealCall 具体实现
+
+   - ```java
+     //内部持有了 client，原始请求，以及请求事件回调 Listener 等
+     RealCall(OkHttpClient client, Request originalRequest, boolean forWebSocket) {
+         final EventListener.Factory eventListenerFactory = client.eventListenerFactory();
+     
+         this.client = client;
+         this.originalRequest = originalRequest;
+         this.forWebSocket = forWebSocket;
+         this.retryAndFollowUpInterceptor = new RetryAndFollowUpInterceptor(client, forWebSocket);
+     
+         // TODO(jwilson): this is unsafe publication and not threadsafe.
+         this.eventListener = eventListenerFactory.create(this);
+       }
+     
+     
+     //回调 Listener 的具体内容
+     public void fetchStart(Call call) {
+       }
+     
+       public void dnsStart(Call call, String domainName) {
+       }
+     
+       public void dnsEnd(Call call, String domainName, List<InetAddress> inetAddressList,
+           Throwable throwable) {
+       }
+     
+       public void connectStart(Call call, InetAddress address, int port) {
+       }
+     
+       public void secureConnectStart(Call call) {
+       }
+     
+       public void secureConnectEnd(Call call, Handshake handshake,
+           Throwable throwable) {
+       }
+     
+       public void connectEnd(Call call,  InetAddress address, int port, String protocol,
+           Throwable throwable) {
+       }
+     
+       public void requestHeadersStart(Call call) {
+       }
+     
+       public void requestHeadersEnd(Call call, Throwable throwable) {
+       }
+     
+       public void requestBodyStart(Call call) {
+       }
+     
+       public void requestBodyEnd(Call call, Throwable throwable) {
+       }
+     
+       public void responseHeadersStart(Call call) {
+       }
+     
+       public void responseHeadersEnd(Call call, Throwable throwable) {
+       }
+     
+       public void responseBodyStart(Call call) {
+       }
+     
+       public void responseBodyEnd(Call call, Throwable throwable) {
+       }
+     
+       public void fetchEnd(Call call, Throwable throwable) {
+       }
+     ```
+
+3. 异步请求的具体步骤
+
+   - ```java
+     // RealCall  
+     @Override public void enqueue(Callback responseCallback) {
+         synchronized (this) {
+           if (executed) throw new IllegalStateException("Already Executed");
+           executed = true;
+         }
+         captureCallStackTrace();
+         client.dispatcher().enqueue(new AsyncCall(responseCallback));
+       }
+     ```
+
+   - synchronized (this) 确保每个call只能被执行一次不能重复执行，如果想要完全相同的 call，可以调用如下方法：进行克隆
+
+     - ```java
+       @SuppressWarnings("CloneDoesntCallSuperClone") // We are a final type & this saves clearing state.
+       @Override public RealCall clone() {
+           return RealCall.newRealCall(client, originalRequest, forWebSocket);
+       }
+       ```
+
+   - 利用 dispatcher 调度器，来进行实际的执行 client.dispatcher().enqueue(new AsyncCall(responseCallback))，在上面的 OkHttpClient.Builder 可以看出已经初始化了 Dispatcher
+
+##### (4).Dispatcher
+
+1. Dispatcher 是 Okhttp 的调度器，用来管理控制请求的队列。内部通过线程池来确保队列的有序运行
+
+2. enqueue 方法的具体内容
+
+   - ```java
+     synchronized void enqueue(AsyncCall call) {
+         if (runningAsyncCalls.size() < maxRequests && runningCallsForHost(call) < maxRequestsPerHost) {
+           runningAsyncCalls.add(call);
+           executorService().execute(call);
+         } else {
+           readyAsyncCalls.add(call);
+         }
+       }
+     
+     
+     /** Ready async calls in the order they'll be run. */
+       private final Deque<AsyncCall> readyAsyncCalls = new ArrayDeque<>();
+     
+       /** Running asynchronous calls. Includes canceled calls that haven't finished yet. */
+       private final Deque<AsyncCall> runningAsyncCalls = new ArrayDeque<>();
+     
+       /** Running synchronous calls. Includes canceled calls that haven't finished yet. */
+       private final Deque<RealCall> runningSyncCalls = new ArrayDeque<>();
+     
+     ```
+
+   - 存在两个队列，一个是正在运行的队列 runningAsyncCalls,另一个是 readyAsyncCalls 队列
+
+   - 如果当前运行数小于最大运行数，并且当前请求的host小于最大请求个数，那么就会直接加入运行队列，并运行。如果超了，就会加入准备队列
 
 #### 31.Retrofit
 
@@ -3456,6 +5646,140 @@
   - `Service process`：服务进程
   - `Background process`:服务进程
   - `Empty process`：空进程
+
+
+
+#### 41.Vpn
+
+##### (1).什么是VPNService？ 
+
+- Android4.0（API 14）引入了VPNService的API，以便应用程序开发人员可以提供自己的VPN解决方案
+- 首次激活会有一个系统提示框，需要用户确认
+- [Android VpnService使用总结](https://github.com/asdzheng/vpnservices)
+
+##### (2).基本原理
+
+- 建立起了一条从设备到远端的VPN链接，那么数据包在设备上大致经历了如下四个过程的转换
+
+- ![](./reference_graph/vpnservices-trace.png)
+
+  a. 应用程序使用socket，将相应的数据包发送到真实的网络设备上。一般移动设备只有无线网卡，因此是发送到真实的WiFi设备上
+
+  b.Android系统通过iptables，使用NAT，将所有的数据包转发到TUN虚拟网络设备上去，端口是tun0
+
+  c. VPN程序通过打开/dev/tun设备，并读取该设备上的数据，可以获得所有转发到TUN虚拟网络设备上的IP包。因为设备上的所有IP包都会被NAT转成原地址是tun0端口发送的，所以也就是说你的VPN程序可以获得进出该设备的几乎所有的数据（也有例外，不是全部，比如回环数据就无法获得）
+
+  d. VPN数据可以做一些处理，然后将处理过后的数据包，通过真实的网络设备发送出去。为了防止发送的数据包再被转到TUN虚拟网络设备上，VPN程序所使用的socket必须先被明确绑定到真实的网络设备上去。(也就是防止上图中第4步再转到第2步，接下来会介绍几种绕过方式)
+
+##### (3).VPNService基本使用
+
+- ```xml
+  <service
+      android:name="com.shadowsocks.ShadowsocksVpnService"
+      android:permission="android.permission.BIND_VPN_SERVICE"
+      android:process=":shadowsocks">
+          <intent-filter>
+              <action android:name="android.net.VpnService" />
+          </intent-filter>
+  </service>
+  
+  ```
+
+- 在AndroidManifest.xml中定义服务的节点显式申明使用**“android.permission.BIND_VPN_SERVICE”**权限。
+
+- 客户程序一般要首先调用VpnService.prepare函数
+
+  ```java
+  //首次申请会弹一个提示框
+  Intent intent = VpnService.prepare(this);
+  if (intent != null) {
+    startActivityForResult(intent, 0);
+  } else {
+    onActivityResult(0, RESULT_OK, null);
+  }
+  
+  
+  protected void onActivityResult(int request, int result, Intent data) {
+    if (result == RESULT_OK) {
+      Intent intent = new Intent(this, MyVpnService.class);
+      ...
+      startService(intent);
+    }
+  }
+  
+  ```
+
+- 服务程序必须要继承自android.net.VpnService类
+
+  - 建立链接的第一步是要用合适的参数，创建并初始化好tun0虚拟网络端口，这可以通过在VpnService类中的一个内部类Builder来做到
+
+  - 最后调用Builder.establish函数，如果一切正常的话，tun0虚拟网络接口就建立完成了。系统同时还会通过iptables命令，修改NAT表，将所有数据转发到tun0接口上
+
+  - 这之后，就可以通过读写VpnService.Builder返回的ParcelFileDescriptor实例来获得设备上所有向外发送的IP数据包和返回处理过后的IP数据包到TCP/IP协议栈
+
+    ```java
+    Builder builder = new Builder();
+    builder.setMtu(...);
+    builder.addAddress(...);
+    builder.addRoute(...);
+    builder.addDnsServer(...);
+    builder.addSearchDomain(...);
+    builder.setSession(...);
+    builder.setConfigureIntent(...);
+    ...  
+    ParcelFileDescriptor interface = builder.establish();
+    
+    
+    
+    
+    // 从tun0虚拟网卡读取到ip的数据流，传给加密程序进行加密(或者其他处理)
+    FileInputStream in = new FileInputStream(interface.getFileDescriptor());
+      
+    // 网络返回ip数据包，经过解密程序解密后，可以通过这个输出流写回给tun0虚拟网卡
+    FileOutputStream out = new FileOutputStream(interface.getFileDescriptor());
+      
+    // Allocate the buffer for a single packet.
+    ByteBuffer packet = ByteBuffer.allocate(32767);
+    ...
+    // Read packets sending to this interface
+    int length = in.read(packet.array());
+    ...
+    // Write response packets back
+    out.write(packet.array(), 0, length);
+    
+    
+    ```
+
+- 每次调用FileInputStream.read函数会读取一个IP数据包，而调用FileOutputStream.write函数会写入一个IP数据包到TCP/IP协议栈
+
+- VpnService类提供了一个叫protect的函数，在VPN程序自己建立socket之后，必须要对其进行保护：
+
+  ```java
+  protect(my_socket)
+      
+  那就是addRoute和addDisallowApplication/addAllowApplication这两个方式  也可以对流量转发进行保护    
+  ```
+
+
+
+#### 42.Android各个版本的新特性
+
+| android系统版本 | 对应的SDK | 版本特性                                                     |
+| :-------------: | :-------: | :----------------------------------------------------------- |
+|   5(Lollipop)   |    21     | 1.Material Design<br />2.支持64位ART虚拟机<br />3.通知：改善通知栏，在锁屏状态下也能接收到通知，在来电状态下能出现在抬头通知中<br />4.屏幕采集和屏幕共享<br />5.引入了RecyclerView<br /><br />6.引入更加灵活的Toolbar，取代ActionBar |
+| 6(Marshmallow)  |    23     | 1.统一支付标准Android Pay<br />2.指纹支持<br />3.Doze电量管理:手机静止不动一段时间后，会进入Doze电量管理模式，提高续航时间<br />4.APP Links：加强了软件间的关联，支持点击链接跳转到对应的App<br />5.`分为正常权限 、危险权限` |
+|    7(Nougat)    |   24-25   | 1.多窗口模式（分屏模式）<br />2.Data Server:一种流量保护机制，启用Data Server后，系统将拦截后台应用的数据使用<br />3.改进的Java8语言支持:支持java8，可以使用lambda表达式等<br />4.自定义壁纸<br />5.在通知中快捷回复<br />6.下拉通知栏顶部，有edit按钮，可以对菜单进行自定义添加、删除、拖动排序<br />7.其它：Daydream VR、后台省点、Unicode 9支持和全新的emoji表情符号、Google Assistant<br />8.Apk签名Scheme V2 |
+|     8(Oreo)     |   26-27   | 1.所有通知都必须分到一个渠道，即新增NotificationChannel<br />2.画中画（PIP）支持:一种特殊的多窗口模式，常用于视频播放<br />3.自适应启动器图标:桌面icon在不同的设备型号上显示为不同的形状<br />4.后台执行限制:后台service限制,广播限制：除了有限的例外情况，应用无法使用清单注册隐式广播<br />5.后台位置信息限制<br />6.其它：自动填充框架、自动调整TextView的大小、WebView API、多显示器支持 |
+|     9(Pie)      |    28     | 1.全面支持全面屏:通过DisplayCutout类可以确定非功能区域的位置和形状，这些区域不应显示内容<br />2.引入AnimatedImageDrawable类，用于显示GIF和WebP动画图像<br />3.利用Wi-Fi RTT进行室内定位<br />4.隐私变更:限制后台访问设备传感器，限制通过WiFi扫描检索到的信息等<br />5.其它：机器学习，HDR VP9视频、HEIF图像压缩和Media API、对使用非SDK接口的限制 |
+|      10(Q)      |    29     | 1.5G支持<br />2.支持可折叠设备<br />3.`**暗黑主题**`<br />4.手势导航:全面屏手势操作<br />5.智能回复:通过机器学习预测你在回复消息时可能会说些什么<br />6.用户隐私。给用户更多应用程序控制权:提供仅这一次、应用使用时授权等选择<br />7.ART优化:添加了一种垃圾回收机制，节省垃圾回收的时间，帮助在低版本设备上顺畅运行<br />8.机器学习更新 |
+|      11(R)      |    30     | 1.短信 更新改进，提供更加友好的交互<br />2.权限和隐私：在Android10的用户隐私基础上，新增了位置、麦克风和摄像头的一次性权限许可<br />3.内置屏幕录制<br />4.适配不同设备：折叠屏支持优化，增加铰链角度传感器API等；高刷新率支持<br />5.网络优化 |
+|       12        |    31     | 1.原生的ImageDecoder支持GIF和WebP格式<br />2.支持圆角:`Display.getRounderCorner()`获取屏幕圆角的详细信息<br />3.更易用的模糊、色彩滤镜等特效:`View.setRenderEffect(RenderEffect)` 将特效直接应用于视图<br />4.限制对MAC地址的访问<br />5.应用覆盖控制:可以控制是否允许在自己的内容上显示这些覆盖图层，调用`Window#setHideOverlayWindows()`，表明不允许`TYPE_APPLICATION_OVERLAY`的窗口显示<br />6.应用无法关闭系统对话框:弃用了 `ACTION_CLOSE_SYSTEM_DIALOGS` intent 操作<br />7.Activity/BroadcastReciver/Service 声明了Filter，则必须显示设置`android:exported`属性<br />8.必须为每个PendingIntent设置可变性<br />9.后台应用无法再启动前台服务 |
+|                 |           |                                                              |
+
+- 参看文章
+  1. [安卓各个版本特性与适配方案](https://blog.csdn.net/ljphhj/article/details/116019944)
+  2. [Android各个版本的新特性概要](https://www.jianshu.com/p/50ab0a1b0cd9)
+  3. [Android系统版本特性与差异](https://juejin.cn/post/6844903949389004807)
 
 
 
@@ -4806,7 +7130,7 @@ fun testFunction2(vararg strings: String): String {
   - （含了一系列构成互联网基础的网络协议，是Internet的核心协议 & 被广泛应用于局域网 和 广域网）应用层，传输层，网络层，网络接口层
 - 五层体系机构
   - 融合了OSI 与 TCP / IP的体系结构，目的是为了学习 & 讲解计算机原理）应用层，传输层，网络层，链路层，物理层
-- ![](./reference_graph/1728872411-cea86bf421d3f8ac.jfif)
+- ![](./reference_graph/1728872411-cea86bf421d3f8ac.png)
 
 
 
@@ -5068,6 +7392,8 @@ fun testFunction2(vararg strings: String): String {
   
 
   
+
+
 
 
 

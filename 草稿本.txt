@@ -4561,3 +4561,23 @@ MediaCodec详解与音视频H264分析，手把手教你解析H264片段 —— 
 面试题：https://pan.baidu.com/s/1MFowZQbS2tYNx3WFVbhz6A?pwd=6666
 提取码: 6666
 Android 复习资料汇总GitHub版本：https://github.com/733gh/GH-Android-Review-master
+
+
+sudo apt-get install git-core gnupg flex bison build-essential zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 libncurses5 lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z1-dev libgl1-mesa-dev libxml2-utils xsltproc unzip fontconfig python
+
+
+sftp://192.168.145.128
+vmjoker
+
+WebView性能、体验分析与优化   https://tech.meituan.com/2017/06/09/webviewperf.html
+
+
+飞书会议号：795 617 594
+
+
+车机项目
+1. 工作时间：9-9点30，18点-18点30分
+2. 加班，需要提出申请，调休和加班费,月薪/22/8   18号入职
+3. 入职体检(软通公司 需要) 需要提前做。
+4. 试用期工资 17K 80%，3个月转正
+5. 交通银行工资卡
