@@ -4526,6 +4526,50 @@ ic_opv_notification_clean2
 
 
 
+# Copyright (c) 1993-2009 Microsoft Corp.
+#
+# This is a sample HOSTS file used by Microsoft TCP/IP for Windows.
+#
+# This file contains the mappings of IP addresses to host names. Each
+# entry should be kept on an individual line. The IP address should
+# be placed in the first column followed by the corresponding host name.
+# The IP address and the host name should be separated by at least one
+# space.
+#
+# Additionally, comments (such as these) may be inserted on individual
+# lines or following the machine name denoted by a '#' symbol.
+#
+# For example:
+#
+#      102.54.94.97     rhino.acme.com          # source server
+#       38.25.63.10     x.acme.com              # x client host
+
+# localhost name resolution is handled within DNS itself.
+#   127.0.0.1       localhost
+#   ::1             localhost
+#127.0.0.1 hub5btmain.sandai.net
+#27.0.0.1 hub5btmain.sandai.net
+#127.0.0.1 hub5emu.sandai.net
+#127.0.0.1 upgrade.xl9.xunlei.com
+#127.0.0.1 www.bandicam.com
+# Added by Docker Desktop
+#192.168.3.224 host.docker.internal
+#192.168.3.224 gateway.docker.internal
+# To allow the same kube context to work on the host and the container:
+#127.0.0.1 kubernetes.docker.internal
+# End of section
+#27.0.0.1 registeridm.com
+#27.0.0.1 www.registeridm.com
+#27.0.0.1 www.internetdownloadmanager.com
+20.205.243.166 github.com
+113.108.239.162 translate.google.com
+108.177.97.100 translate.googleapis.com
+
+
+
+
+
+
 
 AndroidStudio20221121
 
@@ -4581,3 +4625,6 @@ WebView性能、体验分析与优化   https://tech.meituan.com/2017/06/09/webv
 3. 入职体检(软通公司 需要) 需要提前做。
 4. 试用期工资 17K 80%，3个月转正
 5. 交通银行工资卡
+
+
+https://xn--4gq62f52gdss.com/api/v1/client/subscribe?token=23e0a19987b85276ceacdbcbace4f561
